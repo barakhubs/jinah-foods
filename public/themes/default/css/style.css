@@ -3889,7 +3889,7 @@ input:checked + div svg {
         display: none;
     }
     .mb-16 {
-        margin-bottom: 6rem;
+        margin-bottom: 6rem !important;
       }
 }
 /* INSTALLER */
