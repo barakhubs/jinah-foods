@@ -40,7 +40,7 @@
                         }})</label>
                         <vue-select class="db-field-control f-b-custom-select" id="branch_id"
                             v-bind:class="errors.branch_id ? 'invalid' : ''" v-model="props.form.branch_id" :options="branches"
-                            label-by="id" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
+                            label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
                             placeholder="--" search-placeholder="--" />
                         <small class="db-field-alert" v-if="errors.branch_id">{{ errors.branch_id[0] }}</small>
                     </div>
