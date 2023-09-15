@@ -49,13 +49,13 @@
                         </div>
 
                         <div class="col-12 sm:col-6 md:col-4 xl:col-3">
-                            <label for="tax_id" class="db-field-title">{{
-                                    $t("label.tax")
+                            <label for="branch_id" class="db-field-title">{{
+                                    $t("label.branch")
                                 }}</label>
 
-                            <vue-select class="db-field-control f-b-custom-select" id="tax_id"
-                                        v-model="props.search.tax_id"
-                                        :options="taxes" label-by="name" value-by="id" :closeOnSelect="true"
+                            <vue-select class="db-field-control f-b-custom-select" id="branch_id"
+                                        v-model="props.search.branch_id"
+                                        :options="branches" label-by="name" value-by="id" :closeOnSelect="true"
                                         :searchable="true"
                                         :clearOnClose="true" placeholder="--" search-placeholder="--"/>
                         </div>
@@ -123,6 +123,9 @@
                             {{ $t('label.category') }}
                         </th>
                         <th class="db-table-head-th">
+                            Restaurant
+                        </th>
+                        <th class="db-table-head-th">
                             {{ $t('label.price') }}
                         </th>
                         <th class="db-table-head-th">
@@ -135,11 +138,13 @@
                     </tr>
                     </thead>
                     <tbody class="db-table-body" v-if="items.length > 0">
+                        {{ console.log(items) }}
                     <tr class="db-table-body-tr" v-for="item in items" :key="item">
                         <td class="db-table-body-td">
                             {{ textShortener(item.name, 40) }}
                         </td>
                         <td class="db-table-body-td">{{ item.category_name }}</td>
+                        <td class="db-table-body-td">{{ item.branch_name }}</td>
                         <td class="db-table-body-td">{{ item.flat_price }}</td>
                         <td class="db-table-body-td">
                                 <span :class="statusClass(item.status)">
@@ -228,7 +233,7 @@ export default {
                 id: "print",
                 popTitle: this.$t("menu.items"),
             },
-            taxProps: {
+            branchProps: {
                 search: {
                     paginate: 0,
                     order_column: 'id',
@@ -251,7 +256,7 @@ export default {
                     is_featured: askEnum.YES,
                     item_type: itemTypeEnum.VEG,
                     item_category_id: null,
-                    tax_id: null,
+                    branch_id: null,
                     status: statusEnum.ACTIVE,
                 },
                 search: {
@@ -264,7 +269,7 @@ export default {
                     price: "",
                     item_category_id: null,
                     status: null,
-                    tax_id: null,
+                    branch_id: null,
                     item_type: null,
                     is_featured: null
                 }
@@ -280,7 +285,7 @@ export default {
         }).catch((err) => {
             this.loading.isActive = false;
         });
-        this.$store.dispatch('tax/lists', this.taxProps.search).then(res => {
+        this.$store.dispatch('branch/lists', this.branchProps.search).then(res => {
             this.loading.isActive = false;
         }).catch((err) => {
             this.loading.isActive = false;
@@ -299,8 +304,8 @@ export default {
         itemCategories: function () {
             return this.$store.getters["itemCategory/lists"];
         },
-        taxes: function () {
-            return this.$store.getters['tax/lists'];
+        branches: function () {
+            return this.$store.getters['branch/lists'];
         }
     },
     methods: {
@@ -326,7 +331,7 @@ export default {
             this.props.search.price = "";
             this.props.search.item_category_id = null;
             this.props.search.status = null;
-            this.props.search.tax_id = null;
+            this.props.search.branch_id = null;
             this.props.search.item_type = null;
             this.props.search.is_featured = null;
             this.list();
@@ -353,7 +358,7 @@ export default {
                 caution: item.caution,
                 is_featured: item.is_featured,
                 item_type: item.item_type,
-                tax_id: item.tax_id,
+                branch_id: item.branch_id,
                 item_category_id: item.item_category_id,
                 status: item.status,
             };

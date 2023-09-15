@@ -20,7 +20,7 @@ class Item extends Model implements HasMedia
         'name',
         'item_category_id',
         'slug',
-        'tax_id',
+        'branch_id',
         'item_type',
         'price',
         'is_featured',
@@ -35,7 +35,7 @@ class Item extends Model implements HasMedia
         'name'             => 'string',
         'item_category_id' => 'integer',
         'slug'             => 'string',
-        'tax_id'           => 'integer',
+        'branch_id'           => 'integer',
         'item_type'        => 'integer',
         'price'            => 'decimal:6',
         'is_featured'      => 'integer',
@@ -102,6 +102,11 @@ class Item extends Model implements HasMedia
     public function tax(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Tax::class);
+    }
+
+    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
     }
 
     public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany

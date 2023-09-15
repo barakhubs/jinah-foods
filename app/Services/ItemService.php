@@ -25,7 +25,7 @@ class ItemService
         'price',
         'is_featured',
         'item_type',
-        'tax_id',
+        'branch_id',
         'status',
         'order',
         'description',
@@ -44,7 +44,7 @@ class ItemService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return Item::with('media', 'category', 'tax')->where(function ($query) use ($requests) {
+            return Item::with('media', 'category', 'branch')->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->itemFilter)) {
                         if ($key == "except") {

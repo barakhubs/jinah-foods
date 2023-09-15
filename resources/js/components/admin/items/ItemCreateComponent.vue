@@ -36,13 +36,13 @@
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
-                        <label for="tax_id" class="db-field-title">{{ $t("label.tax") }} ({{ $t("label.including")
+                        <label for="branch_id" class="db-field-title">{{ $t("label.branch") }} ({{ $t("label.including")
                         }})</label>
-                        <vue-select class="db-field-control f-b-custom-select" id="tax_id"
-                            v-bind:class="errors.tax_id ? 'invalid' : ''" v-model="props.form.tax_id" :options="taxes"
-                            label-by="code" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
+                        <vue-select class="db-field-control f-b-custom-select" id="branch_id"
+                            v-bind:class="errors.branch_id ? 'invalid' : ''" v-model="props.form.branch_id" :options="branches"
+                            label-by="id" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
                             placeholder="--" search-placeholder="--" />
-                        <small class="db-field-alert" v-if="errors.tax_id">{{ errors.tax_id[0] }}</small>
+                        <small class="db-field-alert" v-if="errors.branch_id">{{ errors.branch_id[0] }}</small>
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
@@ -199,8 +199,8 @@ export default {
         itemCategories: function () {
             return this.$store.getters['itemCategory/lists'];
         },
-        taxes: function () {
-            return this.$store.getters['tax/lists'];
+        branches: function () {
+            return this.$store.getters['branch/lists'];
         }
     },
     mounted() {
@@ -210,7 +210,7 @@ export default {
             order_type: 'asc',
             status: statusEnum.ACTIVE
         });
-        this.$store.dispatch('tax/lists', {
+        this.$store.dispatch('branch/lists', {
             order_column: 'id',
             order_type: 'asc'
         });
@@ -232,7 +232,7 @@ export default {
                 is_featured: askEnum.YES,
                 item_type: itemTypeEnum.VEG,
                 item_category_id: null,
-                tax_id: null,
+                branch_id: null,
                 status: statusEnum.ACTIVE,
             };
             if (this.image) {
@@ -246,7 +246,7 @@ export default {
                 fd.append('name', this.props.form.name);
                 fd.append('price', this.props.form.price);
                 fd.append('item_category_id', this.props.form.item_category_id == null ? '' : this.props.form.item_category_id);
-                fd.append('tax_id', this.props.form.tax_id == null ? '' : this.props.form.tax_id);
+                fd.append('branch_id', this.props.form.branch_id == null ? '' : this.props.form.branch_id);
                 fd.append('item_type', this.props.form.item_type);
                 fd.append('is_featured', this.props.form.is_featured);
                 fd.append('description', this.props.form.description);
@@ -273,7 +273,7 @@ export default {
                         is_featured: askEnum.YES,
                         item_type: itemTypeEnum.VEG,
                         item_category_id: null,
-                        tax_id: null,
+                        branch_id: null,
                         status: statusEnum.ACTIVE,
                     };
                     this.image = "";
