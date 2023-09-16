@@ -624,6 +624,7 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
     Route::prefix('item')->name('item.')->group(function () {
         Route::get('/', [FrontendItemController::class, 'index']);
         Route::get('/featured-items', [FrontendItemController::class, 'featuredItems']);
+        Route::get('/latest-items', [FrontendItemController::class, 'latestItems']);
         Route::get('/popular-items', [FrontendItemController::class, 'mostPopularItems']);
     });
 

@@ -28,6 +28,7 @@ class DashboardController extends AdminController
             'orderStatistics',
             'orderSummary',
             'featuredItems',
+            'latestItems',
             'mostPopularItems',
             'topCustomers',
             'totalSales',
@@ -134,6 +135,16 @@ class DashboardController extends AdminController
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }
     }
+
+    public function latestItems(
+        ) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
+        {
+            try {
+                return ItemResource::collection($this->itemService->latestItems());
+            } catch (Exception $exception) {
+                return response(['status' => false, 'message' => $exception->getMessage()], 422);
+            }
+        }
 
     public function mostPopularItems(
     ) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory

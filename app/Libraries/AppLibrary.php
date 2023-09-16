@@ -251,20 +251,22 @@ class AppLibrary
 
     public static function currencyAmountFormat($amount): string
     {
-        if (env('CURRENCY_POSITION') == CurrencyPosition::LEFT) {
-            return env('CURRENCY_SYMBOL') . number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
-        }
-        return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '') . env('CURRENCY_SYMBOL');
+        // if (env('CURRENCY_POSITION') == CurrencyPosition::LEFT) {
+        //     return 'UGX ' . number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
+        // }
+       // return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '') . 'UGX ';
+        return 'UGX ' . number_format($amount);
     }
 
     public static function flatAmountFormat($amount): string
     {
-        return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
+        //return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
+        return 'UGX ' . number_format($amount);
     }
 
     public static function convertAmountFormat($amount): float
     {
-        return (float)number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
+        return (float)number_format($amount, 2, '.', '');
     }
 
     public static function fcmDataBind($request)

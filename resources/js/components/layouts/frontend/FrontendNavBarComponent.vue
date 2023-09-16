@@ -61,28 +61,11 @@
                         <i class="lab lab-close-circle-line lab-font-size-16 lab-font-weight-600 text-red-500"></i>
                     </button>
                 </form>
-                <div v-if="setting.site_language_switch === enums.activityEnum.ENABLE"
-                     class="hidden lg:block relative dropdown-group w-full sm:w-fit">
-                    <button
-                        class="flex items-center justify-center gap-1.5 w-fit rounded-3xl capitalize text-sm font-medium h-8 px-3 border transition text-heading bg-white border-gray-200 dropdown-btn">
-                        <img :src="language.image" alt="flag" class="w-4 h-4 rounded-full">
-                        <span class="whitespace-nowrap">{{ language.name }}</span>
-                    </button>
-                    <ul v-if="languages.length > 0"
-                        class="p-2 min-w-[180px] rounded-lg shadow-xl absolute top-14 ltr:right-0 rtl:left-0 z-10 border border-gray-200 bg-white hidden dropdown-list">
-                        <li @click="changeLanguage(language.id, language.code)" v-for="language in languages"
-                            class="flex items-center gap-2 py-1.5 px-2.5 rounded-md cursor-pointer hover:bg-gray-100">
-                            <img :src="language.image" alt="flag" class="w-4 h-4 rounded-full">
-                            <span class="text-heading capitalize text-sm">{{ language.name }}</span>
-                        </li>
-                    </ul>
-                </div>
                 <button
                     class="webcart hidden lg:flex items-center justify-center gap-1.5 w-fit rounded-3xl capitalize text-sm font-medium h-8 px-3 transition text-white bg-heading">
                     <i class="lab lab-bag-2 lab-font-size-17"></i>
                     <span class="whitespace-nowrap">{{
-                            currencyFormat(subtotal, setting.site_digit_after_decimal_point,
-                                setting.site_default_currency_symbol, setting.site_currency_position)
+                                formatCurrency(subtotal)
                         }}</span>
                 </button>
                 <router-link v-if="!logged"
@@ -394,6 +377,9 @@ export default {
         },
         currencyFormat(amount, decimal, currency, position) {
             return appService.currencyFormat(amount, decimal, currency, position);
+        },
+        formatCurrency(value) {
+            return `UGX ${value.toLocaleString()}`;
         },
         search: function () {
             if (typeof this.searchItem !== "undefined" && this.searchItem !== "") {

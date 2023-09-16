@@ -264,8 +264,7 @@
                     <span>
                         {{ $t('button.add_to_cart') }} -
                         {{
-                            currencyFormat(temp.total_price, setting.site_digit_after_decimal_point,
-                                setting.site_default_currency_symbol, setting.site_currency_position)
+                            formatCurrency(temp.total_price)
                         }}
                     </span>
                 </button>
@@ -414,6 +413,9 @@ export default {
         },
         currencyFormat: function (amount, decimal, currency, position) {
             return appService.currencyFormat(amount, decimal, currency, position);
+        },
+        formatCurrency(value) {
+        return `UGX ${value.toLocaleString()}`;
         },
         infoModalShow: function (name, caution) {
             this.itemInfo = {

@@ -56,8 +56,7 @@
                                     }}: {{ variation }}, &nbsp;</span></p>
                                 <div class="flex items-center justify-between gap-2">
                                     <h3 class="text-xs font-semibold">{{
-                                            currencyFormat(cart.total, setting.site_digit_after_decimal_point,
-                                                setting.site_default_currency_symbol, setting.site_currency_position)
+                                                formatCurrency(cart.total)
                                         }}</h3>
                                     <div class="flex items-center indec-group">
                                         <button @click.prevent="quantityDecrement(index)"
@@ -100,7 +99,7 @@
                     <h3 class="capitalize text-sm font-medium">{{ $t('label.subtotal') }}</h3>
                     <h4 class="text-sm font-medium text-[#1AB759]">
                         {{
-                            currencyFormat(subtotal, setting.site_digit_after_decimal_point, setting.site_default_currency_symbol, setting.site_currency_position)
+                            formatCurrency(subtotal)
                         }}
                     </h4>
                 </div>
@@ -152,6 +151,9 @@ export default {
         },
         currencyFormat(amount, decimal, currency, position) {
             return appService.currencyFormat(amount, decimal, currency, position);
+        },
+        formatCurrency(value) {
+            return `UGX ${value.toLocaleString()}`;
         },
         quantityUp: function (id, e) {
             if (e.target.value > 0) {

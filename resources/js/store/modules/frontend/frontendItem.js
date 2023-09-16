@@ -6,6 +6,7 @@ export const frontendItem = {
     state: {
         lists: [],
         featured: [],
+        latest: [],
         popular: {},
     },
     getters: {
@@ -14,6 +15,9 @@ export const frontendItem = {
         },
         featured: function (state) {
             return state.featured;
+        },
+        latest: function (state) {
+            return state.latest;
         },
         popular: function (state) {
             return state.popular;
@@ -52,6 +56,22 @@ export const frontendItem = {
                 });
             });
         },
+        latest: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let url = "frontend/item/latest-items";
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url).then((res) => {
+                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
+                        context.commit("latest", res.data.data);
+                    }
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
         popular: function (context, payload) {
             return new Promise((resolve, reject) => {
                 let url = "frontend/item/popular-items";
@@ -75,6 +95,9 @@ export const frontendItem = {
         },
         featured: function (state, payload) {
             state.featured = payload;
+        },
+        latest: function (state, payload) {
+            state.latest = payload;
         },
         popular: function (state, payload) {
             state.popular = payload;

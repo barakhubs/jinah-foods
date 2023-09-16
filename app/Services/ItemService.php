@@ -202,6 +202,16 @@ class ItemService
         }
     }
 
+    public function latestItems()
+    {
+        try {
+            return Item::orderBy('created_at', 'desc')->limit(8)->get();
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
     public function mostPopularItems()
     {
         try {

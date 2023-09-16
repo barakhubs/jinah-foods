@@ -13,6 +13,8 @@
     <!--========Category PART START=========-->
     <section v-if="categories.length > 0" class="mb-12">
         <div class="container">
+
+
             <div class="flex items-center justify-between gap-2 mb-6 mt-4">
                 <h2 class="text-2xl font-semibold capitalize">{{ $t("label.our_menu") }}</h2>
                 <router-link :to="{ name: 'frontend.menu', query: { s: categoryProps.slug } }"
@@ -27,9 +29,12 @@
     </section>
     <!--========Category PART END===========-->
 
-    <!--========FEATURE PART START=========-->
+    <!--========LATEST PART START=========-->
     <FeaturedItemComponent />
-    <!--========FEATURE PART END=========-->
+    <!--========LATEST PART END=========-->
+
+    <!--========FEATURE PART START=========-->
+    <LatestItemComponent/>
 
     <!--========OFFER PART START=========-->
     <OfferComponent :limit="limit" />
@@ -50,18 +55,20 @@ import categoryDesignEnum from "../../../enums/modules/categoryDesignEnum";
 import statusEnum from "../../../enums/modules/statusEnum";
 import LoadingComponent from "../components/LoadingComponent";
 import TrackOrderComponent from "./TrackOrderComponent";
+import LatestItemComponent from "../home/LatestItemComponent.vue";
 
 export default {
     name: "HomeComponent",
     components: {
-        TrackOrderComponent,
-        CategoryComponent,
-        SliderComponent,
-        FeaturedItemComponent,
-        PopularItemComponent,
-        OfferComponent,
-        LoadingComponent
-    },
+    TrackOrderComponent,
+    CategoryComponent,
+    SliderComponent,
+    FeaturedItemComponent,
+    PopularItemComponent,
+    OfferComponent,
+    LoadingComponent,
+    LatestItemComponent
+},
     data() {
         return {
             loading: {
