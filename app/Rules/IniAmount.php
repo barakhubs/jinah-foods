@@ -37,12 +37,7 @@ class IniAmount implements Rule
                 $this->message = 'This :attribute negative amount not allow.';
                 return false;
             }
-        } else {
-            if ($value <= 0) {
-                $this->message = 'This :attribute negative amount not allow.';
-                return false;
-            }
-        }
+        } 
 
 
 

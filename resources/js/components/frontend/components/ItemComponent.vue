@@ -19,9 +19,10 @@
                         <del v-if="item.offer.length > 0" class="product-card-grid-price-previous">
                             {{ item.currency_price }}
                         </del>
-                        <h4 class="product-card-list-price-current">
-                            {{ item.offer.length > 0 ? item.offer[0].currency_price : item.currency_price }}
+                        <h4 class="text-sm font-semibold">
+                            {{ displayPrice(item) }}
                         </h4>
+
                     </div>
                     <button @click.prevent="variationModalShow(item)" data-modal="#item-variation-modal"
                         class="product-card-list-cart-btn add-btn">
@@ -49,9 +50,10 @@
                         <del v-if="item.offer.length > 0" class="product-card-grid-price-previous">
                             {{ item.currency_price }}
                         </del>
-                        <h4 class="product-card-grid-price-current">
-                            {{ item.offer.length > 0 ? item.offer[0].currency_price : item.currency_price }}
+                        <h4 class="text-sm font-semibold">
+                            {{ displayPrice(item) }}
                         </h4>
+
                     </div>
                     <button @click.prevent="variationModalShow(item)" data-modal="#item-variation-modal"
                         class="product-card-grid-cart-btn add-btn">
@@ -94,7 +96,9 @@
                         </div>
                         <p class="text-xs mb-2">{{ item.description }}</p>
                         <h4 class="text-sm font-semibold">
-                            {{ item.offer.length > 0 ? item.offer[0].currency_price : item.currency_price }}</h4>
+                            {{ displayPrice(item) }}
+                        </h4>
+
                     </div>
                 </div>
                 <button class="modal-close lab-close-circle-line font-fill-danger lab-font-size-24"
@@ -142,7 +146,8 @@
                     <div class="swiper size-swiper">
                         <div class="swiper-wrapper size-tabs">
                             <Carousel :settings="settings" :breakpoints="itemBreakpoints">
-                                <slide class="swiper-slide" v-for="variation in item.variations[item.itemAttributes[0].id]" :key="variation">
+                                <slide class="swiper-slide" v-for="variation in item.variations[item.itemAttributes[0].id]"
+                                    :key="variation">
                                     <label
                                         :class="temp.item_variations.variations[variation.item_attribute_id] === variation.id ? 'active' : ''"
                                         :for="variation.item_attribute_id + '-' + variation.name"
@@ -408,6 +413,14 @@ export default {
         onlyNumber: function (e) {
             return appService.onlyNumber(e);
         },
+        displayPrice(item) {
+            if (item.offer.length > 0 && item.offer[0].currency_price !== 0) {
+                return item.offer[0].currency_price;
+            } else if (item.price != 0) {
+                return item.currency_price;
+            }
+            return '';
+        },
         textShortener: function (text, number) {
             return appService.textShortener(text, number);
         },
@@ -415,7 +428,7 @@ export default {
             return appService.currencyFormat(amount, decimal, currency, position);
         },
         formatCurrency(value) {
-        return `UGX ${value.toLocaleString()}`;
+            return `UGX ${value.toLocaleString()}`;
         },
         infoModalShow: function (name, caution) {
             this.itemInfo = {
