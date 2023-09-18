@@ -293,7 +293,11 @@ export default {
     },
     computed: {
         items: function () {
-            return this.$store.getters['item/lists'];
+            let allItems = this.$store.getters['item/lists'];
+            if (this.mainBranch && this.mainBranch.id) {
+                return allItems.filter(item => item.branch_id === this.mainBranch.id);
+            }
+            return allItems; // If no mainBranch.id is set, it returns all items
         },
         pagination: function () {
             return this.$store.getters['item/pagination'];
@@ -306,7 +310,10 @@ export default {
         },
         branches: function () {
             return this.$store.getters['branch/lists'];
-        }
+        },
+        mainBranch: function () {
+            return this.$store.getters['backendGlobalState/branchShow'];
+        },
     },
     methods: {
         permissionChecker(e) {

@@ -29,19 +29,18 @@
                         <vue-select class="db-field-control f-b-custom-select" id="item_category_id"
                             v-bind:class="errors.item_category_id ? 'invalid' : ''" v-model="props.form.item_category_id"
                             :options="itemCategories" label-by="name" value-by="id" :closeOnSelect="true" :searchable="true"
-                            :clearOnClose="true" placeholder="--" search-placeholder="--" />
+                            :clearOnClose="true" placeholder="--" search-placeholder="--"  />
                         <small class="db-field-alert" v-if="errors.item_category_id">{{
                             errors.item_category_id[0]
                         }}</small>
                     </div>
 
                     <div class="form-col-12 sm:form-col-6">
-                        <label for="branch_id" class="db-field-title">{{ $t("label.branch") }} ({{ $t("label.including")
-                        }})</label>
+                        <label for="branch_id" class="db-field-title">{{ $t("label.branch") }}</label>
                         <vue-select class="db-field-control f-b-custom-select" id="branch_id"
                             v-bind:class="errors.branch_id ? 'invalid' : ''" v-model="props.form.branch_id" :options="branches"
                             label-by="name" value-by="id" :closeOnSelect="true" :searchable="true" :clearOnClose="true"
-                            placeholder="--" search-placeholder="--" />
+                            placeholder="--" search-placeholder="--" :selected="mainBranch.id == id ? 'selected' : ''"/>
                         <small class="db-field-alert" v-if="errors.branch_id">{{ errors.branch_id[0] }}</small>
                     </div>
 
@@ -196,12 +195,16 @@ export default {
         }
     },
     computed: {
+        mainBranch: function () {
+            return this.$store.getters['backendGlobalState/branchShow'];
+        },
         itemCategories: function () {
             return this.$store.getters['itemCategory/lists'];
         },
         branches: function () {
             return this.$store.getters['branch/lists'];
-        }
+        },
+
     },
     mounted() {
         this.loading.isActive = true;

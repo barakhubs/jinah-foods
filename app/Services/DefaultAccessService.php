@@ -12,7 +12,7 @@ class DefaultAccessService
     /**
      * @throws Exception
      */
-    public function show(): array
+    public function show(): array 
     {
         try {
             $array         = [];

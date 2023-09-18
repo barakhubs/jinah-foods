@@ -3891,6 +3891,10 @@ input:checked + div svg {
     .mb-16 {
         margin-bottom: 6rem !important;
       }
+    .hide-div
+    {
+        display: none !important;
+    }
 }
 /* INSTALLER */
 

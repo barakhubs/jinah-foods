@@ -10,7 +10,7 @@
         <router-link :class="checkIsPathAndRoutePathSame('/menu') ? 'text-primary' : ''"
             class="flex flex-col items-center gap-1" :to="{ name: 'frontend.menu', query: { s: categoryProps.slug } }">
             <i class="fa-solid fa-layer-group text-base leading-none"></i>
-            <span class="text-xs capitalize">{{ $t('label.menu') }}</span>
+            <span class="text-xs capitalize">Restaurants</span>
         </router-link>
 
         <button class="mobcart fa-solid fa-bag-shopping text-base w-12 h-12 leading-[48px] text-center rounded-full -mt-12 text-white bg-primary
