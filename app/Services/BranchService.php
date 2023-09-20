@@ -25,6 +25,9 @@ class BranchService
         'status'
     ];
 
+    protected $exceptFilter = [
+        'excepts'
+    ];
     /**
      * @throws Exception
      */
@@ -37,15 +40,25 @@ class BranchService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return Branch::where(function ($query) use ($requests) {
+            return Branch::with('media')->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->branchFilter)) {
                         $query->where($key, 'like', '%' . $request . '%');
+                    }
+
+                    if (in_array($key, $this->exceptFilter)) {
+                        $explodes = explode('|', $request);
+                        if (is_array($explodes)) {
+                            foreach ($explodes as $explode) {
+                                $query->where('id', '!=', $explode);
+                            }
+                        }
                     }
                 }
             })->orderBy($orderColumn, $orderType)->$method(
                 $methodValue
             );
+
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
@@ -57,8 +70,13 @@ class BranchService
      */
     public function store(BranchRequest $request)
     {
+
         try {
-            return Branch::create($request->validated());
+            $branch =  Branch::create($request->validated());
+            if ($request->image) {
+                $branch->addMediaFromRequest('image')->toMediaCollection('item-restaurant');
+            }
+            return $branch;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
@@ -71,7 +89,12 @@ class BranchService
     public function update(BranchRequest $request, Branch $branch)
     {
         try {
-            return tap($branch)->update($request->validated());
+            $branch =  tap($branch)->update($request->validated());
+            if ($request->image) {
+                $branch->clearMediaCollection('item-restaurant');
+                $branch->addMediaFromRequest('image')->toMediaCollection('item-restaurant');
+            }
+            return $branch;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);

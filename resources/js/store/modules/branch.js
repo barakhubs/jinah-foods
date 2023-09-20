@@ -54,25 +54,41 @@ export const branch = {
             });
         },
         save: function (context, payload) {
+            // return new Promise((resolve, reject) => {
+            //     let method = axios.post;
+            //     let url = "/admin/setting/branch";
+            //     if (this.state["branch"].temp.isEditing) {
+            //         method = axios.put;
+            //         url = `/admin/setting/branch/${this.state["branch"].temp.temp_id}`;
+            //     }
+            //     method(url, payload.form)
+            //         .then((res) => {
+            //             context
+            //                 .dispatch("lists", payload.search)
+            //                 .then()
+            //                 .catch();
+            //             context.commit("reset");
+            //             resolve(res);
+            //         })
+            //         .catch((err) => {
+            //             reject(err);
+            //         });
+            // });
+
             return new Promise((resolve, reject) => {
                 let method = axios.post;
-                let url = "/admin/setting/branch";
-                if (this.state["branch"].temp.isEditing) {
-                    method = axios.put;
+                let url = '/admin/setting/branch';
+                if (this.state['branch'].temp.isEditing) {
+                    method = axios.post;
                     url = `/admin/setting/branch/${this.state["branch"].temp.temp_id}`;
                 }
-                method(url, payload.form)
-                    .then((res) => {
-                        context
-                            .dispatch("lists", payload.search)
-                            .then()
-                            .catch();
-                        context.commit("reset");
-                        resolve(res);
-                    })
-                    .catch((err) => {
-                        reject(err);
-                    });
+                method(url, payload.form).then(res => {
+                    context.dispatch('lists', payload.search).then().catch();
+                    context.commit('reset');
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
             });
         },
         edit: function (context, payload) {

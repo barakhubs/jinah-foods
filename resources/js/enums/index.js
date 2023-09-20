@@ -17,6 +17,7 @@ import otpTypeEnum from "./modules/otpTypeEnum";
 import analyticSectionEnum from "./modules/analyticSectionEnum";
 import menuSectionEnum from "./modules/menuSectionEnum";
 import categoryDesignEnum from "./modules/categoryDesignEnum";
+import restaurantDesignEnum from "./modules/restaurantDesignEnum";
 import itemDesignEnum from "./modules/itemDesignEnum";
 import paymentStatusEnum from './modules/paymentStatusEnum';
 import dayTakeEnum from './modules/dayTakeEnum';
@@ -46,6 +47,7 @@ export default {
     analyticSectionEnum,
     menuSectionEnum,
     categoryDesignEnum,
+    restaurantDesignEnum,
     itemDesignEnum,
     paymentStatusEnum,
     dayTakeEnum,

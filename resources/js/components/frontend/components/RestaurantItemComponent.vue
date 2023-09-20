@@ -1,19 +1,19 @@
 <template>
-    <div class="swiper-wrapper" :class="design === categoryDesignEnum.SECOND ? 'menu-slides' : ''">
+    <div class="swiper-wrapper" :class="design === 10 ? 'menu-slides' : ''">
         <Carousel :settings="settings" :breakpoints="breakpoints">
-            <slide class="swiper-slide" v-for="category in categories" :key="category">
-                <router-link  v-if="design === categoryDesignEnum.FIRST"
-                             :to="{name: 'frontend.menu', query:{ s: category.slug}}"
+            <slide class="swiper-slide" v-for="restaurant in restaurants" :key="restaurant">
+                <router-link  v-if="design === 5"
+                             :to="{name: 'frontend.restaurant', query:{ s: restaurant.id}}"
                              class="swiper-slide w-32 flex flex-col items-center text-center gap-4 p-3 c-h-30 rounded-2xl border-b-2 border-transparent transition hover:bg-[#FFEDF4] bg-[#F7F7FC]">
-                    <img class="h-12 drop-shadow-category" :src="category.thumb" :alt="category.slug">
-                    <h3 class="text-xs font-medium">{{ category.name }}</h3>
+                    <img class="h-12 drop-shadow-category" :src="restaurant.thumb" :alt="restaurant.id">
+                    <h3 class="text-xs font-medium">{{ restaurant.name }}</h3>
                 </router-link>
 
-                <router-link :class="checkIsQueryAndRouteQuerySame(category.slug) ? 'menu-category-active' : ''" v-else-if="design === categoryDesignEnum.SECOND"
-                             :to="{name: 'frontend.menu', query:{ s: category.slug}}"
+                <router-link :class="checkIsQueryAndRouteQuerySame(restaurant.id) ? 'menu-category-active' : ''" v-else-if="design === restaurantDesignEnum.SECOND"
+                             :to="{name: 'frontend.restaurant', query:{ s: restaurant.id}}"
                              class="swiper-slide w-32 flex flex-col items-center text-center gap-4 p-3 c-h-25 rounded-2xl border-b-2 border-transparent transition hover:bg-[#FFEDF4]">
-                    <img class="h-9 drop-shadow-category" :src="category.thumb" alt="category">
-                    <h3 class="text-xs font-medium">{{ category.name }}</h3>
+                    <img class="h-9 drop-shadow-category" :src="restaurant.thumb" alt="restaurant">
+                    <h3 class="text-xs font-medium">{{ restaurant.name }}</h3>
                 </router-link>
             </slide>
         </Carousel>
@@ -22,14 +22,14 @@
 
 <script>
 
-import categoryDesignEnum from "../../../enums/modules/categoryDesignEnum";
+import restaurantDesignEnum from "../../../enums/modules/restaurantDesignEnum";
 import 'vue3-carousel/dist/carousel.css';
 import {Carousel, Slide, Pagination, Navigation} from 'vue3-carousel'
 
 export default {
-    name: "CategoryComponent",
+    name: "RestaurantItemComponent",
     props: {
-        categories: Object,
+        restaurants: Object,
         design: Number
     },
     components: {
@@ -40,8 +40,8 @@ export default {
     },
     data() {
         return {
-            currentCategory: "",
-            categoryDesignEnum: categoryDesignEnum,
+            currentRestaurant: "",
+            restaurantDesignEnum: restaurantDesignEnum,
             settings: {
                 itemsToShow: 8,
                 wrapAround: false,
@@ -100,7 +100,7 @@ export default {
     },
     mounted() {
         if(this.$route.query.s !== "undefined") {
-            this.currentCategory = this.$route.query.s;
+            this.currentRestaurant = this.$route.query.s;
         }
     },
     methods: {
@@ -108,7 +108,7 @@ export default {
             e.stopPropagation()
         },
         checkIsQueryAndRouteQuerySame(query) {
-            if (this.currentCategory === query) {
+            if (this.currentRestaurant === query) {
                 return true;
             }
         },
@@ -116,7 +116,7 @@ export default {
     watch: {
         $route(to, from) {
             if(to.query.s !== "undefined") {
-                this.currentCategory = to.query.s;
+                this.currentRestaurant = to.query.s;
             }
         }
     }

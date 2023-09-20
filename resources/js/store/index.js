@@ -49,6 +49,7 @@ import {frontendPage} from "./modules/frontend/frontendPage";
 import {globalState} from "./modules/frontend/globalState";
 import {frontendSlider} from "./modules/frontend/frontendSlider";
 import {frontendItemCategory} from "./modules/frontend/frontendItemCategory";
+import {frontendItemRestaurant} from "./modules/frontend/frontendItemRestaurant";
 import { timezone } from './modules/timezone';
 import { site } from './modules/site';
 import { dashboard } from './modules/dashboard';
@@ -137,6 +138,7 @@ export default new createStore({
         frontendPage,
         frontendSlider,
         frontendItemCategory,
+        frontendItemRestaurant,
         frontendCart,
         timezone,
         site,

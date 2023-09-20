@@ -70,7 +70,7 @@ class ItemCategoryService
                 $itemCategory->addMediaFromRequest('image')->toMediaCollection('item-category');
             }
             return $itemCategory;
-        } catch (Exception $exception) { 
+        } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
@@ -78,7 +78,7 @@ class ItemCategoryService
 
     /**
      * @throws Exception
-     */
+     */ 
     public function update(ItemCategoryRequest $request, ItemCategory $itemCategory) : ItemCategory
     {
         try {

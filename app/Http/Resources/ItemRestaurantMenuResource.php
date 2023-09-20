@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BranchResource extends JsonResource
+class ItemRestaurantMenuResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -13,7 +13,7 @@ class BranchResource extends JsonResource
      * @param \Illuminate\Http\Request $request
      * @return array
      */
-    public function toArray($request): array
+    public function toArray($request) : array
     {
         return [
             "id"        => $this->id,
@@ -27,9 +27,9 @@ class BranchResource extends JsonResource
             "zip_code"  => $this->zip_code,
             "address"   => $this->address,
             "status"    => $this->status,
-            'thumb'     => $this->thumb,
-            'cover'     => $this->cover,
-
+            'thumb'       => $this->thumb,
+            'cover'       => $this->cover,
+            'items'       => ItemResource::collection($this->items),
         ];
     }
 }

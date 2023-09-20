@@ -81,6 +81,7 @@ use App\Http\Controllers\Frontend\MessageController as FrontendMessageController
 use App\Http\Controllers\Frontend\LanguageController as FrontendLanguageController;
 use App\Http\Controllers\Frontend\SubscriberController as FrontendSubscriberController;
 use App\Http\Controllers\Frontend\ItemCategoryController as FrontendItemCategoryController;
+use App\Http\Controllers\Frontend\ItemRestaurantController as FrontendItemRestaurantController;
 use App\Http\Controllers\Frontend\TimeSlotController as FrontendTimeSlotController;
 use App\Http\Controllers\Frontend\CouponController as FrontendCouponController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
@@ -215,7 +216,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
             Route::get('/', [BranchController::class, 'index']);
             Route::get('/show/{branch}', [BranchController::class, 'show']);
             Route::post('/', [BranchController::class, 'store']);
-            Route::match(['put', 'patch'], '/{branch}', [BranchController::class, 'update']);
+            Route::match(['post', 'put', 'patch'], '/{branch}', [BranchController::class, 'update']);
             Route::delete('/{branch}', [BranchController::class, 'destroy']);
         });
 
@@ -631,6 +632,11 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
     Route::prefix('item-category')->name('item-category.')->group(function () {
         Route::get('/', [FrontendItemCategoryController::class, 'index']);
         Route::get('/show/{itemCategory:slug}', [FrontendItemCategoryController::class, 'show']);
+    });
+
+    Route::prefix('item-restaurant')->name('item-restaurant.')->group(function () {
+        Route::get('/', [FrontendItemRestaurantController::class, 'index']);
+        Route::get('/show/{itemRestaurant:id}', [FrontendItemRestaurantController::class, 'show']);
     });
 
     Route::prefix('message')->name('message.')->middleware(['auth:sanctum'])->group(function () {

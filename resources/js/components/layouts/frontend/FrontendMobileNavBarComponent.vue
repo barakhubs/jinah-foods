@@ -7,8 +7,8 @@
             <span class="text-xs capitalize">{{ $t('menu.home') }}</span>
         </router-link>
 
-        <router-link :class="checkIsPathAndRoutePathSame('/menu') ? 'text-primary' : ''"
-            class="flex flex-col items-center gap-1" :to="{ name: 'frontend.menu', query: { s: categoryProps.slug } }">
+        <router-link :class="checkIsPathAndRoutePathSame('/restaurants') ? 'text-primary' : ''"
+            class="flex flex-col items-center gap-1" :to="{ name: 'frontend.restaurant', query: { s: restaurantProps.id } }">
             <i class="fa-solid fa-layer-group text-base leading-none"></i>
             <span class="text-xs capitalize">Restaurants</span>
         </router-link>
@@ -46,14 +46,13 @@ export default {
                 isActive: false,
             },
             currentRoute: "",
-            categoryProps: {
+            restaurantProps: {
                 search: {
                     paginate: 0,
                     order_column: 'id',
                     order_type: 'asc',
-                    status: statusEnum.ACTIVE
                 },
-                slug: '',
+                id: '',
             },
         };
     },
@@ -61,12 +60,12 @@ export default {
         $route(to, from) {
             this.currentRoute = to.path;
         },
-        categories: {
+        restaurants: {
             deep: true,
-            handler(category) {
-                if (category.length > 0) {
-                    if (category[0].slug !== "undefined") {
-                        this.categoryProps.slug = category[0].slug;
+            handler(restaurant) {
+                if (restaurant.length > 0) {
+                    if (restaurant[0].id !== "undefined") {
+                        this.restaurantProps.id = restaurant[0].id;
                     }
                 }
             }
@@ -83,7 +82,7 @@ export default {
     mounted() {
         this.currentRoute = this.$route.path;
         this.loading.isActive = true;
-        this.$store.dispatch('frontendItemCategory/lists', this.categoryProps.search).then().catch();
+        this.$store.dispatch('frontendItemRestaurant/lists', this.restaurantProps.search).then().catch();
         this.loading.isActive = false;
     },
     methods: {

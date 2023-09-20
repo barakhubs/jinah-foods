@@ -61,7 +61,7 @@ export const itemCategory = {
                 method(url, payload.form).then(res => {
                     context.dispatch('lists', payload.search).then().catch();
                     context.commit('reset');
-                    resolve(res);
+                    resolve(res); 
                 }).catch((err) => {
                     reject(err);
                 });

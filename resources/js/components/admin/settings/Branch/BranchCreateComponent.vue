@@ -22,18 +22,21 @@
                                 errors.name[0]
                             }}</small>
                         </div>
-
+                        <div class="form-col-12 sm:form-col-6">
+                            <label for="image" class="db-field-title">{{ $t('label.image') }} (74px,48px)</label>
+                            <input @change="changeImage" v-bind:class="errors.image ? 'invalid' : ''" id="image" type="file"
+                                class="db-field-control" ref="imageProperty" accept="image/png, image/jpeg, image/jpg">
+                            <small class="db-field-alert" v-if="errors.image">{{ errors.image[0] }}</small>
+                        </div>
                         <div class="form-col-12 sm:form-col-6">
                             <label class="db-field-title" for="latitude">{{ $t("label.latitude") }}/{{
                                 $t("label.longitude")
                             }}</label>
                             <div class="db-multiple-field">
-                                <input v-model="props.form.latitude" v-bind:class="
-                                    errors.latitude ? 'invalid' : ''
-                                " type="text" id="latitude" />
-                                <input v-model="props.form.longitude" v-bind:class="
-                                    errors.longitude ? 'invalid' : ''
-                                " type="text" id="longitude" />
+                                <input v-model="props.form.latitude" v-bind:class="errors.latitude ? 'invalid' : ''
+                                    " type="text" id="latitude" />
+                                <input v-model="props.form.longitude" v-bind:class="errors.longitude ? 'invalid' : ''
+                                    " type="text" id="longitude" />
                                 <button @click="add" v-on:click="isMap = true" type="button"
                                     class="fa-solid fa-map-location-dot" data-modal="#branchMap"></button>
                             </div>
@@ -193,10 +196,14 @@ export default {
             },
             isMap: false,
             address: "",
+            image: "",
             errors: {},
         };
     },
     methods: {
+        changeImage: function (e) {
+            this.image = e.target.files[0];
+        },
         add: function () {
             appService.modalShow('#branchMap');
         },
@@ -225,6 +232,10 @@ export default {
                 address: "",
                 status: statusEnum.ACTIVE,
             };
+            if (this.image) {
+                this.image = "";
+                this.$refs.imageProperty.value = null;
+            }
         },
         mapReset: function () {
             appService.modalHide('#branchMap');
@@ -234,15 +245,34 @@ export default {
 
         save: function () {
             try {
+                const fd = new FormData();
+                fd.append('name', this.props.form.name);
+                fd.append('email', this.props.form.email);
+                fd.append('phone', this.props.form.phone);
+                fd.append('latitude', this.props.form.latitude);
+                fd.append('longitude', this.props.form.longitude);
+                fd.append('city', this.props.form.city);
+                fd.append('state', this.props.form.state);
+                fd.append('zip_code', this.props.form.zip_code);
+                fd.append('address', this.props.form.address);
+                fd.append('status', this.props.form.status);
+
+                if (this.image) {
+                    fd.append('image', this.image);
+                }
+
                 const tempId = this.$store.getters["branch/temp"].temp_id;
                 this.loading.isActive = true;
-                this.$store.dispatch("branch/save", this.props).then((res) => {
+
+                // Adjusting the dispatch to send FormData
+                this.$store.dispatch('branch/save', {
+                    form: fd,
+                    search: this.props.search // Preserving this part if it's necessary in your context
+                }).then((res) => {
                     appService.modalHide();
                     this.loading.isActive = false;
-                    alertService.successFlip(
-                        tempId === null ? 0 : 1,
-                        this.$t("menu.branches")
-                    );
+                    alertService.successFlip((tempId === null ? 0 : 1), this.$t('menu.branches'));
+
                     this.props.form = {
                         name: "",
                         email: "",
@@ -255,16 +285,21 @@ export default {
                         address: "",
                         status: statusEnum.ACTIVE,
                     };
+                    this.image = "";
                     this.errors = {};
+                    this.$refs.imageProperty.value = null; // Resetting image input
+
                 }).catch((err) => {
                     this.loading.isActive = false;
                     this.errors = err.response.data.errors;
                 });
+
             } catch (err) {
                 this.loading.isActive = false;
                 alertService.error(err);
             }
         },
+
     },
 };
 </script>

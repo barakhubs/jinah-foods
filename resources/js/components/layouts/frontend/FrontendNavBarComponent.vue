@@ -36,10 +36,10 @@
                     class="capitalize text-sm font-medium text-heading">
                     {{ $t('menu.home') }}
                 </router-link>
-                <router-link :to="{ name: 'frontend.menu', query: { s: categoryProps.slug } }"
-                             :class="checkIsPathAndRoutePathSame('/menu') ? 'text-primary' : ''"
+                <router-link :to="{ name: 'frontend.restaurant', query: { s: restaurantProps.id } }"
+                             :class="checkIsPathAndRoutePathSame('/restaurants') ? 'text-primary' : ''"
                              class="capitalize text-sm font-medium text-heading">
-                    {{ $t('label.menu') }}
+                    Restaurants
                 </router-link>
                 <router-link :to="{ name: 'frontend.offers' }"
                              :class="checkIsPathAndRoutePathSame('/offers') ? 'text-primary' : ''"
@@ -225,6 +225,14 @@ export default {
                 },
                 slug: '',
             },
+            restaurantProps: {
+                search: {
+                    paginate: 0,
+                    order_column: 'id',
+                    order_type: 'asc',
+                },
+                id: '',
+            },
             orderNotification: {
                 permission: false,
                 url: ""
@@ -258,8 +266,8 @@ export default {
         languages: function () {
             return this.$store.getters['frontendLanguage/lists'];
         },
-        categories: function () {
-            return this.$store.getters['frontendItemCategory/lists'];
+        restaurants: function () {
+            return this.$store.getters['frontendItemRestaurant/lists'];
         },
         subtotal: function () {
             return this.$store.getters['frontendCart/subtotal'];
@@ -292,7 +300,7 @@ export default {
                     language_code: res.data.data.code
                 });
             }).catch();
-            this.$store.dispatch('frontendItemCategory/lists', this.categoryProps.search).then().catch();
+            this.$store.dispatch('frontendItemRestaurant/lists', this.restaurantProps.search).then().catch();
             this.loading.isActive = false;
 
             window.setTimeout(() => {
@@ -440,12 +448,12 @@ export default {
         $route(to, from) {
             this.currentRoute = to.path;
         },
-        categories: {
+        restaurants: {
             deep: true,
-            handler(category) {
-                if (category.length > 0) {
-                    if (category[0].slug !== "undefined") {
-                        this.categoryProps.slug = category[0].slug;
+            handler(restaurant) {
+                if (restaurant.length > 0) {
+                    if (restaurant[0].id !== "undefined") {
+                        this.restaurantProps.id = restaurant[0].id;
                     }
                 }
             }
