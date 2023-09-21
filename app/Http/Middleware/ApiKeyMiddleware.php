@@ -18,8 +18,8 @@ class ApiKeyMiddleware
     public function handle(Request $request, Closure $next)
     {
         if ($request->hasHeader('x-api-key')) {
-            if ($request->header('x-api-key') == env('MIX_API_KEY')) {
-                return $next($request);
+            if ($request->header('x-api-key') == '00TdJKnn5Ck8kWHNd/BuZkVvZD8JPsNSSeMVdSveZ+0=') {
+                 return $next($request);
             }
         }
         return response()->json(trans('all.message.invalid_api_key'), 400);
