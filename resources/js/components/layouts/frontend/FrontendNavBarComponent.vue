@@ -36,7 +36,7 @@
                     class="capitalize text-sm font-medium text-heading">
                     {{ $t('menu.home') }}
                 </router-link>
-                <router-link :to="{ name: 'frontend.restaurant', query: { s: restaurantProps.id } }"
+                <router-link :to="{ name: 'frontend.restaurant'}"
                              :class="checkIsPathAndRoutePathSame('/restaurants') ? 'text-primary' : ''"
                              class="capitalize text-sm font-medium text-heading">
                     Restaurants

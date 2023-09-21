@@ -1,6 +1,6 @@
 import HomeComponent from "../../components/frontend/home/HomeComponent";
 import MenuComponent from "../../components/frontend/menu/MenuComponent";
-import RestaurantComponent from "../../components/frontend/restaurants/RestaurantComponent";
+import RestaurantListComponent from "../../components/frontend/restaurants/RestaurantListComponent";
 import OffersComponent from "../../components/frontend/offers/OffersComponent";
 import OffersItemComponent from "../../components/frontend/offers/OffersItemComponent";
 import PageComponent from "../../components/frontend/page/PageComponent";
@@ -34,7 +34,7 @@ export default [
     },
     {
         path: "/restaurants",
-        component: RestaurantComponent,
+        component: RestaurantListComponent,
         name: "frontend.restaurant",
         meta: {
             isFrontend: true,
