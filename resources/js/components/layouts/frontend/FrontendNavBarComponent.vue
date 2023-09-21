@@ -7,7 +7,7 @@
                     <img class="w-32" :src="setting.theme_logo" alt="logo">
                 </router-link>
 
-                <div class="relative dropdown-group hide-div" v-if="branches.length > 1">
+                <!-- <div class="relative dropdown-group hide-div" v-if="branches.length > 1">
                     <button class="flex items-center text-left gap-2 dropdown-btn">
                         <h3 class="capitalize text-xs font-medium text-heading">
                             <span class="block font-normal mb-0.5">{{ $t('label.branch') }}</span>
@@ -28,7 +28,7 @@
                             </label>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
             <nav class="items-center justify-center gap-6 hidden lg:flex">
                 <router-link :to="{ name: 'frontend.home' }"
