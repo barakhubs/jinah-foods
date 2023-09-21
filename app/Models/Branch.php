@@ -48,8 +48,8 @@ class Branch extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('thumb')->crop('crop-center', 75, 48)->keepOriginalImageFormat()->sharpen(10);
-        $this->addMediaConversion('cover')->width(400)->keepOriginalImageFormat()->sharpen(10);
+        $this->addMediaConversion('thumb')->crop('crop-center', 112, 120)->keepOriginalImageFormat()->sharpen(10);
+        $this->addMediaConversion('cover')->crop('crop-center', 260, 180)->keepOriginalImageFormat()->sharpen(10);
     }
     public function items() : \Illuminate\Database\Eloquent\Relations\HasMany
     {

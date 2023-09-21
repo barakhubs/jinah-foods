@@ -2,23 +2,15 @@
     <LoadingComponent :props="loading"/>
     <section class="mb-16 mt-8">
         <div class="container">
-            <div v-if="restaurants.length > 0" class="swiper mb-12 menu-swiper">
+            <!-- <div v-if="restaurants.length > 0" class="swiper mb-12 menu-swiper">
                 <RestaurantItemComponent :restaurants="restaurants" :design="restaurantProps.design"/>
-            </div>
+            </div> -->
 
             <div v-if="Object.keys(restaurant).length > 0"
                  class="flex gap-4 flex-col sm:flex-row items-center justify-between mb-6">
                 <h2 class="capitalize text-[26px] leading-[40px] font-semibold text-center sm:text-left text-primary">{{
                         restaurant.name
                     }}</h2>
-                <div class="flex items-center gap-3">
-                    <button type="button" class="lab lab-row-vertical lab-font-size-20 text-xl"
-                            v-on:click="itemProps.design = itemDesignEnum.LIST"
-                            :class="itemProps.design === itemDesignEnum.LIST ? 'text-heading' : 'text-[#A0A3BD]'"></button>
-                    <button type="button" class="lab lab-element-3 lab-font-size-20 text-xl"
-                            v-on:click="itemProps.design = itemDesignEnum.GRID"
-                            :class="itemProps.design === itemDesignEnum.GRID ? 'text-heading' : 'text-[#A0A3BD]'"></button>
-                </div>
             </div>
 
             <ItemComponent :items="items.items" :type="itemProps.type" :design="itemProps.design"/>
@@ -58,7 +50,7 @@ export default {
                 design: 10
             },
             itemProps: {
-                design: itemDesignEnum.LIST,
+                design: itemDesignEnum.GRID,
                 type: null
             }
         }

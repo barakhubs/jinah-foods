@@ -637,6 +637,8 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
     Route::prefix('item-restaurant')->name('item-restaurant.')->group(function () {
         Route::get('/', [FrontendItemRestaurantController::class, 'index']);
         Route::get('/show/{itemRestaurant:id}', [FrontendItemRestaurantController::class, 'show']);
+        Route::get('/latest-branches', [FrontendItemRestaurantController::class, 'latestBranches']);
+        Route::get('/popular-branches', [FrontendItemRestaurantController::class, 'mostPopularBranches']);
     });
 
     Route::prefix('message')->name('message.')->middleware(['auth:sanctum'])->group(function () {

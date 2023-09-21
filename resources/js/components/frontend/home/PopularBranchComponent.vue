@@ -1,9 +1,9 @@
 <template>
     <LoadingComponent :props="loading" />
     <section class="mb-12">
-        <div class="container" v-if="latestItems.length > 0">
-            <h2 class="text-2xl font-semibold capitalize mb-6">Latest Items</h2>
-            <ItemComponent :items="latestItems" :type="itemProps.type" :design="itemProps.design" />
+        <div class="container" v-if="popularItems.length > 0">
+            <h2 class="text-2xl font-semibold capitalize mb-6">Most Popular Restaurants</h2>
+            <RestaurantComponent :items="popularItems" :type="itemProps.type" :design="itemProps.design" />
         </div>
     </section>
 </template>
@@ -11,13 +11,13 @@
 
 import alertService from "../../../services/alertService";
 import itemDesignEnum from "../../../enums/modules/itemDesignEnum";
-import ItemComponent from "../components/ItemComponent";
+import RestaurantComponent from "../components/RestaurantComponent";
 import LoadingComponent from "../components/LoadingComponent";
 
 export default {
-    name: "LatestItemComponent",
+    name: "PopularBranchComponent",
     components: {
-        ItemComponent,
+        RestaurantComponent,
         LoadingComponent
     },
     props: {
@@ -37,7 +37,7 @@ export default {
     mounted() {
         try {
             this.loading.isActive = true;
-            this.$store.dispatch("frontendItem/latest", {
+            this.$store.dispatch("frontendBranch/popular", {
                 order_column: "id",
                 order_type: "desc"
             }).then(res => {
@@ -50,8 +50,8 @@ export default {
         }
     },
     computed: {
-        latestItems: function () {
-            return this.$store.getters["frontendItem/latest"];
+        popularItems: function () {
+            return this.$store.getters["frontendBranch/popular"];
         },
     },
     methods: {},

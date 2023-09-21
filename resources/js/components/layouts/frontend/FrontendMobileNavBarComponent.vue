@@ -13,7 +13,7 @@
             <span class="text-xs capitalize">Restaurants</span>
         </router-link>
 
-        <button class="mobcart fa-solid fa-bag-shopping text-base w-12 h-12 leading-[48px] text-center rounded-full -mt-12 text-white bg-primary
+        <button class="mobcart fa-solid fa-cart-shopping text-base w-12 h-12 leading-[48px] text-center rounded-full -mt-12 text-white bg-primary
         relative after:absolute after:top-3 ltr:after:right-2.5 rtl:after:left-2.5 after:w-2 after:h-2 after:rounded-full
         after:shadow after:bg-[#FFDB1F]"></button>
 

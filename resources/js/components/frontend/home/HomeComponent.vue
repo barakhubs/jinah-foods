@@ -25,18 +25,19 @@
             </div>
         </div>
     </section>
-    <!--========Category PART END===========-->
 
-    <!--========FEATURE PART START=========-->
-    <FeaturedItemComponent />
-    <!--========FEATURE PART END=========-->
+    <PopularItemComponent />
+    
+    <LatestBranchComponent/>
+
+    <PopularBranchComponent />
 
     <!--========OFFER PART START=========-->
     <OfferComponent :limit="limit" />
     <!--========OFFER PART START=========-->
 
     <!--========POPULAR PART START=========-->
-    <PopularItemComponent />
+    <!-- <PopularItemComponent /> -->
     <!--========POPULAR PART START=========-->
 </template>
 
@@ -50,20 +51,22 @@ import categoryDesignEnum from "../../../enums/modules/categoryDesignEnum";
 import statusEnum from "../../../enums/modules/statusEnum";
 import LoadingComponent from "../components/LoadingComponent";
 import TrackOrderComponent from "./TrackOrderComponent";
-import LatestItemComponent from "../home/LatestItemComponent.vue";
+import LatestBranchComponent from "./LatestBranchComponent.vue";
+import PopularBranchComponent from "./PopularBranchComponent.vue";
 
 export default {
     name: "HomeComponent",
     components: {
-        TrackOrderComponent,
-        CategoryComponent,
-        SliderComponent,
-        FeaturedItemComponent,
-        PopularItemComponent,
-        OfferComponent,
-        LoadingComponent,
-        LatestItemComponent
-    },
+    TrackOrderComponent,
+    CategoryComponent,
+    SliderComponent,
+    FeaturedItemComponent,
+    PopularItemComponent,
+    OfferComponent,
+    LoadingComponent,
+    LatestBranchComponent,
+    PopularBranchComponent
+},
     data() {
         return {
             loading: {

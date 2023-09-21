@@ -58,7 +58,7 @@
                     <button @click.prevent="variationModalShow(item)" data-modal="#item-variation-modal"
                         class="product-card-grid-cart-btn add-btn">
                         <i class="lab lab-bag-2 font-fill-primary transition lab-font-size-14"></i>
-                        <span class="text-xs text-primary transition">{{ $t('button.add') }}</span>
+                        <span class="text-xs text-primary transition add-to-cart">{{ $t('button.add') }}</span>
                     </button>
                 </div>
             </div>

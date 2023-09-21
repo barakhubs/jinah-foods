@@ -6,6 +6,8 @@ export const frontendBranch = {
     state: {
         lists: [],
         show: {},
+        latest: [],
+        popular: {},
     },
     getters: {
         lists: function (state) {
@@ -13,6 +15,12 @@ export const frontendBranch = {
         },
         show: function (state) {
             return state.show;
+        },
+        latest: function (state) {
+            return state.latest;
+        },
+        popular: function (state) {
+            return state.popular;
         },
     },
     actions: {
@@ -44,6 +52,38 @@ export const frontendBranch = {
                 });
             }
         },
+        latest: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let url = "frontend/item-restaurant/latest-branches";
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url).then((res) => {
+                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
+                        context.commit("latest", res.data.data);
+                    }
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
+        popular: function (context, payload) {
+            return new Promise((resolve, reject) => {
+                let url = "frontend/item-restaurant/popular-branches";
+                if (payload) {
+                    url = url + appService.requestHandler(payload);
+                }
+                axios.get(url).then((res) => {
+                    if (typeof payload.vuex === "undefined" || payload.vuex === true) {
+                        context.commit("popular", res.data.data);
+                    }
+                    resolve(res);
+                }).catch((err) => {
+                    reject(err);
+                });
+            });
+        },
     },
     mutations: {
         lists: function (state, payload) {
@@ -51,6 +91,12 @@ export const frontendBranch = {
         },
         show: function (state, payload) {
             state.show = payload;
+        },
+        latest: function (state, payload) {
+            state.latest = payload;
+        },
+        popular: function (state, payload) {
+            state.popular = payload;
         }
     },
 };

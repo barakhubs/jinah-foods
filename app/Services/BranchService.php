@@ -130,4 +130,33 @@ class BranchService
             throw new Exception($exception->getMessage(), 422);
         }
     }
+
+    public function latestBranches()
+    {
+        try {
+            return Branch::orderBy('created_at', 'desc')->limit(8)->get();
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
+
+    public function mostPopularBranches()
+    {
+        try {
+            $branches = Branch::with(['items' => function ($query) {
+                $query->withCount('orders');
+            }])
+            ->get()
+            ->sortByDesc(function ($branch) {
+                return $branch->items->sum('orders_count');
+            })
+            ->take(8);
+
+            return $branches;
+        } catch (Exception $exception) {
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
+    }
 }

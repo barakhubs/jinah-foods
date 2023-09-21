@@ -3895,6 +3895,9 @@ input:checked + div svg {
     {
         display: none !important;
     }
+    .add-to-cart {
+        font-size: 10px !important;
+    }
 }
 /* INSTALLER */
 

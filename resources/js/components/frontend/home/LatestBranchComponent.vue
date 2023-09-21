@@ -1,11 +1,9 @@
 <template>
     <LoadingComponent :props="loading" />
-    <section class="mb-16">
-        <div class="container" v-if="popularItems.length > 0">
-            <div class="flex items-center justify-between gap-2 mb-6">
-                <h2 class="text-2xl font-semibold capitalize">Recommended Dishes</h2>
-            </div>
-            <ItemComponent :items="popularItems" :type="itemProps.type" :design="itemProps.design" />
+    <section class="mb-12">
+        <div class="container" v-if="latestItems.length > 0">
+            <h2 class="text-2xl font-semibold capitalize mb-6">New Restaurants</h2>
+            <RestaurantComponent :items="latestItems" :type="itemProps.type" :design="itemProps.design" />
         </div>
     </section>
 </template>
@@ -13,13 +11,13 @@
 
 import alertService from "../../../services/alertService";
 import itemDesignEnum from "../../../enums/modules/itemDesignEnum";
-import ItemComponent from "../components/ItemComponent";
+import RestaurantComponent from "../components/RestaurantComponent";
 import LoadingComponent from "../components/LoadingComponent";
 
 export default {
-    name: "PopularItemComponent",
+    name: "LatestBranchComponent",
     components: {
-        ItemComponent,
+        RestaurantComponent,
         LoadingComponent
     },
     props: {
@@ -28,7 +26,7 @@ export default {
     data() {
         return {
             loading: {
-                isActive: false
+                isActive: false,
             },
             itemProps: {
                 design: itemDesignEnum.GRID,
@@ -39,9 +37,9 @@ export default {
     mounted() {
         try {
             this.loading.isActive = true;
-            this.$store.dispatch("frontendItem/popular", {
+            this.$store.dispatch("frontendBranch/latest", {
                 order_column: "id",
-                order_type: "desc",
+                order_type: "desc"
             }).then(res => {
                 this.loading.isActive = false;
             }).catch((err) => {
@@ -52,9 +50,10 @@ export default {
         }
     },
     computed: {
-        popularItems: function () {
-            return this.$store.getters["frontendItem/popular"];
-        }
-    }
+        latestItems: function () {
+            return this.$store.getters["frontendBranch/latest"];
+        },
+    },
+    methods: {},
 };
 </script>

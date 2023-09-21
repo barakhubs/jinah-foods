@@ -32,14 +32,14 @@
                 <h2 class="capitalize text-[26px] leading-[40px] font-semibold text-center sm:text-left text-primary">{{
                         category.name
                     }}</h2>
-                <div class="flex items-center gap-3">
+                <!-- <div class="flex items-center gap-3">
                     <button type="button" class="lab lab-row-vertical lab-font-size-20 text-xl"
                             v-on:click="itemProps.design = itemDesignEnum.LIST"
                             :class="itemProps.design === itemDesignEnum.LIST ? 'text-heading' : 'text-[#A0A3BD]'"></button>
                     <button type="button" class="lab lab-element-3 lab-font-size-20 text-xl"
                             v-on:click="itemProps.design = itemDesignEnum.GRID"
                             :class="itemProps.design === itemDesignEnum.GRID ? 'text-heading' : 'text-[#A0A3BD]'"></button>
-                </div>
+                </div> -->
             </div>
 
             <ItemComponent :items="items.items" :type="itemProps.type" :design="itemProps.design"/>
@@ -80,7 +80,7 @@ export default {
                 design: categoryDesignEnum.SECOND
             },
             itemProps: {
-                design: itemDesignEnum.LIST,
+                design: itemDesignEnum.GRID,
                 type: null
             }
         }
