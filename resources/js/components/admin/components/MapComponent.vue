@@ -66,18 +66,27 @@ export default {
     mounted: async function () {
         this.loading.isActive = true;
         if ((this.location.lat === null || this.location.lat === "") && (this.location.lng === null || this.location.lng === "")) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        this.currentLocation = {
+            if ("geolocation" in navigator) {
+              navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.currentLocation = {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude,
                         };
-                        this.mainMap(this.currentLocation);
-                    }, () => {
-                        alert('The Geolocation service failed.');
+                    this.mainMap(this.currentLocation);
+                },
+                (error) => {
+                  if (error.code === error.PERMISSION_DENIED) {
+                    // Prompt the user to enable geolocation
+                    if (confirm("Please enable geolocation to continue.")) {
+                      window.location.href = "settings://location"; // Redirect to the settings page
                     }
-                );
+                  } else {
+                    console.error("Geolocation Error:", error);
+                    alert('The Geolocation service failed. Reason: ' + error.message);
+                  }
+                }
+              );
             } else {
                 alert("Your browser doesn't support geolocation.");
             }
