@@ -3,7 +3,7 @@
     <div v-if="design === itemDesignEnum.GRID" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 lg:gap-6">
         <div v-for="item in items" :key="item" v-show="type === null || type === item.item_type" class="product-card-grid">
             <router-link :class="checkIsQueryAndRouteQuerySame(item.id) ? 'menu-category-active' : ''"
-                v-if="design === itemDesignEnum.GRID" :to="{ name: 'frontend.restaurant', query: { s: item.id } }">
+                v-if="design === itemDesignEnum.GRID" :to="{ name: 'frontend.restaurant.id', params: { id: item.id } }">
                 <img class="product-card-grid-image" :src="item.cover" alt="restaurant">
                 <div class="product-card-grid-content-group">
                     <div class="product-card-grid-header-group justify-content-center">

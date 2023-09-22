@@ -8,7 +8,7 @@
         </router-link>
 
         <router-link :class="checkIsPathAndRoutePathSame('/restaurants') ? 'text-primary' : ''"
-            class="flex flex-col items-center gap-1" :to="{ name: 'frontend.restaurant', query: { s: restaurantProps.id } }">
+            class="flex flex-col items-center gap-1" :to="{ name: 'frontend.restaurant'}">
             <i class="fa-solid fa-layer-group text-base leading-none"></i>
             <span class="text-xs capitalize">Restaurants</span>
         </router-link>

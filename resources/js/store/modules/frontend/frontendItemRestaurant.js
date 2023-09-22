@@ -45,6 +45,10 @@ export const frontendItemRestaurant = {
                     });
                 });
             }
+            else {
+                console.error("Invalid payload:", payload);
+                return Promise.reject("Invalid payload");
+            }
         },
     },
     mutations: {

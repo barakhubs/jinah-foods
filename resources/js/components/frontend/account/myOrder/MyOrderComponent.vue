@@ -239,7 +239,7 @@ export default {
                 this.loading.isActive = false;
             });
 
-            this.previousOrderList();
+            this.previousOrderList(); 
 
             if (Object.keys(this.$route.query).length > 0) {
                 this.loading.isActive = true;

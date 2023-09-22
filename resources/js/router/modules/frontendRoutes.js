@@ -1,6 +1,7 @@
 import HomeComponent from "../../components/frontend/home/HomeComponent";
 import MenuComponent from "../../components/frontend/menu/MenuComponent";
 import RestaurantListComponent from "../../components/frontend/restaurants/RestaurantListComponent";
+import RestaurantItemsComponent from "../../components/frontend/restaurants/RestaurantItemsComponent";
 import OffersComponent from "../../components/frontend/offers/OffersComponent";
 import OffersItemComponent from "../../components/frontend/offers/OffersItemComponent";
 import PageComponent from "../../components/frontend/page/PageComponent";
@@ -42,6 +43,15 @@ export default [
         },
     },
     {
+        path: "/restaurants/:id",
+        component: RestaurantItemsComponent,
+        name: "frontend.restaurant.id",
+        meta: {
+            isFrontend: true,
+            auth: false,
+        },
+    },
+    {
         path: "/offers",
         component: OffersComponent,
         name: "frontend.offers",
@@ -67,7 +77,7 @@ export default [
             isFrontend: true,
             auth: false,
         },
-    },
+    }, 
     {
         path: "/edit-profile",
         component: EditProfileComponent,

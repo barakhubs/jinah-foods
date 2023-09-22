@@ -78,7 +78,7 @@ export const frontendOrder = {
                     }
                     resolve(res);
                 }).catch((err) => {
-                    reject(err);
+                    reject(err); 
                 });
             });
         },

@@ -1572,12 +1572,12 @@ body {
 }
 
 .chat-list.frontend {
-  height: calc(100vh - 260px);
+    height: calc(100vh - 340px);
 }
 
 @media (min-width: 640px) {
   .chat-list.frontend {
-    height: calc(100vh - 250px);
+    height: calc(100vh - 360px);
   }
 }
 

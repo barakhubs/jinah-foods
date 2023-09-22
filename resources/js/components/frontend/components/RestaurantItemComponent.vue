@@ -3,7 +3,7 @@
         <Carousel :settings="settings" :breakpoints="breakpoints">
             <slide class="swiper-slide" v-for="restaurant in restaurants" :key="restaurant">
                 <router-link  v-if="design === 5"
-                             :to="{name: 'frontend.restaurant', query:{ s: restaurant.id}}"
+                             :to="{name: 'frontend.restaurant', query:{ id: restaurant.id}}"
                              class="swiper-slide w-32 flex flex-col items-center text-center gap-4 p-3 c-h-30 rounded-2xl border-b-2 border-transparent transition hover:bg-[#FFEDF4] bg-[#F7F7FC]">
                     <img class="h-12 drop-shadow-category" :src="restaurant.thumb" :alt="restaurant.id">
                     <h3 class="text-xs font-medium">{{ restaurant.name }}</h3>
