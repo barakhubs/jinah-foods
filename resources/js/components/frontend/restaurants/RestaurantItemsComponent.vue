@@ -1,6 +1,6 @@
 <template>
     <LoadingComponent :props="loading"/>
-    <section class="mb-16 mt-8">
+    <section class="mb-5 mt-8">
         <div class="container">
 
             <div v-if="Object.keys(restaurant).length > 0"
