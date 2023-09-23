@@ -1,6 +1,6 @@
 <template>
     <LoadingComponent :props="loading" />
-    <section class="mb-12">
+    <section class="mb-20 pt-8">
         <div class="container content-body" v-if="restaurants.length > 0">
             <h2 class="text-2xl font-semibold capitalize mb-6">All Restaurants</h2>
             <RestaurantComponent :items="restaurants" :type="itemProps.type" :design="itemProps.design" />

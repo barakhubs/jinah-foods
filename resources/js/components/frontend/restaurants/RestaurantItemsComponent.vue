@@ -1,7 +1,7 @@
 <template>
     <LoadingComponent :props="loading"/>
     <section class="mb-5 mt-8">
-        <div class="container">
+        <div class="container content-body">
 
             <div v-if="Object.keys(restaurant).length > 0"
                  class="flex gap-4 flex-col sm:flex-row items-center justify-between mb-6">
