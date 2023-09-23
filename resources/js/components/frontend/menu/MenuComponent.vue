@@ -1,7 +1,7 @@
 <template>
     <LoadingComponent :props="loading"/>
     <section class="mb-16 mt-8">
-        <div class="container">
+        <div class="container content-odyb">
             <div v-if="categories.length > 0" class="swiper mb-12 menu-swiper">
                 <CategoryComponent :categories="categories" :design="categoryProps.design"/>
             </div>

@@ -619,9 +619,10 @@ body {
   max-width: 72rem;
   padding-left: 0.625rem;
   padding-right: 0.625rem;
-  padding-bottom: 30px;
 }
-
+.content-body {
+    padding-bottom: 30px;
+}
 @media (min-width: 640px) {
   .container {
     padding-left: 1rem;
