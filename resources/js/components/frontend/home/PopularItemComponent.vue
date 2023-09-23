@@ -1,6 +1,6 @@
 <template>
     <LoadingComponent :props="loading" />
-    <section class="mb-16">
+    <section class="mb-6">
         <div class="container" v-if="popularItems.length > 0">
             <div class="flex items-center justify-between gap-2 mb-6">
                 <h2 class="text-2xl font-semibold capitalize">Recommended Dishes</h2>
