@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Branch;
+use App\Models\DefaultAccess;
+use Auth;
 use Exception;
 use Carbon\Carbon;
 use App\Models\Item;
@@ -13,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Libraries\AppLibrary;
 use App\Enums\Role as EnumRole;
 use Illuminate\Support\Facades\Log;
+use App\Services\BranchService;
 
 class DashboardService
 {
@@ -26,22 +30,22 @@ class DashboardService
 
             if ($request->first_date && $request->last_date) {
                 $first_date = Date('Y-m-d', strtotime($request->first_date));
-                $last_date  = Date('Y-m-d', strtotime($request->last_date));
+                $last_date = Date('Y-m-d', strtotime($request->last_date));
             } else {
                 $first_date = Carbon::today()->toDateString();
-                $last_date  = Carbon::today()->toDateString();
+                $last_date = Carbon::today()->toDateString();
             }
 
             $orderStatisticsArray = [];
 
-            $orderStatisticsArray["total_order"]            = $order->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
-            $orderStatisticsArray["pending_order"]          = $order->pending()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
-            $orderStatisticsArray["processing_order"]       = $order->processing()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $orderStatisticsArray["total_order"] = $order->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $orderStatisticsArray["pending_order"] = $order->pending()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $orderStatisticsArray["processing_order"] = $order->processing()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
             $orderStatisticsArray["out_for_delivery_order"] = $order->outForDelivery()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
-            $orderStatisticsArray["delivered_order"]        = $order->delivered()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
-            $orderStatisticsArray["canceled_order"]         = $order->canceled()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
-            $orderStatisticsArray["returned_order"]         = $order->returned()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
-            $orderStatisticsArray["rejected_order"]         = $order->rejected()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $orderStatisticsArray["delivered_order"] = $order->delivered()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $orderStatisticsArray["canceled_order"] = $order->canceled()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $orderStatisticsArray["returned_order"] = $order->returned()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $orderStatisticsArray["rejected_order"] = $order->rejected()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
 
             return $orderStatisticsArray;
         } catch (Exception $exception) {
@@ -57,29 +61,29 @@ class DashboardService
             $order = new Order;
             if ($request->first_date && $request->last_date) {
                 $first_date = Date('Y-m-d', strtotime($request->first_date));
-                $last_date  = Date('Y-m-d', strtotime($request->last_date));
+                $last_date = Date('Y-m-d', strtotime($request->last_date));
             } else {
                 $first_date = Date('Y-m-01', strtotime(Carbon::today()->toDateString()));
-                $last_date  = Date('Y-m-t', strtotime(Carbon::today()->toDateString()));
+                $last_date = Date('Y-m-t', strtotime(Carbon::today()->toDateString()));
             }
 
             $orderSummaryArray = [];
 
-            $total_order   = $order->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $total_order = $order->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
             $total_delivered = $order->delivered()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
-            $total_canceled  = $order->canceled()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
-            $total_returned  = $order->returned()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
-            $total_rejected  = $order->rejected()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $total_canceled = $order->canceled()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $total_returned = $order->returned()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
+            $total_rejected = $order->rejected()->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->count();
 
 
             if ($total_order > 0) {
                 $orderSummaryArray["delivered"] = (int) round(($total_delivered * 100) / $total_order);
-                $orderSummaryArray["returned"]  = (int) round(($total_returned * 100) / $total_order);
+                $orderSummaryArray["returned"] = (int) round(($total_returned * 100) / $total_order);
                 $orderSummaryArray["canceled"] = (int) round(($total_canceled * 100) / $total_order);
                 $orderSummaryArray["rejected"] = (int) round(($total_rejected * 100) / $total_order);
             } else {
                 $orderSummaryArray["delivered"] = 0;
-                $orderSummaryArray["returned"]  = 0;
+                $orderSummaryArray["returned"] = 0;
                 $orderSummaryArray["canceled"] = 0;
                 $orderSummaryArray["rejected"] = 0;
             }
@@ -96,16 +100,16 @@ class DashboardService
         $order = new Order;
         if ($request->first_date && $request->last_date) {
             $first_date = Date('Y-m-d', strtotime($request->first_date));
-            $last_date  = Date('Y-m-d', strtotime($request->last_date));
+            $last_date = Date('Y-m-d', strtotime($request->last_date));
         } else {
             $first_date = Date('Y-m-01', strtotime(Carbon::today()->toDateString()));
-            $last_date  = Date('Y-m-t', strtotime(Carbon::today()->toDateString()));
+            $last_date = Date('Y-m-t', strtotime(Carbon::today()->toDateString()));
         }
 
         $date = date_diff(date_create($first_date), date_create($last_date), false);
-        $date_diff = (int)$date->format("%a");
+        $date_diff = (int) $date->format("%a");
 
-        $total_sales     = AppLibrary::flatAmountFormat($order->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->where('payment_status', PaymentStatus::PAID)->sum('total'));
+        $total_sales = AppLibrary::flatAmountFormat($order->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->where('payment_status', PaymentStatus::PAID)->sum('total'));
 
         $dateRangeArray = [];
         for ($currentDate = strtotime($first_date); $currentDate <= strtotime($last_date); $currentDate += (86400)) {
@@ -116,19 +120,19 @@ class DashboardService
 
         $dateRangeValueArray = [];
         for ($i = 0; $i <= count($dateRangeArray) - 1; $i++) {
-            $per_day     = AppLibrary::flatAmountFormat($order->whereDate('order_datetime', $dateRangeArray[$i])->where('payment_status', PaymentStatus::PAID)->sum('total'));
+            $per_day = AppLibrary::flatAmountFormat($order->whereDate('order_datetime', $dateRangeArray[$i])->where('payment_status', PaymentStatus::PAID)->sum('total'));
             $dateRangeValueArray[] = floatval($per_day);
         }
 
 
         $salesSummaryArray = [];
         if ($date_diff > 0) {
-            $salesSummaryArray['total_sales']   = AppLibrary::currencyAmountFormat($total_sales);
-            $salesSummaryArray['avg_per_day']   = AppLibrary::currencyAmountFormat($total_sales / $date_diff);
+            $salesSummaryArray['total_sales'] = AppLibrary::currencyAmountFormat($total_sales);
+            $salesSummaryArray['avg_per_day'] = AppLibrary::currencyAmountFormat($total_sales / $date_diff);
             $salesSummaryArray['per_day_sales'] = $dateRangeValueArray;
         } else {
-            $salesSummaryArray['total_sales']   = AppLibrary::currencyAmountFormat($total_sales);
-            $salesSummaryArray['avg_per_day']   = AppLibrary::currencyAmountFormat($total_sales);
+            $salesSummaryArray['total_sales'] = AppLibrary::currencyAmountFormat($total_sales);
+            $salesSummaryArray['avg_per_day'] = AppLibrary::currencyAmountFormat($total_sales);
             $salesSummaryArray['per_day_sales'] = $dateRangeValueArray;
         }
 
@@ -140,10 +144,10 @@ class DashboardService
         $order = new Order;
         if ($request->first_date && $request->last_date) {
             $first_date = Date('Y-m-d', strtotime($request->first_date));
-            $last_date  = Date('Y-m-d', strtotime($request->last_date));
+            $last_date = Date('Y-m-d', strtotime($request->last_date));
         } else {
             $first_date = Date('Y-m-01', strtotime(Carbon::today()->toDateString()));
-            $last_date  = Date('Y-m-t', strtotime(Carbon::today()->toDateString()));
+            $last_date = Date('Y-m-t', strtotime(Carbon::today()->toDateString()));
         }
 
         $timeArray = ["06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
@@ -156,7 +160,7 @@ class DashboardService
             $first_time = date('H:i', strtotime($timeArray[$i]));
             $last_time = date('H:i', strtotime($timeArray[$i] . ' +59 minutes'));
 
-            $total_customer     = $order->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->whereTime('order_datetime', '>=', Carbon::parse($first_time))->whereTime('order_datetime', '<=', Carbon::parse($last_time))->get()->count();
+            $total_customer = $order->whereDate('order_datetime', '>=', $first_date)->whereDate('order_datetime', '<=', $last_date)->whereTime('order_datetime', '>=', Carbon::parse($first_time))->whereTime('order_datetime', '<=', Carbon::parse($last_time))->get()->count();
             $totalCustomerArray[] = $total_customer;
         }
 
@@ -209,10 +213,21 @@ class DashboardService
     public function totalMenuItems()
     {
         try {
-            return Item::count();
+            $userId = Auth::id();
+
+            $defaultAccess = DefaultAccess::where('user_id', $userId)->get();
+            if ($defaultAccess->isEmpty()) {
+                return 0;
+            }
+
+            $branchIds = $defaultAccess->pluck('default_id')->toArray();
+            $itemsCount = Item::whereIn('branch_id', $branchIds)->count();
+
+            return $itemsCount;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
     }
+
 }
