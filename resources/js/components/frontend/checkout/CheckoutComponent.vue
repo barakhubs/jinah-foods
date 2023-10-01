@@ -708,7 +708,7 @@ export default {
                         parseFloat(this.location.lat),
                         parseFloat(this.location.lng)
                     );
-                    console.log(`Distance: 50 km`);
+                    console.log(`Distance: ${distance} km`);
                     let deliveryCharge = 0;
                     // Now that we have the distance, we can calculate the delivery charge
                     if (distance <= 5) { // <= 5 km
