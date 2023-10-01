@@ -703,13 +703,15 @@ export default {
         deliveryChargeCalculation: function () {
             if (this.checkoutProps.form.order_type === orderTypeEnum.DELIVERY) {
                 if (this.localAddress.latitude && this.localAddress.longitude && this.location.lat && this.location.lng) {
-                    const distance = this.calculateDistance(
-                        parseFloat(this.localAddress.latitude),
-                        parseFloat(this.localAddress.longitude),
-                        parseFloat(this.location.lat),
-                        parseFloat(this.location.lng)
-                    );
+                    // const distance = this.calculateDistance(
+                    //     parseFloat(this.localAddress.latitude),
+                    //     parseFloat(this.localAddress.longitude),
+                    //     parseFloat(this.location.lat),
+                    //     parseFloat(this.location.lng)
+                    // );
 
+                    const distance = calculateDistance(23.8042375, 90.3525979, 40.712776, -74.005974);
+                    console.log(`Distance: ${distance} km`);
                     let deliveryCharge = 0;
                     // Now that we have the distance, we can calculate the delivery charge
                     if (distance <= 5) { // <= 5 km
