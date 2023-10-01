@@ -714,10 +714,13 @@ export default {
                     } else if (distance <= 3) {
                         deliveryCharge = 3500; // 3,500 Shs
                     } else {
-                        // Add your formula for distances > 3 KM if necessary
-                        deliveryCharge = 3000 + Math.ceil((distance - 10) * 100);
+                        console.log("Additional Charge: ", additionalCharge);
+                        deliveryCharge = 3500 + additionalCharge;
+                        console.log("Delivery Charge before rounding: ", deliveryCharge);
                         // Round up to the nearest hundred
                         deliveryCharge = Math.ceil(deliveryCharge / 100) * 100;
+                        console.log("Delivery Charge after rounding: ", deliveryCharge);
+
                     }
 
                     this.checkoutProps.form.delivery_charge = deliveryCharge;
