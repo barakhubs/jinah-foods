@@ -1,9 +1,9 @@
 <template>
-    <LoadingComponent :props="loading"/>
+    <LoadingComponent :props="loading" />
     <section class="pt-8 pb-16">
         <div class="container max-w-[965px]">
-            <router-link :to="{name : 'frontend.home'}"
-                         class="text-xs font-medium inline-flex mb-3 items-center gap-2 text-primary">
+            <router-link :to="{ name: 'frontend.home' }"
+                class="text-xs font-medium inline-flex mb-3 items-center gap-2 text-primary">
                 <i class="lab lab-undo lab-font-size-16"></i>
                 <span>{{ $t('label.back_to_home') }}</span>
             </router-link>
@@ -11,14 +11,13 @@
                 <div class="col-12 md:col-7">
                     <div class="p-4 mb-6 rounded-2xl shadow-xs bg-white">
                         <h3 v-if="branches.length > 1" class="capitalize font-medium mb-2">{{
-                                $t('label.select_branch')
-                            }}</h3>
+                            $t('label.select_branch')
+                        }}</h3>
                         <div v-if="branches.length > 1" class="swiper branch-swiper mb-4">
                             <nav class="swiper-wrapper">
                                 <Carousel :settings="branchSettings" :breakpoints="branchBreakpoints">
                                     <slide v-for="branch in branches" :key="branch" class="branch-navs">
-                                        <button
-                                            :class="checkoutProps.form.branch_id === branch.id ? 'active' : ''"
+                                        <button :class="checkoutProps.form.branch_id === branch.id ? 'active' : ''"
                                             :value="branch.id"
                                             class="swiper-slide w-full overflow-hidden branch-margin-right py-2 px-3 rounded-lg text-center text-sm whitespace-nowrap text-heading bg-[#F7F7FC] transition hover:text-primary hover:bg-primary/5"
                                             @click.prevent="changeBranch(branch)">
@@ -29,12 +28,11 @@
                             </nav>
                         </div>
 
-                        <MapComponent :key="mapKey" v-if="mapShow" :location="location"
-                                      :position="branchPosition"
-                                      :setting="{ autocomplete: false, mouseEvent: false, currentLocation: false }"/>
+                        <MapComponent :key="mapKey" v-if="mapShow" :location="location" :position="branchPosition"
+                            :setting="{ autocomplete: false, mouseEvent: false, currentLocation: false }" />
 
                         <div v-if="checkoutProps.form.order_type === orderTypeEnum.TAKEAWAY"
-                             class="flex items-center gap-2 mb-3 mt-6">
+                            class="flex items-center gap-2 mb-3 mt-6">
                             <i class="lab lab-location text-xl text-primary"></i>
                             <span class="text-sm text-heading">{{ branchAddress }}</span>
                         </div>
@@ -43,37 +41,35 @@
                             <div class="flex flex-wrap justify-between gap-5 mb-2.5">
                                 <h4 class="capitalize font-medium"> {{ $t('label.delivery_address') }} </h4>
                                 <div class="flex gap-3">
-                                    <button v-if="Object.keys(localAddress).length !== 0" @click="editAddress"
-                                            type="button"
-                                            class="group text-xs capitalize font-medium flex items-center rounded-3xl py-1.5 px-3 gap-1 text-[#00749B] bg-[#D6F5FF] transition hover:text-white hover:bg-[#00749B]">
+                                    <button v-if="Object.keys(localAddress).length !== 0" @click="editAddress" type="button"
+                                        class="group text-xs capitalize font-medium flex items-center rounded-3xl py-1.5 px-3 gap-1 text-[#00749B] bg-[#D6F5FF] transition hover:text-white hover:bg-[#00749B]">
                                         <i class="lab lab-edit-2 lab-font-size-13"></i>
                                         <span>{{ $t('button.edit_address') }}</span>
                                     </button>
-                                    <AddressComponent :getLocation="updateAddress" :props="addressProps"/>
+                                    <AddressComponent :getLocation="updateAddress" :props="addressProps" />
                                 </div>
                             </div>
                             <div v-if="addresses.length > 0" class="grid grid-cols-1 sm:grid-cols-3 gap-3 active-group">
                                 <label @click="changeAddress(address)"
-                                       :class="checkoutProps.form.address_id === address.id ? 'active' : ''"
-                                       v-for="address in addresses" :key="address" :for="address.label"
-                                       class="p-3 rounded-lg w-full border border-[#F7F7FC] bg-[#F7F7FC]">
+                                    :class="checkoutProps.form.address_id === address.id ? 'active' : ''"
+                                    v-for="address in addresses" :key="address" :for="address.label"
+                                    class="p-3 rounded-lg w-full border border-[#F7F7FC] bg-[#F7F7FC]">
                                     <div class="flex items-center justify-between mb-2">
                                         <div class="flex items-center gap-2 text-xs text-[#008BBA]">
                                             <i class="icon-home"></i>
                                             <span class="font-medium">{{ address.label }}</span>
                                         </div>
                                         <div class="custom-radio sm">
-                                            <input type="radio" :id="address.label"
-                                                   v-model="checkoutProps.form.address_id" :value="address.id"
-                                                   class="custom-radio-field">
+                                            <input type="radio" :id="address.label" v-model="checkoutProps.form.address_id"
+                                                :value="address.id" class="custom-radio-field">
                                             <span class="custom-radio-span"></span>
                                         </div>
                                     </div>
                                     <div class="text-xs flex gap-2 text-[#1F1F39]">
                                         <i class="icon-location1 mt-0.5"></i>
                                         <span v-if="address.apartment">{{ address.apartment }}, {{
-                                                address.address
-                                            }}</span>
+                                            address.address
+                                        }}</span>
                                         <span v-else>{{ address.address }}</span>
                                     </div>
                                 </label>
@@ -88,12 +84,11 @@
                                     <Carousel :settings="dayTakeSettings" :breakpoints="dayTakeBreakpoints">
                                         <slide class="active-group">
                                             <label @click="changeDayTake(dayTakeEnum.TODAY)" for="today"
-                                                   :class="dayTake === dayTakeEnum.TODAY ? 'active' : ''"
-                                                   class="swiper-slide day-take-margin-right w-full db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC]">
+                                                :class="dayTake === dayTakeEnum.TODAY ? 'active' : ''"
+                                                class="swiper-slide day-take-margin-right w-full db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC]">
                                                 <div class="custom-radio sm">
                                                     <input type="radio" v-model="dayTake" :value="dayTakeEnum.TODAY"
-                                                           id="today"
-                                                           class="custom-radio-field">
+                                                        id="today" class="custom-radio-field">
                                                     <span class="custom-radio-span"></span>
                                                 </div>
                                                 <label for="today" class="db-field-label text-sm text-heading">
@@ -103,11 +98,11 @@
                                         </slide>
                                         <slide class="active-group">
                                             <label @click="changeDayTake(dayTakeEnum.TOMORROW)"
-                                                   :class="dayTake === dayTakeEnum.TOMORROW ? 'active' : ''"
-                                                   class="swiper-slide day-take-margin-right w-full db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC]">
+                                                :class="dayTake === dayTakeEnum.TOMORROW ? 'active' : ''"
+                                                class="swiper-slide day-take-margin-right w-full db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC]">
                                                 <div class="custom-radio sm">
                                                     <input type="radio" v-model="dayTake" :value="dayTakeEnum.TOMORROW"
-                                                           id="tomorrow" class="custom-radio-field">
+                                                        id="tomorrow" class="custom-radio-field">
                                                     <span class="custom-radio-span"></span>
                                                 </div>
                                                 <label for="tomorrow" class="db-field-label text-sm text-heading">
@@ -123,19 +118,19 @@
                                 <div class="swiper-wrapper">
                                     <Carousel :settings="timeSettings" :breakpoints="timeBreakpoints">
                                         <slide v-for="todayTimeSlot in todayTimeSlots" :key="todayTimeSlot"
-                                               class="active-group">
+                                            class="active-group">
                                             <label
                                                 :class="todayTimeSlot.time === checkoutProps.form.delivery_time ? 'active' : ''"
                                                 :for="todayTimeSlot.label"
                                                 class="swiper-slide time-margin-right w-full db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC]">
                                                 <div class="custom-radio sm">
                                                     <input v-model="checkoutProps.form.delivery_time" type="radio"
-                                                           :id="todayTimeSlot.label" :value="todayTimeSlot.time"
-                                                           class="custom-radio-field">
+                                                        :id="todayTimeSlot.label" :value="todayTimeSlot.time"
+                                                        class="custom-radio-field">
                                                     <span class="custom-radio-span"></span>
                                                 </div>
                                                 <label :for="todayTimeSlot.label"
-                                                       class="db-field-label text-sm text-heading">
+                                                    class="db-field-label text-sm text-heading">
                                                     {{ todayTimeSlot.label }}
                                                 </label>
                                             </label>
@@ -148,19 +143,19 @@
                                 <div class="swiper-wrapper">
                                     <Carousel :settings="timeSettings" :breakpoints="timeBreakpoints">
                                         <slide v-for="tomorrowTimeSlot in tomorrowTimeSlots" :key="tomorrowTimeSlot"
-                                               class="active-group">
+                                            class="active-group">
                                             <label
                                                 :class="tomorrowTimeSlot.time === checkoutProps.form.delivery_time ? 'active' : ''"
                                                 :for="tomorrowTimeSlot.label"
                                                 class="swiper-slide time-margin-right w-full db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC]">
                                                 <div class="custom-radio sm">
                                                     <input v-model="checkoutProps.form.delivery_time" type="radio"
-                                                           :id="tomorrowTimeSlot.label" :value="tomorrowTimeSlot.time"
-                                                           class="custom-radio-field">
+                                                        :id="tomorrowTimeSlot.label" :value="tomorrowTimeSlot.time"
+                                                        class="custom-radio-field">
                                                     <span class="custom-radio-span"></span>
                                                 </div>
                                                 <label :for="tomorrowTimeSlot.label"
-                                                       class="db-field-label text-sm text-heading">
+                                                    class="db-field-label text-sm text-heading">
                                                     {{ tomorrowTimeSlot.label }}
                                                 </label>
                                             </label>
@@ -175,27 +170,25 @@
                     <div class="rounded-2xl shadow-xs bg-white">
                         <div class="p-4 border-b">
                             <h3 class="capitalize font-medium mb-3 text-center">{{
-                                    $t('label.cart_summary')
-                                }}</h3>
+                                $t('label.cart_summary')
+                            }}</h3>
                             <div class="flex items-center rounded-2xl w-fit mx-auto mb-6 text-[#008BBA] bg-[#BDEFFF]">
                                 <div v-if="setting.order_setup_delivery === activityEnum.ENABLE"
-                                     class="relative cursor-pointer">
+                                    class="relative cursor-pointer">
                                     <input @change="changeOrderType(orderTypeEnum.DELIVERY)" id="checkout-delivery"
-                                           :checked="orderType === orderTypeEnum.DELIVERY"
-                                           :value="orderTypeEnum.DELIVERY"
-                                           class="cart-switch w-full h-full absolute top-0 left-0 opacity-0 cursor-pointer"
-                                           type="radio">
+                                        :checked="orderType === orderTypeEnum.DELIVERY" :value="orderTypeEnum.DELIVERY"
+                                        class="cart-switch w-full h-full absolute top-0 left-0 opacity-0 cursor-pointer"
+                                        type="radio">
                                     <label
                                         class="py-1.5 px-3.5 rounded-2xl text-xs font-medium capitalize transition cursor-pointer"
                                         for="checkout-delivery">{{ $t('label.delivery') }}</label>
                                 </div>
                                 <div v-if="setting.order_setup_takeaway === activityEnum.ENABLE"
-                                     class="relative cursor-pointer">
+                                    class="relative cursor-pointer">
                                     <input @change="changeOrderType(orderTypeEnum.TAKEAWAY)" id="checkout-takeaway"
-                                           :checked="orderType === orderTypeEnum.TAKEAWAY"
-                                           :value="orderTypeEnum.TAKEAWAY"
-                                           class="cart-switch w-full h-full absolute top-0 left-0 opacity-0 cursor-pointer"
-                                           type="radio">
+                                        :checked="orderType === orderTypeEnum.TAKEAWAY" :value="orderTypeEnum.TAKEAWAY"
+                                        class="cart-switch w-full h-full absolute top-0 left-0 opacity-0 cursor-pointer"
+                                        type="radio">
                                     <label
                                         class="py-1.5 px-3.5 rounded-2xl text-xs font-medium capitalize transition cursor-pointer"
                                         for="checkout-takeaway">{{ $t('label.takeaway') }}</label>
@@ -203,19 +196,18 @@
                             </div>
                             <div class="pl-3">
                                 <div v-for="cart in carts"
-                                     class="mb-3 pb-3 border-b last:mb-0 last:pb-0 last:border-b-0 border-gray-2">
+                                    class="mb-3 pb-3 border-b last:mb-0 last:pb-0 last:border-b-0 border-gray-2">
                                     <div class="flex items-center gap-3 relative">
-                                        <h3 class="absolute top-5 -left-3 text-sm w-[26px] h-[26px] leading-[26px] text-center rounded-full text-white bg-heading">
+                                        <h3
+                                            class="absolute top-5 -left-3 text-sm w-[26px] h-[26px] leading-[26px] text-center rounded-full text-white bg-heading">
                                             {{ cart.quantity }}</h3>
-                                        <img :src="cart.image" alt="thumbnail"
-                                             class="w-16 h-16 rounded-lg flex-shrink-0">
+                                        <img :src="cart.image" alt="thumbnail" class="w-16 h-16 rounded-lg flex-shrink-0">
                                         <div class="w-full">
-                                            <span
-                                                class="text-sm font-medium capitalize transition text-heading">
+                                            <span class="text-sm font-medium capitalize transition text-heading">
                                                 {{ cart.name }}
                                             </span>
                                             <p v-if="Object.keys(cart.item_variations.variations).length !== 0"
-                                               class="capitalize text-xs mb-1.5">
+                                                class="capitalize text-xs mb-1.5">
                                                 <span v-for="(variation, variationName) in cart.item_variations.names">
                                                     {{ variationName }}: {{ variation }}, &nbsp;
                                                 </span>
@@ -253,7 +245,7 @@
                             </div>
                         </div>
                         <div class="p-4">
-                            <CouponComponent :props="{total: parseFloat(subtotal) }" :coupon="coupon"/>
+                            <CouponComponent :props="{ total: parseFloat(subtotal) }" :coupon="coupon" />
 
                             <div class="rounded-xl mb-6 border border-[#EFF0F6]">
                                 <ul class="flex flex-col gap-2 p-3 border-b border-dashed border-[#EFF0F6]">
@@ -263,7 +255,8 @@
                                         </span>
                                         <span class="text-sm leading-6 capitalize">
                                             {{
-                                                currencyFormat(subtotal, setting.site_digit_after_decimal_point, setting.site_default_currency_symbol, setting.site_currency_position)
+                                                currencyFormat(subtotal, setting.site_digit_after_decimal_point,
+                                                    setting.site_default_currency_symbol, setting.site_currency_position)
                                             }}
                                         </span>
                                     </li>
@@ -273,7 +266,9 @@
                                         </span>
                                         <span class="text-sm leading-6 capitalize">
                                             {{
-                                                currencyFormat(checkoutProps.form.discount, setting.site_digit_after_decimal_point, setting.site_default_currency_symbol, setting.site_currency_position)
+                                                currencyFormat(checkoutProps.form.discount,
+                                                    setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
+                                                    setting.site_currency_position)
                                             }}
                                         </span>
                                     </li>
@@ -284,7 +279,9 @@
                                         </span>
                                         <span class="text-sm leading-6 capitalize font-medium text-[#1AB759]">
                                             {{
-                                                currencyFormat(checkoutProps.form.delivery_charge, setting.site_digit_after_decimal_point, setting.site_default_currency_symbol, setting.site_currency_position)
+                                                currencyFormat(checkoutProps.form.delivery_charge,
+                                                    setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
+                                                    setting.site_currency_position)
                                             }}
                                         </span>
                                     </li>
@@ -303,8 +300,7 @@
                                     </h5>
                                 </div>
                             </div>
-                            <button v-if="placeOrderShow"
-                                type="button"
+                            <button v-if="placeOrderShow" type="button"
                                 class="w-full rounded-3xl capitalize font-medium leading-6 py-3 text-white bg-primary"
                                 @click="orderSubmit">
                                 {{ $t('button.place_order') }}
@@ -323,7 +319,7 @@ import MapComponent from "../components/MapComponent";
 import dayTakeEnum from "../../../enums/modules/dayTakeEnum";
 import isAdvanceOrderEnum from "../../../enums/modules/isAdvanceOrderEnum";
 import sourceEnum from "../../../enums/modules/sourceEnum";
-import {Carousel, Navigation, Pagination, Slide} from "vue3-carousel";
+import { Carousel, Navigation, Pagination, Slide } from "vue3-carousel";
 import AddressComponent from "./AddressComponent";
 import LoadingComponent from "../components/LoadingComponent";
 import labelEnum from "../../../enums/modules/labelEnum";
@@ -547,7 +543,7 @@ export default {
 
         this.$store.dispatch("frontendSetting/lists").then(res => {
             if ((res.data.data.order_setup_delivery === activityEnum.DISABLE && res.data.data.order_setup_takeaway === activityEnum.DISABLE) || this.$store.getters['frontendCart/lists'].length === 0) {
-                this.$router.push({name: 'frontend.home'});
+                this.$router.push({ name: 'frontend.home' });
             }
         }).catch();
 
@@ -673,19 +669,42 @@ export default {
             this.localAddress = address;
             this.deliveryChargeCalculation();
         },
+        // deliveryChargeCalculation: function () {
+        //     if (this.checkoutProps.form.order_type === orderTypeEnum.DELIVERY) {
+        //         if ((typeof this.localAddress.latitude !== 'undefined' && this.localAddress.latitude !== '') && (typeof this.localAddress.longitude !== 'undefined' && this.localAddress.longitude !== '') && (typeof this.location.lat !== 'undefined' && this.location.lat !== '') && (typeof this.location.lng !== 'undefined' && this.location.lng !== '')) {
+        //             const distance = appService.distance(parseFloat(this.localAddress.latitude), parseFloat(this.localAddress.longitude), parseFloat(this.location.lat), parseFloat(this.location.lng));
+        //             if (distance > this.setting.order_setup_free_delivery_kilometer) {
+        //                 let extraDistance = distance - parseFloat(this.setting.order_setup_free_delivery_kilometer);
+        //                 this.checkoutProps.form.delivery_charge = (extraDistance * parseFloat(this.setting.order_setup_charge_per_kilo) + parseFloat(this.setting.order_setup_basic_delivery_charge));
+        //             } else {
+        //                 this.checkoutProps.form.delivery_charge = parseFloat(this.setting.order_setup_basic_delivery_charge);
+        //             }
+        //         }
+        //     }
+        // },
         deliveryChargeCalculation: function () {
             if (this.checkoutProps.form.order_type === orderTypeEnum.DELIVERY) {
                 if ((typeof this.localAddress.latitude !== 'undefined' && this.localAddress.latitude !== '') && (typeof this.localAddress.longitude !== 'undefined' && this.localAddress.longitude !== '') && (typeof this.location.lat !== 'undefined' && this.location.lat !== '') && (typeof this.location.lng !== 'undefined' && this.location.lng !== '')) {
                     const distance = appService.distance(parseFloat(this.localAddress.latitude), parseFloat(this.localAddress.longitude), parseFloat(this.location.lat), parseFloat(this.location.lng));
-                    if (distance > this.setting.order_setup_free_delivery_kilometer) {
-                        let extraDistance = distance - parseFloat(this.setting.order_setup_free_delivery_kilometer);
-                        this.checkoutProps.form.delivery_charge = (extraDistance * parseFloat(this.setting.order_setup_charge_per_kilo) + parseFloat(this.setting.order_setup_basic_delivery_charge));
+
+                    // Custom calculation based on your rate system
+                    let deliveryCharge;
+                    if (distance <= 1) {
+                        deliveryCharge = 1000; // 1K
+                    } else if (distance <= 2) {
+                        deliveryCharge = 2000; // 2K
+                    } else if (distance <= 3) {
+                        deliveryCharge = 3500; // 3,500 Shs
                     } else {
-                        this.checkoutProps.form.delivery_charge = parseFloat(this.setting.order_setup_basic_delivery_charge);
+                        // Add your formula for distances > 3 KM if necessary
+                        deliveryCharge = 3500 + ((distance - 3) * 1000); // Assuming it's 1K for each additional KM
                     }
+
+                    this.checkoutProps.form.delivery_charge = deliveryCharge;
                 }
             }
         },
+
         coupon: function (e) {
             if (Object.keys(e).length !== 0) {
                 this.checkoutProps.form.discount = e.convert_discount;
@@ -775,7 +794,7 @@ export default {
 
                 this.$store.dispatch('frontendCart/resetCart').then(res => {
                     this.loading.isActive = false;
-                    router.push({name: "frontend.myOrder", query: {id: orderResponse.data.data.id}});
+                    router.push({ name: "frontend.myOrder", query: { id: orderResponse.data.data.id } });
                 }).catch();
             }).catch((err) => {
                 this.loading.isActive = false;

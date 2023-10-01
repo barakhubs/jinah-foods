@@ -203,12 +203,19 @@ class DashboardService
     public function totalCustomers()
     {
         try {
-            return User::role(EnumRole::CUSTOMER)->count();
+            // Check if the user is an admin
+            if (Auth::user()->hasRole(EnumRole::ADMIN)) {
+                return User::role(EnumRole::CUSTOMER)->count();
+            } else {
+                // Return "N.A" for non-admins
+                return "N.A";
+            }
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
     }
+
 
     public function totalMenuItems()
     {
