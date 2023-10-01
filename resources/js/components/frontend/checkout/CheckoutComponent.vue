@@ -709,15 +709,18 @@ export default {
                         parseFloat(this.location.lng)
                     );
                     console.log(`Distance: ${distance} km`);
-                    let deliveryCharge = 0;
-                    // Now that we have the distance, we can calculate the delivery charge
-                    if (distance <= 5) { // <= 5 km
-                        deliveryCharge = 1000; // example charge
-                    } else if (distance <= 10) { // <= 10 km
-                        deliveryCharge = 2000; // example charge
+                    let deliveryCharge;
+                    if (distance <= 1) {
+                        deliveryCharge = 1000; // 1K
+                    } else if (distance <= 2) {
+                        deliveryCharge = 2000; // 2K
+                    } else if (distance <= 3) {
+                        deliveryCharge = 3500; // 3,500 Shs
                     } else {
-                        deliveryCharge = 3000 + (distance - 10) * 100; // example charge
+                        // Add your formula for distances > 3 KM if necessary
+                        deliveryCharge = 3500 + ((distance - 3) * 1000); // Assuming it's 1K for each additional KM
                     }
+
                     this.checkoutProps.form.delivery_charge = deliveryCharge;
                 }
             }
