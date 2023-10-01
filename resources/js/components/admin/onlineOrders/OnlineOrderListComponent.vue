@@ -130,6 +130,16 @@
                                 <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                                     <SmIconViewComponent :link="'admin.order.show'" :id="order.id"
                                         v-if="permissionChecker('online-orders')" />
+                                        <button title="accept" v-if="order.status == 1" type="button" @click="changeStatus(order.id, enums.orderStatusEnum.ACCEPT)"
+                                            class="db-table-action edit">
+                                            <i class="lab lab-save"></i>
+                                            <span class="db-tooltip">Accept</span>
+                                        </button>
+                                        <OnlineOrderReasonComponent
+                                            v-if="order.status == 1"
+                                            :id="order.id"
+                                            @orderUpdated="reloadOrderList"
+                                        />
                                 </div>
                             </td>
                         </tr>
@@ -163,6 +173,7 @@ import FilterComponent from "../components/buttons/collapse/FilterComponent";
 import ExportComponent from "../components/buttons/export/ExportComponent";
 import PrintComponent from "../components/buttons/export/PrintComponent";
 import ExcelComponent from "../components/buttons/export/ExcelComponent";
+import OnlineOrderReasonComponent from "./OnlineOrderReasonComponent";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { ref } from 'vue';
@@ -184,6 +195,7 @@ export default {
         ExportComponent,
         PrintComponent,
         ExcelComponent,
+        OnlineOrderReasonComponent,
         Datepicker
     },
     setup() {
@@ -257,14 +269,6 @@ export default {
                 }
             }
         }
-    },
-    mounted() {
-        this.list();
-        this.$store.dispatch('user/lists', {
-            order_column: 'id',
-            order_type: 'asc',
-            status: statusEnum.ACTIVE
-        });
     },
     computed: {
         orders: function () {
@@ -344,7 +348,50 @@ export default {
                 alertService.error(err.response.data.message);
             });
         },
-    }
+        changeStatus: function (orderId, status) { // Note the new orderId parameter
+            appService.acceptOrder().then((res) => {
+                try {
+                    this.loading.isActive = true;
+                    this.$store.dispatch("onlineOrder/changeStatus", {
+                        id: orderId,  // Using the orderId parameter
+                        status: status,
+                    }).then((res) => {
+                        this.order_status = res.data.data.status;
+                        this.loading.isActive = false;
+                        alertService.successFlip(
+                            1,
+                            this.$t("label.status")
+                        );
+                        this.list();
+                    }).catch((err) => {
+                        this.loading.isActive = false;
+                        alertService.error(err.response.data.message);
+                    });
+                } catch (err) {
+                    this.loading.isActive = false;
+                    alertService.error(err.response.data.message);
+                }
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
+        // Handle the event to reload the list
+        fetchOrders: function() {
+            this.list();
+        },
+        reloadOrderList() {
+            this.fetchOrders();
+        },
+    },
+
+    mounted() {
+        this.list();
+        this.$store.dispatch('user/lists', {
+            order_column: 'id',
+            order_type: 'asc',
+            status: statusEnum.ACTIVE
+        });
+    },
 }
 </script>
 

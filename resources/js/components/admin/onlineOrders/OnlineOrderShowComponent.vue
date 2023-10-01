@@ -446,27 +446,27 @@ export default {
                 alertService.error(err.response.data.message);
             }
         },
-        orderStatus: function (e) {
-            try {
-                this.loading.isActive = true;
-                this.$store.dispatch("onlineOrder/changeStatus", {
-                    id: this.$route.params.id,
-                    status: e.target.value,
-                }).then((res) => {
-                    this.loading.isActive = false;
-                    alertService.successFlip(
-                        1,
-                        this.$t("label.status")
-                    );
-                }).catch((err) => {
-                    this.loading.isActive = false;
-                    alertService.error(err.response.data.message);
-                });
-            } catch (err) {
-                this.loading.isActive = false;
-                alertService.error(err.response.data.message);
-            }
-        },
+        // orderStatus: function (e) {
+        //     try {
+        //         this.loading.isActive = true;
+        //         this.$store.dispatch("onlineOrder/changeStatus", {
+        //             id: this.$route.params.id,
+        //             status: e.target.value,
+        //         }).then((res) => {
+        //             this.loading.isActive = false;
+        //             alertService.successFlip(
+        //                 1,
+        //                 this.$t("label.status")
+        //             );
+        //         }).catch((err) => {
+        //             this.loading.isActive = false;
+        //             alertService.error(err.response.data.message);
+        //         });
+        //     } catch (err) {
+        //         this.loading.isActive = false;
+        //         alertService.error(err.response.data.message);
+        //     }
+        // },
     }
 
 }
