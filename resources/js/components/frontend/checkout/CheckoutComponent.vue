@@ -214,8 +214,7 @@
                                             </p>
                                             <h4 class="text-xs font-semibold">
                                                 {{
-                                                    currencyFormat(cart.total, setting.site_digit_after_decimal_point,
-                                                        setting.site_default_currency_symbol, setting.site_currency_position)
+                                                        formatCurrency(cart.total)
                                                 }}
                                             </h4>
                                         </div>
@@ -255,8 +254,7 @@
                                         </span>
                                         <span class="text-sm leading-6 capitalize">
                                             {{
-                                                currencyFormat(subtotal, setting.site_digit_after_decimal_point,
-                                                    setting.site_default_currency_symbol, setting.site_currency_position)
+                                                    formatCurrency(subtotal)
                                             }}
                                         </span>
                                     </li>
@@ -266,9 +264,7 @@
                                         </span>
                                         <span class="text-sm leading-6 capitalize">
                                             {{
-                                                currencyFormat(checkoutProps.form.discount,
-                                                    setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
-                                                    setting.site_currency_position)
+                                                    formatCurrency(checkoutProps.form.discount)
                                             }}
                                         </span>
                                     </li>
@@ -279,9 +275,7 @@
                                         </span>
                                         <span class="text-sm leading-6 capitalize font-medium text-[#1AB759]">
                                             {{
-                                                currencyFormat(checkoutProps.form.delivery_charge,
-                                                    setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
-                                                    setting.site_currency_position)
+                                                    formatCurrency(checkoutProps.form.delivery_charge)
                                             }}
                                         </span>
                                     </li>
@@ -292,10 +286,9 @@
                                     </h4>
                                     <h5 class="text-sm leading-6 font-semibold capitalize">
                                         {{
-                                            currencyFormat(subtotal +
-                                                checkoutProps.form.delivery_charge - checkoutProps.form.discount,
-                                                setting.site_digit_after_decimal_point, setting.site_default_currency_symbol,
-                                                setting.site_currency_position)
+
+                                                formatCurrency(subtotal +
+                                                checkoutProps.form.delivery_charge - checkoutProps.form.discount)
                                         }}
                                     </h5>
                                 </div>
@@ -606,6 +599,10 @@ export default {
         },
         currencyFormat: function (amount, decimal, currency, position) {
             return appService.currencyFormat(amount, decimal, currency, position);
+        },
+
+        formatCurrency(value) {
+            return `UGX ${value.toLocaleString()}`;
         },
         editAddress: function () {
             if (typeof this.localAddress === "object" && this.checkoutProps.form.address_id !== null) {
