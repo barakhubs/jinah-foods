@@ -682,22 +682,42 @@ export default {
         //         }
         //     }
         // },
+        calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius of the earth in km
+            const dLat = this.deg2rad(lat2 - lat1);
+            const dLon = this.deg2rad(lon2 - lon1);
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const d = R * c; // Distance in km
+            return d;
+        },
+
+        deg2rad(deg) {
+            return deg * (Math.PI / 180);
+        },
+
+
         deliveryChargeCalculation: function () {
             if (this.checkoutProps.form.order_type === orderTypeEnum.DELIVERY) {
-                if ((typeof this.localAddress.latitude !== 'undefined' && this.localAddress.latitude !== '') && (typeof this.localAddress.longitude !== 'undefined' && this.localAddress.longitude !== '') && (typeof this.location.lat !== 'undefined' && this.location.lat !== '') && (typeof this.location.lng !== 'undefined' && this.location.lng !== '')) {
-                    const distance = appService.distance(parseFloat(this.localAddress.latitude), parseFloat(this.localAddress.longitude), parseFloat(this.location.lat), parseFloat(this.location.lng));
+                if (this.localAddress.latitude && this.localAddress.longitude && this.location.lat && this.location.lng) {
+                    const distance = this.calculateDistance(
+                        parseFloat(this.localAddress.latitude),
+                        parseFloat(this.localAddress.longitude),
+                        parseFloat(this.location.lat),
+                        parseFloat(this.location.lng)
+                    );
 
-                    // Custom calculation based on your rate system
-                    let deliveryCharge;
-                    if (distance <= 1) {
-                        deliveryCharge = 1000; // 1K
-                    } else if (distance <= 2) {
-                        deliveryCharge = 2000; // 2K
-                    } else if (distance <= 3) {
-                        deliveryCharge = 3500; // 3,500 Shs
+                    let deliveryCharge = 0;
+                    // Now that we have the distance, we can calculate the delivery charge
+                    if (distance <= 5) { // <= 5 km
+                        deliveryCharge = 1000; // example charge
+                    } else if (distance <= 10) { // <= 10 km
+                        deliveryCharge = 2000; // example charge
                     } else {
-                        // Add your formula for distances > 3 KM if necessary
-                        deliveryCharge = 3500 + ((distance - 3) * 1000); // Assuming it's 1K for each additional KM
+                        deliveryCharge = 3000 + (distance - 10) * 100; // example charge
                     }
 
                     this.checkoutProps.form.delivery_charge = deliveryCharge;
