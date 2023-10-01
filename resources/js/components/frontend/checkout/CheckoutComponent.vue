@@ -699,19 +699,16 @@ export default {
             return deg * (Math.PI / 180);
         },
 
-
         deliveryChargeCalculation: function () {
             if (this.checkoutProps.form.order_type === orderTypeEnum.DELIVERY) {
                 if (this.localAddress.latitude && this.localAddress.longitude && this.location.lat && this.location.lng) {
-                    // const distance = this.calculateDistance(
-                    //     parseFloat(this.localAddress.latitude),
-                    //     parseFloat(this.localAddress.longitude),
-                    //     parseFloat(this.location.lat),
-                    //     parseFloat(this.location.lng)
-                    // );
-
-                    const distance = calculateDistance(23.8042375, 90.3525979, 40.712776, -74.005974);
-                    console.log(`Distance: ${distance} km`);
+                    const distance = this.calculateDistance(
+                        parseFloat(this.localAddress.latitude),
+                        parseFloat(this.localAddress.longitude),
+                        parseFloat(this.location.lat),
+                        parseFloat(this.location.lng)
+                    );
+                    console.log(`Distance: 50 km`);
                     let deliveryCharge = 0;
                     // Now that we have the distance, we can calculate the delivery charge
                     if (distance <= 5) { // <= 5 km
@@ -721,11 +718,11 @@ export default {
                     } else {
                         deliveryCharge = 3000 + (distance - 10) * 100; // example charge
                     }
-
                     this.checkoutProps.form.delivery_charge = deliveryCharge;
                 }
             }
         },
+
 
         coupon: function (e) {
             if (Object.keys(e).length !== 0) {
