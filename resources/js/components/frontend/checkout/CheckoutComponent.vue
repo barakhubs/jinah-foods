@@ -715,7 +715,9 @@ export default {
                         deliveryCharge = 3500; // 3,500 Shs
                     } else {
                         // Add your formula for distances > 3 KM if necessary
-                        deliveryCharge = 3500 + ((distance - 3) * 1000); // Assuming it's 1K for each additional KM
+                        deliveryCharge = 3000 + Math.ceil((distance - 10) * 100);
+                        // Round up to the nearest hundred
+                        deliveryCharge = Math.ceil(deliveryCharge / 100) * 100;
                     }
 
                     this.checkoutProps.form.delivery_charge = deliveryCharge;
