@@ -130,7 +130,7 @@
                                                     <span class="custom-radio-span"></span>
                                                 </div>
                                                 <label :for="todayTimeSlot.label"
-                                                    class="db-field-label text-sm text-heading">
+                                                    class="db-field-label text-sm text-heading time-slot">
                                                     {{ todayTimeSlot.label }}
                                                 </label>
                                             </label>
@@ -140,27 +140,18 @@
                             </div>
 
                             <div v-else-if="dayTake === dayTakeEnum.TOMORROW" class="swiper time-swiper">
-                                <div class="swiper-wrapper">
-                                    <Carousel :settings="timeSettings" :breakpoints="timeBreakpoints">
-                                        <slide v-for="tomorrowTimeSlot in tomorrowTimeSlots" :key="tomorrowTimeSlot"
-                                            class="active-group">
-                                            <label
-                                                :class="tomorrowTimeSlot.time === checkoutProps.form.delivery_time ? 'active' : ''"
-                                                :for="tomorrowTimeSlot.label"
-                                                class="swiper-slide time-margin-right w-full db-field-radio px-2.5 py-2 rounded-lg border border-[#F7F7FC] bg-[#F7F7FC]">
-                                                <div class="custom-radio sm">
-                                                    <input v-model="checkoutProps.form.delivery_time" type="radio"
-                                                        :id="tomorrowTimeSlot.label" :value="tomorrowTimeSlot.time"
-                                                        class="custom-radio-field">
-                                                    <span class="custom-radio-span"></span>
-                                                </div>
-                                                <label :for="tomorrowTimeSlot.label"
-                                                    class="db-field-label text-sm text-heading">
-                                                    {{ tomorrowTimeSlot.label }}
-                                                </label>
-                                            </label>
-                                        </slide>
-                                    </Carousel>
+                                <div class="form-col-12 sm:form-col-6">
+                                    <label for="delivery_time" class="db-field-title required">Select Delivery Time</label>
+                                    <div class="vue-select direction-bottom db-field-control f-b-custom-select" tabindex="0">
+                                        <div class="vue-select-header">
+                                        <!-- Here, replace the complex dropdown with the simpler select -->
+                                        <select id="delivery_time" class="vue-input" v-model="checkoutProps.form.delivery_time">
+                                            <option v-for="tomorrowTimeSlot in tomorrowTimeSlots" :key="tomorrowTimeSlot" :value="tomorrowTimeSlot.time">
+                                            {{ tomorrowTimeSlot.label }}
+                                            </option>
+                                        </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

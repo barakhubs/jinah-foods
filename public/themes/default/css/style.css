@@ -5930,6 +5930,9 @@ input:checked + div svg {
   line-height: 1.25rem;
 }
 
+.time-slot {
+    font-size: 0.7rem !important;
+}
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
