@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-12 md:col-7">
                     <div class="p-4 mb-6 rounded-2xl shadow-xs bg-white">
-                        <h3 v-if="branches.length > 1" class="capitalize font-medium mb-2">{{
+                        <!-- <h3 v-if="branches.length > 1" class="capitalize font-medium mb-2">{{
                             $t('label.select_branch')
                         }}</h3>
                         <div v-if="branches.length > 1" class="swiper branch-swiper mb-4">
@@ -26,7 +26,7 @@
                                     </slide>
                                 </Carousel>
                             </nav>
-                        </div>
+                        </div> -->
 
                         <MapComponent :key="mapKey" v-if="mapShow" :location="location" :position="branchPosition"
                             :setting="{ autocomplete: false, mouseEvent: false, currentLocation: false }" />
@@ -689,14 +689,16 @@ export default {
 
         deliveryChargeCalculation: function () {
             if (this.checkoutProps.form.order_type === orderTypeEnum.DELIVERY) {
-                if (this.localAddress.latitude && this.localAddress.longitude && this.location.lat && this.location.lng) {
-                    const distance = this.calculateDistance(
+                if (this.localAddress.latitude && this.localAddress.longitude) {
+                    let distance = this.calculateDistance(
+                        3.020505748699635,
+                        30.91136695179617,
                         parseFloat(this.localAddress.latitude),
-                        parseFloat(this.localAddress.longitude),
-                        parseFloat(this.location.lat),
-                        parseFloat(this.location.lng)
+                        parseFloat(this.localAddress.longitude)
                     );
+                    distance = Math.round(distance);  // Round off to the nearest kilometer
                     console.log(`Distance: ${distance} km`);
+
                     let deliveryCharge;
                     if (distance <= 1) {
                         deliveryCharge = 1000; // 1K
@@ -706,14 +708,7 @@ export default {
                         deliveryCharge = 3500; // 3,500 Shs
                     } else {
                         // Add your formula for distances > 3 KM if necessary
-                        deliveryCharge = 3500 + ((distance - 3) * 1000); // Assuming it's 1K for each additional KM
-                        // console.log("Additional Charge: ", additionalCharge);
-                        // deliveryCharge = 3500 + additionalCharge;
-                        // console.log("Delivery Charge before rounding: ", deliveryCharge);
-                        // // Round up to the nearest hundred
-                        // deliveryCharge = Math.ceil(deliveryCharge / 100) * 100;
-                        // console.log("Delivery Charge after rounding: ", deliveryCharge);
-
+                        deliveryCharge = 3500 + ((distance - 3) * 1000); // Assuming it's 1K for each additional K
                     }
 
                     this.checkoutProps.form.delivery_charge = deliveryCharge;
