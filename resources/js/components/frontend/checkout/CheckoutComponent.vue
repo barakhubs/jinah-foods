@@ -76,7 +76,7 @@
                             </div>
                         </div>
 
-                        <div>
+                        <!-- <div>
                             <h4 class="font-medium mb-2.5">{{ $t('label.preferred_time') }}</h4>
 
                             <div class="swiper day-swiper mb-3">
@@ -144,7 +144,7 @@
                                     <label for="delivery_time" class="db-field-title required">Select Delivery Time</label>
                                     <div class="vue-select direction-bottom db-field-control f-b-custom-select" tabindex="0">
                                         <div class="vue-select-header">
-                                        <!-- Here, replace the complex dropdown with the simpler select -->
+                                         Here, replace the complex dropdown with the simpler select 
                                         <select id="delivery_time" class="vue-input" v-model="checkoutProps.form.delivery_time">
                                             <option v-for="tomorrowTimeSlot in tomorrowTimeSlots" :key="tomorrowTimeSlot" :value="tomorrowTimeSlot.time">
                                             {{ tomorrowTimeSlot.label }}
@@ -154,7 +154,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-12 md:col-5">
