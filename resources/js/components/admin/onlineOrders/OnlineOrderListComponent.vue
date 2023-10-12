@@ -111,8 +111,8 @@
                             </td>
 
                             <td class="db-table-body-td">
-                                {{ textShortener(order.customer.name, 20) }}
-                                {{ order.customer.phone }}
+                                {{ textShortener(order.customer.name, 20) }}<br>
+                                +256 {{ order.customer.phone }}
                             </td>
                             <td class="db-table-body-td">{{ order.total_amount_price }}</td>
                             <td class="db-table-body-td">
