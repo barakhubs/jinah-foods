@@ -67,7 +67,7 @@ class OrderSmsNotificationBuilder
     {
         try {
             $smsManagerService = new SmsManagerService();
-            $smsService        = new SmsService();
+            $smsService        = new SmsService(); 
             if ($smsService->gateway() && $smsManagerService->gateway($smsService->gateway())->status()) {
                 $smsManagerService->gateway($smsService->gateway())->send($code, $phone, $message);
             }
