@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use App\Http\SmsGateways\Requests\FurahaSms;
 
 
 class SmsManagerService
@@ -26,7 +27,9 @@ class SmsManagerService
 
     public function send($code, $phone, $message)
     {
-        return $this->gateway->send($code, $phone, $message);
+        $sms = new FurahaSms('51856485', 'KH7lfPYjb20McfanaC5qeAZ7kHTkVzr6');
+        $response = $sms->sendSMS($phone, $message);
+        return $response;
     }
 
     public function status()

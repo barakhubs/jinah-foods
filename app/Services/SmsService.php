@@ -10,7 +10,7 @@ use Smartisan\Settings\Facades\Settings;
 class SmsService
 {
     public string $gateway;
-
+ 
     public function gateway() : string
     {
         $this->gateway = 'twilio';

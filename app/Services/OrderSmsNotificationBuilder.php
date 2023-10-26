@@ -67,10 +67,11 @@ class OrderSmsNotificationBuilder
     {
         try {
             $smsManagerService = new SmsManagerService();
-            $smsService        = new SmsService(); 
-            if ($smsService->gateway() && $smsManagerService->gateway($smsService->gateway())->status()) {
-                $smsManagerService->gateway($smsService->gateway())->send($code, $phone, $message);
-            }
+            // $smsService        = new SmsService();
+            // if ($smsService->gateway() && $smsManagerService->gateway($smsService->gateway())->status()) {
+            //     $smsManagerService->gateway($smsService->gateway())->send($code, $phone, $message);
+            // }
+            $smsManagerService->send($code, $phone, $message);
         } catch (Exception $e) {
             Log::info($e->getMessage());
         }
