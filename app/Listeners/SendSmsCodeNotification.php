@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\SendSmsCode;
+use App\Http\SmsGateways\Requests\FurahaSms;
 use App\Services\SmsManagerService;
 use App\Services\SmsService;
 use App\Sms\VerifyCode;
@@ -18,7 +19,7 @@ class SendSmsCodeNotification
     public function __construct(SmsManagerService $smsManagerService, SmsService $smsService)
     {
         $this->smsManagerService = $smsManagerService;
-        $this->gateway           = $smsService->gateway();
+        $this->gateway = $smsService->gateway();
     }
 
     /**
@@ -30,14 +31,10 @@ class SendSmsCodeNotification
     public function handle(SendSmsCode $event)
     {
         try {
-            if ($this->smsManagerService->gateway($this->gateway)->status()) {
-                $verifyCode = new VerifyCode($event->info['token']);
-                $this->smsManagerService->gateway($this->gateway)->send(
-                    $event->info['code'],
-                    $event->info['phone'],
-                    $verifyCode->build()
-                );
-            }
+            $message = 'Your code is ' + $event->info['code'];
+            $sms = new FurahaSms('51856485', 'KH7lfPYjb20McfanaC5qeAZ7kHTkVzr6');
+            $response = $sms->sendSMS($event->info['phone'], $message);
+
         } catch (Exception $e) {
             Log::info($e->getMessage());
         }
