@@ -31,9 +31,9 @@ class SendSmsCodeNotification
     public function handle(SendSmsCode $event)
     {
         try {
-            $message = 'Your code is ' + $event->info['code'];
+            $message = 'Your code is ' . $event->info['code'];
             $sms = new FurahaSms('51856485', 'KH7lfPYjb20McfanaC5qeAZ7kHTkVzr6');
-            $response = $sms->sendSMS($event->info['phone'], $message);
+            $sms->sendSMS($event->info['phone'], $message);
 
         } catch (Exception $e) {
             Log::info($e->getMessage());
