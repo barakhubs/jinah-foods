@@ -156,7 +156,7 @@ class PushNotificationService
 
         $client  = new Client();
         $headers = [
-            'Authorization' => "key=" . env('FCM_SECRET_KEY'),
+            'Authorization' => "key=AAAAMU-0L4Q:APA91bFK8UfzChc-kBRdV6nQo7kCeQcsFF5u4wREBJDVDDW1C9hw1Jly73X0wi-d1rkLCwMi7q1DtoqByCuuj6dmZs164fVmj4vzXEA4s2s1jdMqPT0b---kWtGxWTMD0yHA3eqnWtkA",
             'Content-Type'  => 'application/json',
         ];
 
