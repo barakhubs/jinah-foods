@@ -12,11 +12,24 @@ class FirebaseService
     public function sendNotification($data, $fcmToken, $topicName) : Exception | string
     {
         $final = [
-            'to' => 'ez3NmtCcQDSnvMSmGj4IuV:APA91bEJUcm8E2WVllnWa8Dz4KJjbkJ1Yz21Vd2RKMvbPRlkETTt-PWsYuLJi86tT0pATHAB1xr3_YEvqwpT7Wj7MeDEzfCn3Hv_2Cw_S0_StWn3nScrnFqCn7PDkvG71KOXa2xhgPi6',
-            'notification' => [
-                'title' => 'Testing notifications',
-                'body' => 'This is a test notification body'
+            'registration_ids' => $fcmToken,
+            'priority'         => 'high',
+            'notification'     => [
+                'title'     => $data->title,
+                'body'      => $data->description,
+                'sound'     => 'default',
+                'image'     => $data->image ?? null,
+                'topicName' => $topicName,
+                'order_id'  => $data->order_id ?? null,
             ],
+            'data'             => [
+                'title'     => $data->title,
+                'body'      => $data->description,
+                'sound'     => 'default',
+                'image'     => $data->image ?? null,
+                'topicName' => $topicName,
+                'order_id'  => $data->order_id ?? null,
+            ]
         ];
 
         $url = 'https://fcm.googleapis.com/fcm/send';
