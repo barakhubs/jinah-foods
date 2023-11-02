@@ -32,7 +32,13 @@ class SignupRequest extends FormRequest
             'email'        => ['nullable', 'string', 'email', 'max:255', Rule::unique("users", "email")->whereNull('deleted_at')->where('is_guest', Ask::NO)],
             'phone'        => ['required', 'numeric', Rule::unique("users", "phone")->whereNull('deleted_at')->where('is_guest', Ask::NO)],
             'country_code' => ['required', 'numeric'],
-            'password'     => ['required', 'string', 'min:6'],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^a-zA-Z\d]).+$/',
+                'confirmed',
+            ],
         ];
     }
 }
