@@ -115,7 +115,7 @@ class FrontendOrderService
                         $taxRate   = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
                         $taxType   = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
                         $taxPrice  = $taxType === TaxType::FIXED ? $taxRate : ($item->total_price * $taxRate) / 100;
-                        $branch = Item::find($item->item_id)->branch;
+                        $branch = Item::find($item->item_id)->pluck('branch_id')->first();
                         $itemsArray[$i] = [
                             'order_id'             => $this->frontendOrder->id,
                             'branch_id'            => $branch,
