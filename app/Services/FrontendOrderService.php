@@ -136,6 +136,8 @@ class FrontendOrderService
                         ];
                         $totalTax = $totalTax + ($taxPrice * $item->quantity);
                         $i++;
+
+                        $this->frontendOrder->branch_id = $branch;
                     }
                 }
 
