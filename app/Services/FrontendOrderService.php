@@ -117,7 +117,7 @@ class FrontendOrderService
                         $taxPrice  = $taxType === TaxType::FIXED ? $taxRate : ($item->total_price * $taxRate) / 100;
                         $itemsArray[$i] = [
                             'order_id'             => $this->frontendOrder->id,
-                            'branch_id'            => $item->branch_id,
+                            'branch_id'            => 4,
                             'item_id'              => $item->item_id,
                             'quantity'             => $item->quantity,
                             'discount'             => (float)$item->discount,
