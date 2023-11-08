@@ -145,7 +145,6 @@ class FrontendOrderService
 
                 $this->frontendOrder->order_serial_no = date('dmy') . $this->frontendOrder->id;
                 $this->frontendOrder->total_tax = $totalTax;
-                $this->frontendOrder->branch_id = 4;
                 $this->frontendOrder->save();
 
                 if ($request->address_id) {
