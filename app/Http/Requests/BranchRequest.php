@@ -41,7 +41,7 @@ class BranchRequest extends FormRequest
             'zip_code'  => ['required', 'numeric', 'digits_between:0,190'],
             'address'   => ['required', 'string', 'max:500'],
             'status'    => ['required', 'numeric', 'max:24'],
-            'time_to_prepare' => ['required', 'numeric', 'max:3'], // New column
+            'time_to_prepare' => ['required', 'numeric'], // New column
         ];
     }
 }

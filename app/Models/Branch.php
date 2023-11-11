@@ -26,7 +26,7 @@ class Branch extends Model implements HasMedia
         'zip_code'  => 'string',
         'address'   => 'string',
         'status'    => 'integer',
-        'time_to_prepare' => 'time_to_prepare',
+        'time_to_prepare' => 'string',
     ];
 
     public function getThumbAttribute(): string
