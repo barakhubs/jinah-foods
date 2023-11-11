@@ -29,6 +29,7 @@ class NormalItemResource extends JsonResource
             "price"          => $this->price,
             "item_type"      => $this->item_type,
             "status"         => $this->status,
+            "branch"         => $this->branch_id,
             "description"    => $this->description === null ? '' : $this->description,
             "caution"        => $this->caution === null ? '' : $this->caution,
             "thumb"          => $this->thumb,

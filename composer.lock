@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8613bd3a185f42844bee1dcff6442c81",
+    "content-hash": "7bf95eb87850feb6127a16f02be26a2f",
     "packages": [
         {
             "name": "anandsiddharth/laravel-paytm-wallet",
@@ -8675,6 +8675,56 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "yo-uganda/yopaymentsphp",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YO-Uganda/YoPaymentsPHP.git",
+                "reference": "77d25047d3b069c50658fc572172217c65e74a05"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YO-Uganda/YoPaymentsPHP/zipball/77d25047d3b069c50658fc572172217c65e74a05",
+                "reference": "77d25047d3b069c50658fc572172217c65e74a05",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "YoAPI.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aziz Kirumira",
+                    "email": "akirumira@yo.co.ug"
+                },
+                {
+                    "name": "Gerald Begumisa",
+                    "email": "gbegumisa@yo.co.ug"
+                }
+            ],
+            "description": "A PHP Library to interact with the Yo! Payments API.",
+            "keywords": [
+                "YoPayments",
+                "composer",
+                "mobile money",
+                "package"
+            ],
+            "support": {
+                "issues": "https://github.com/YO-Uganda/YoPaymentsPHP/issues",
+                "source": "https://github.com/YO-Uganda/YoPaymentsPHP/tree/1.0.0"
+            },
+            "time": "2017-08-25T12:51:25+00:00"
         }
     ],
     "packages-dev": [
