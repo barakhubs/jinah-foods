@@ -108,6 +108,8 @@ class FrontendOrderService
                 $items        = Item::get()->pluck('tax_id', 'id');
                 $taxes        = AppLibrary::pluck(Tax::get(), 'obj', 'id');
 
+                $branch = 0;
+                
                 if (!blank($requestItems)) {
                     foreach ($requestItems as $item) {
                         $taxId     = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
@@ -115,10 +117,9 @@ class FrontendOrderService
                         $taxRate   = isset($taxes[$taxId]) ? $taxes[$taxId]->tax_rate : 0;
                         $taxType   = isset($taxes[$taxId]) ? $taxes[$taxId]->type : TaxType::FIXED;
                         $taxPrice  = $taxType === TaxType::FIXED ? $taxRate : ($item->total_price * $taxRate) / 100;
-                        $branch = Item::find($item->item_id)->pluck('branch_id')->first();
                         $itemsArray[$i] = [
                             'order_id'             => $this->frontendOrder->id,
-                            'branch_id'            => $branch,
+                            'branch_id'            => $item->branch_id,
                             'item_id'              => $item->item_id,
                             'quantity'             => $item->quantity,
                             'discount'             => (float)$item->discount,
@@ -137,7 +138,7 @@ class FrontendOrderService
                         $totalTax = $totalTax + ($taxPrice * $item->quantity);
                         $i++;
 
-                        $this->frontendOrder->branch_id = $branch;
+                        $branch = $item->branch_id;
                     }
                 }
 
@@ -147,6 +148,7 @@ class FrontendOrderService
 
                 $this->frontendOrder->order_serial_no = date('dmy') . $this->frontendOrder->id;
                 $this->frontendOrder->total_tax = $totalTax;
+                $this->frontendOrder->branch_id = $branch;
                 $this->frontendOrder->save();
 
                 if ($request->address_id) {
