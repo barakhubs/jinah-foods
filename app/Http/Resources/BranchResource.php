@@ -29,6 +29,7 @@ class BranchResource extends JsonResource
             "status"    => $this->status,
             'thumb'     => $this->thumb,
             'cover'     => $this->cover,
+            'time_to_prepare' => $this->time_to_prepare,
 
         ];
     }

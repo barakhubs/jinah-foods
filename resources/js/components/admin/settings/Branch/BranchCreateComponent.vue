@@ -94,6 +94,13 @@
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
+                            <label for="zip_code" class="db-field-title required">FOOD PREPARATION TIME ( IN MINUTE ) *</label>
+                            <input v-model="props.form.time_to_prepare" v-bind:class="errors.time_to_prepare ? 'invalid' : ''" type="number"
+                                id="zip_code" class="db-field-control" />
+                            <small class="db-field-alert" v-if="errors.time_to_prepare">{{ errors.time_to_prepare[0] }}</small>
+                        </div>
+
+                        <div class="form-col-12 sm:form-col-6">
                             <label class="db-field-title required" for="active">{{ $t("label.status") }}</label>
                             <div class="db-field-radio-group">
                                 <div class="db-field-radio">
@@ -230,6 +237,7 @@ export default {
                 state: "",
                 zip_code: "",
                 address: "",
+                time_to_prepare: "",
                 status: statusEnum.ACTIVE,
             };
             if (this.image) {
@@ -256,6 +264,7 @@ export default {
                 fd.append('zip_code', this.props.form.zip_code);
                 fd.append('address', this.props.form.address);
                 fd.append('status', this.props.form.status);
+                fd.append('time_to_prepare', this.props.form.time_to_prepare);
 
                 if (this.image) {
                     fd.append('image', this.image);
@@ -283,6 +292,7 @@ export default {
                         state: "",
                         zip_code: "",
                         address: "",
+                        time_to_prepare: "",
                         status: statusEnum.ACTIVE,
                     };
                     this.image = "";

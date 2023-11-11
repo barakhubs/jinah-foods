@@ -19,6 +19,9 @@
                         {{ $t("label.status") }}
                     </th>
                     <th class="db-table-head-th">
+                        TIME TO PREPARE
+                    </th>
+                    <th class="db-table-head-th">
                         {{ $t("label.action") }}
                     </th>
                 </tr>
@@ -35,6 +38,9 @@
                             <span :class="statusClass(branch.status)">
                                 {{ enums.statusEnumArray[branch.status] }}
                             </span>
+                    </td>
+                    <td class="db-table-body-td" v-else>
+                        {{ branch.time_to_prepare }}
                     </td>
                     <td class="db-table-body-td">
                         <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
@@ -107,6 +113,7 @@ export default {
                     state: "",
                     zip_code: "",
                     address: "",
+                    time_to_prepare: "",
                     status: statusEnum.ACTIVE,
                 },
                 search: {
@@ -175,6 +182,7 @@ export default {
                 zip_code: branch.zip_code,
                 address: branch.address,
                 status: branch.status,
+                time_to_prepare: branch.time_to_prepare,
             };
             this.loading.isActive = false;
         },

@@ -13,7 +13,7 @@ class Branch extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
     protected $table = "branches";
-    protected $fillable = ['name', 'email', 'phone', 'latitude', 'longitude', 'city', 'state', 'zip_code', 'address', 'status'];
+    protected $fillable = ['name', 'email', 'phone', 'latitude', 'longitude', 'city', 'state', 'zip_code', 'address', 'status', 'time_to_prepare'];
     protected $casts = [
         'id'        => 'integer',
         'name'      => 'string',
@@ -26,6 +26,7 @@ class Branch extends Model implements HasMedia
         'zip_code'  => 'string',
         'address'   => 'string',
         'status'    => 'integer',
+        'time_to_prepare' => 'time_to_prepare',
     ];
 
     public function getThumbAttribute(): string
@@ -51,7 +52,7 @@ class Branch extends Model implements HasMedia
         $this->addMediaConversion('thumb')->crop('crop-center', 112, 120)->keepOriginalImageFormat()->sharpen(10);
         $this->addMediaConversion('cover')->crop('crop-center', 260, 180)->keepOriginalImageFormat()->sharpen(10);
     }
-    
+
     public function items() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Item::class);
