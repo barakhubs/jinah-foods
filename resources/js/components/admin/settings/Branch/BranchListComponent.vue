@@ -39,7 +39,7 @@
                                 {{ enums.statusEnumArray[branch.status] }}
                             </span>
                     </td>
-                    <td class="db-table-body-td" v-else>
+                    <td class="db-table-body-td">
                         {{ branch.time_to_prepare }}
                     </td>
                     <td class="db-table-body-td">
