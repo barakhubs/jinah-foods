@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\PaymentGateways\Gateways;
+use YoAPI;
 class YoPayment
 {
     private $yoAPI;
