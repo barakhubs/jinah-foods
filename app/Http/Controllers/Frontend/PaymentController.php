@@ -15,6 +15,7 @@ use App\Services\PaymentManagerService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Smartisan\Settings\Facades\Settings;
+use App\Http\PaymentGateways\Gateways\YoPayment;
 
 class PaymentController extends Controller
 {
@@ -55,17 +56,26 @@ class PaymentController extends Controller
 
     public function payment(Order $order, PaymentRequest $request)
     {
-        if ($this->paymentManagerService->gateway($request->paymentMethod)->status()) {
-            $className = 'App\\Http\\PaymentGateways\\PaymentRequests\\' . ucfirst($request->paymentMethod);
-            $gateway   = new $className;
-            $request->validate($gateway->rules());
-            return $this->paymentManagerService->gateway($request->paymentMethod)->payment($order, $request);
+        // if ($this->paymentManagerService->gateway($request->paymentMethod)->status()) {
+        //     $className = 'App\\Http\\PaymentGateways\\PaymentRequests\\' . ucfirst($request->paymentMethod);
+        //     $gateway   = new $className;
+        //     $request->validate($gateway->rules());
+            // return $this->paymentManagerService->gateway($request->paymentMethod)->payment($order, $request);
+        // } else {
+        //     return redirect()->route('payment.index', ['order' => $order])->with(
+        //         'error',
+        //         trans('all.message.payment_gateway_disable')
+        //     );
+        // }
+
+
+        $pay = new YoPayment();
+        if($pay->initiatePayment()) {
+            return redirect()->route('payment.successful', ['order' => $order]);
         } else {
-            return redirect()->route('payment.index', ['order' => $order])->with(
-                'error',
-                trans('all.message.payment_gateway_disable')
-            );
+            return redirect()->route('payment.fail', ['order' => $order]);
         }
+        // $pay->checkTransaction('your_transaction_reference');
     }
 
     public function success(PaymentGateway $paymentGateway, Order $order, Request $request)

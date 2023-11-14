@@ -47,48 +47,31 @@
         <form id="paymentForm" method="POST" action="{{ route('payment.store', ['order' => $order]) }}">
             @csrf
             <fieldset class="payment-fieldset">
-                @if (!blank($paymentGateways))
-                    @foreach ($paymentGateways as $paymentGateway)
-                        @if (!$credit && $paymentGateway->slug === 'credit')
-                            @continue
-                        @endif
-                        <label class="payment-label" for="{{ $paymentGateway->slug }}">
-                            <input class="paymentMethod" id="{{ $paymentGateway->slug }}" type="radio"
-                                name="paymentMethod" value="{{ $paymentGateway->slug }}"
-                                @if (old('paymentMethod') == $paymentGateway->slug) checked @endif>
-                            <img src="{{ $paymentGateway->image }}" alt="payment">
-                            <span>{{ $paymentGateway->name }}</span>
-                            @if ($paymentGateway->slug === 'credit')
-                                <span>
-                                    {{ $creditAmount }}
-                                </span>
-                            @endif
-                        </label>
-                    @endforeach
-                @endif
+                <label class="payment-label" for="mobile_money">
+                    <input class="paymentMethod" id="mobile_money" type="radio" name="paymentMethod" value="mobile_money" checked>
+                    <img src="{{ asset('images/mobile-money.jpg') }}" alt="Mobile Money">
+                    <span>Mobile Money</span>
+                </label>
+
+                <label class="payment-label" for="cash_on_delivery">
+                    <input class="paymentMethod" id="cash_on_delivery" type="radio" name="paymentMethod" value="cash_on_delivery">
+                    <img src="{{ asset('images/cash_on_delivery.jpg') }}" alt="Cash on Delivery">
+                    <span>Cash on Delivery</span>
+                </label>
+{{--
+                <label class="payment-label" for="visa">
+                    <input class="paymentMethod" id="visa" type="radio" name="paymentMethod" value="visa">
+                    <img src="visa_image.png" alt="Visa">
+                    <span>Visa Payment</span>
+                </label> --}}
             </fieldset>
 
-            @if (!blank($paymentGateways))
-                @foreach ($paymentGateways as $paymentGateway)
-                    @if ($paymentGateway->misc !== null)
-                        @if (!blank(json_decode($paymentGateway->misc)))
-                            @if (!blank(json_decode($paymentGateway->misc)->input))
-                                @foreach (json_decode($paymentGateway->misc)->input as $input)
-                                    @include('paymentGateways.' . str_replace('.blade.php', '', $input))
-                                @endforeach
-                            @endif
-                        @endif
-                    @endif
-                @endforeach
-            @endif
+            <!-- ... (other payment related fields) ... -->
 
-            @if (!blank($paymentGateways))
-                <button type="submit"
-                    class="py-3 w-full rounded-3xl text-center text-base font-medium bg-primary text-white"
-                    id="confirmBtn">
-                    {{ __('all.label.confirm') }}
-                </button>
-            @endif
+            <button type="submit" class="py-3 w-full rounded-3xl text-center text-base font-medium bg-primary text-white"
+                id="confirmBtn">
+                {{ __('all.label.confirm') }}
+            </button>
 
             <div class="py-5 px-4 w-full max-w-3xl mx-auto flex flex-col items-center justify-center">
                 <a class="text-primary" href="{{ route('home') }}">{{ __('all.label.back_to_home') }}</a>
