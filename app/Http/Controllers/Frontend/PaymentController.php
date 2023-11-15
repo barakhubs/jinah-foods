@@ -71,21 +71,21 @@ class PaymentController extends Controller
 
         $pay = new YoPayment();
         if($pay->initiatePayment()) {
-            return redirect()->route('payment.successful', ['order' => $order]);
+            return redirect()->route('payment.successful', ['order' => $order])->with('success', trans('all.message.payment_successful'));
         } else {
             return redirect()->route('payment.fail', ['order' => $order]);
         }
         // $pay->checkTransaction('your_transaction_reference');
     }
 
-    public function success(PaymentGateway $paymentGateway, Order $order, Request $request)
+    public function success(Order $order, Request $request)
     {
-        return $this->paymentManagerService->gateway($paymentGateway->slug)->success($order, $request);
+        return redirect()->route('payment.successful', ['order' => $order]);
     }
 
-    public function fail(PaymentGateway $paymentGateway, Order $order, Request $request)
+    public function fail(Order $order, Request $request)
     {
-        return $this->paymentManagerService->gateway($paymentGateway->slug)->fail($order, $request);
+        return redirect()->route('payment.index', ['order' => $order])->with('error', trans('all.message.something_wrong'));
     }
 
     public function cancel(PaymentGateway $paymentGateway, Order $order, Request $request)

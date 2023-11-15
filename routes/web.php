@@ -37,8 +37,8 @@ Route::get('/', [RootController::class, 'index'])->middleware(['installed'])->na
 Route::prefix('payment')->name('payment.')->middleware(['installed'])->group(function () {
     Route::get('/{order}/pay', [PaymentController::class, 'index'])->name('index');
     Route::post('/{order}/pay', [PaymentController::class, 'payment'])->name('store');
-    Route::match(['get', 'post'], '/{paymentGateway:slug}/{order}/success', [PaymentController::class, 'success'])->name('success');
-    Route::match(['get', 'post'], '/{paymentGateway:slug}/{order}/fail', [PaymentController::class, 'fail'])->name('fail');
-    Route::match(['get', 'post'], '/{paymentGateway:slug}/{order}/cancel', [PaymentController::class, 'cancel'])->name('cancel');
+    Route::match(['get', 'post'], '/{order}/success', [PaymentController::class, 'success'])->name('success');
+    Route::match(['get', 'post'], '/{order}/fail', [PaymentController::class, 'fail'])->name('fail');
+    Route::match(['get', 'post'], '/{order}/cancel', [PaymentController::class, 'cancel'])->name('cancel');
     Route::get('/successful/{order}', [PaymentController::class, 'successful'])->name('successful');
 });
