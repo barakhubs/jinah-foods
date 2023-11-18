@@ -27,7 +27,7 @@ class SmsManagerService
 
     public function send($code, $phone, $message)
     {
-        $sms = new FurahaSms('51856485', 'KH7lfPYjb20McfanaC5qeAZ7kHTkVzr6');
+        $sms = new FurahaSms('85607206', 'LKrN8NomYKeA1kX4QVKbZk3UbCDUdEJl');
         $response = $sms->sendSMS($phone, $message);
         return $response;
     }

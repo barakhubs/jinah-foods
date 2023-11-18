@@ -51,16 +51,16 @@
                     class="px-4 inline-flex rounded-l-lg items-center min-w-fit rounded-l-md border border-e-0 border-gray-200 bg-gray-50 text-sm text-gray-500 dark:bg-gray-700 dark:border-gray-700 dark:text-gray-400">
                     (+256)
                 </span>
-                <input type="text"
-                    name="phone_number"
+                <input type="text" name="phone_number"
                     class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm rounded-r-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                    placeholder="77000000"
-                    value="{{ old('phone_number') }}" />
+                    placeholder="77000000" value="{{ old('phone_number') }}" />
             </div>
 
             <button type="submit"
-                class="py-3 w-full rounded-3xl text-center text-base font-medium bg-primary text-white" id="confirmBtn">
-                Pay now
+                class="py-3 w-full rounded-3xl text-center text-base font-medium bg-primary text-white" id="confirmBtn"
+                onclick="handlePayment()">
+                <span id="btnText">Pay now</span>
+                <span id="processingText" style="display:none;">Please wait...</span>
             </button>
 
             <div class="py-5 px-4 w-full max-w-3xl mx-auto flex flex-col items-center justify-center">
@@ -71,7 +71,21 @@
     </div>
 
     <script src="{{ asset('lib/jquery-v3.2.1.min.js') }}"></script>
-    {{-- <script src="{{ asset('paymentGateways/payment.js') }}"></script> --}}
+    <script>
+        function handlePayment() {
+            // Disable the button
+            document.getElementById('confirmBtn').disabled = true;
+            // Show processing message
+            document.getElementById('btnText').style.display = 'none';
+            document.getElementById('processingText').style.display = 'inline-block';
+
+            // Allow form submission after a short delay (you can adjust the delay as needed)
+            setTimeout(function () {
+                document.getElementById('paymentForm').submit();
+            }, 1000); // 1000 milliseconds (1 second) delay
+        }
+    </script>
+
 </body>
 
 </html>
