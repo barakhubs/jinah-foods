@@ -143,7 +143,7 @@ class PaymentController extends Controller
 
     public function payCod (Order $order, PaymentRequest $request)
     {
-        $order->payment_status = PaymentStatus::PAID;
+        $order->payment_status = PaymentStatus::UNPAID;
         $order->payment_method  =   PaymentGatewayEnum::CASH_ON_DELIVERY;
         $order->save();
         return redirect()->route('payment.successful', ['order' => $order]);
