@@ -36,6 +36,10 @@ Route::prefix('install')->name('installer.')->middleware(['web'])->group(functio
 Route::get('/', [RootController::class, 'index'])->middleware(['installed'])->name('home');
 Route::prefix('payment')->name('payment.')->middleware(['installed'])->group(function () {
     Route::get('/{order}/pay', [PaymentController::class, 'index'])->name('index');
+    Route::get('/{order}/pay/mobile-money', [PaymentController::class, 'mobileMoneyIndex'])->name('momo');
+    Route::get('/{order}/pay/cod', [PaymentController::class, 'codIndex'])->name('cod');
+    Route::post('/{order}/pay/momo', [PaymentController::class, 'payMomo'])->name('pay-momo');
+    Route::post('/{order}/pay/cod', [PaymentController::class, 'payCod'])->name('pay-cod');
     Route::post('/{order}/pay', [PaymentController::class, 'payment'])->name('store');
     Route::match(['get', 'post'], '/{order}/success', [PaymentController::class, 'success'])->name('success');
     Route::match(['get', 'post'], '/{order}/fail', [PaymentController::class, 'fail'])->name('fail');

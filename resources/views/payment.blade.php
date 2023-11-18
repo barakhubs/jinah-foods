@@ -58,19 +58,13 @@
                     <img src="{{ asset('images/cash_on_delivery.jpg') }}" alt="Cash on Delivery">
                     <span>Cash on Delivery</span>
                 </label>
-{{--
-                <label class="payment-label" for="visa">
-                    <input class="paymentMethod" id="visa" type="radio" name="paymentMethod" value="visa">
-                    <img src="visa_image.png" alt="Visa">
-                    <span>Visa Payment</span>
-                </label> --}}
             </fieldset>
 
             <!-- ... (other payment related fields) ... -->
 
             <button type="submit" class="py-3 w-full rounded-3xl text-center text-base font-medium bg-primary text-white"
                 id="confirmBtn">
-                {{ __('all.label.confirm') }}
+                Continue
             </button>
 
             <div class="py-5 px-4 w-full max-w-3xl mx-auto flex flex-col items-center justify-center">

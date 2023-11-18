@@ -25,7 +25,7 @@ class PaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'paymentMethod'   => ['required', 'string', 'max:190'],
+            // 'paymentMethod'   => ['required', 'string', 'max:190'],
         ];
     }
 }

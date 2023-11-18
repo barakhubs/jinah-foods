@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Enums\Activity;
 use App\Enums\PaymentStatus;
+use App\Enums\PaymentGateway as PaymentGatewayEnum;
 use App\Http\Requests\PaymentRequest;
 use App\Libraries\AppLibrary;
 use App\Models\Currency;
@@ -69,15 +70,84 @@ class PaymentController extends Controller
         // }
 
 
-        $pay = new YoPayment();
-        if($pay->initiatePayment()) {
-            return redirect()->route('payment.successful', ['order' => $order])->with('success', trans('all.message.payment_successful'));
-        } else {
-            return redirect()->route('payment.fail', ['order' => $order]);
+
+        $payment_type = $request->paymentMethod;
+        if($payment_type == 'mobile_money') {
+            return redirect()->route('payment.momo', ['order' => $order]);
+        } else if($payment_type == 'cash_on_delivery') {
+            return redirect()->route('payment.cod', ['order' => $order]);
         }
-        // $pay->checkTransaction('your_transaction_reference');
+
     }
 
+    public function mobileMoneyIndex (Order $order, PaymentRequest $request)
+    {
+        $credit          = false;
+        $paymentGateways = PaymentGateway::with('gatewayOptions')->whereNotIn('id', [1])->where(['status' => Activity::ENABLE])->get();
+        $company         = Settings::group('company')->all();
+        $logo            = ThemeSetting::where(['key' => 'theme_logo'])->first();
+        $faviconLogo     = ThemeSetting::where(['key' => 'theme_favicon_logo'])->first();
+        $currency        = Currency::findOrFail(Settings::group('site')->get('site_default_currency'));
+        if ($order?->user?->balance >= $order->total) {
+            $credit = true;
+        }
+        return view('mobile-money', [
+            'company'         => $company,
+            'logo'            => $logo,
+            'currency'        => $currency,
+            'faviconLogo'     => $faviconLogo,
+            'paymentGateways' => $paymentGateways,
+            'order'           => $order,
+            'creditAmount'    => AppLibrary::currencyAmountFormat($order?->user?->balance),
+            'credit'          => $credit
+        ]);
+    }
+
+    public function codIndex (Order $order, PaymentRequest $request)
+    {
+        $credit          = false;
+        $paymentGateways = PaymentGateway::with('gatewayOptions')->whereNotIn('id', [1])->where(['status' => Activity::ENABLE])->get();
+        $company         = Settings::group('company')->all();
+        $logo            = ThemeSetting::where(['key' => 'theme_logo'])->first();
+        $faviconLogo     = ThemeSetting::where(['key' => 'theme_favicon_logo'])->first();
+        $currency        = Currency::findOrFail(Settings::group('site')->get('site_default_currency'));
+        if ($order?->user?->balance >= $order->total) {
+            $credit = true;
+        }
+
+        return view('cash-on-delivery',  [
+            'company'         => $company,
+            'logo'            => $logo,
+            'currency'        => $currency,
+            'faviconLogo'     => $faviconLogo,
+            'paymentGateways' => $paymentGateways,
+            'order'           => $order,
+            'creditAmount'    => AppLibrary::currencyAmountFormat($order?->user?->balance),
+            'credit'          => $credit
+        ]);
+
+    }
+
+    public function payMomo (Order $order, Request $request)
+    {
+        $this->validate($request, [
+            'phone_number' => 'required|min:9|max:9'
+        ]);
+
+        $amount = Order::find($order->id)->total;
+        $phone = '256'.$request->phone_number;
+
+        $pay = new YoPayment();
+        return $pay->initiatePayment($phone, $amount, 'Payment for an order', $order);
+    }
+
+    public function payCod (Order $order, PaymentRequest $request)
+    {
+        $order->payment_status = PaymentStatus::PAID;
+        $order->payment_method  =   PaymentGatewayEnum::CASH_ON_DELIVERY;
+        $order->save();
+        return redirect()->route('payment.successful', ['order' => $order]);
+    }
     public function success(Order $order, Request $request)
     {
         return redirect()->route('payment.successful', ['order' => $order]);

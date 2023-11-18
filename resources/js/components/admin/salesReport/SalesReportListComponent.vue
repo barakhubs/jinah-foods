@@ -236,7 +236,7 @@ export default {
                 },
                 paymentTypeEnumArray: {
                     [paymentTypeEnum.CASH_ON_DELIVERY]: this.$t("label.cash_on_delivery"),
-                    [paymentTypeEnum.E_WALLET]: this.$t("label.e_wallet"),
+                    [paymentTypeEnum.MOBILE_MONEY]: this.$t("label.e_wallet"),
                     [paymentTypeEnum.PAYPAL]: this.$t("label.paypal")
                 },
                 orderStatusEnumArray: {
