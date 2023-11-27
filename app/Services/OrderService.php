@@ -79,7 +79,7 @@ class OrderService
             // $branchId = $defaultAccess->pluck('default_id')->orderBy('updated_at', 'desc');
 
             return Order::with('transaction', 'orderItems')
-                ->where('branch_id', 2)
+                ->where('branch_id', 3)
                 ->where(function ($query) use ($requests) {
                 if (isset($requests['from_date']) && isset($requests['to_date'])) {
                     $first_date = Date('Y-m-d', strtotime($requests['from_date']));
