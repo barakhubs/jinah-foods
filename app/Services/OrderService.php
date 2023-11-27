@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\DefaultAccess;
 use Exception;
 use App\Models\Tax;
 use App\Models\Item;
@@ -69,7 +70,17 @@ class OrderService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_by') ?? 'desc';
 
-            return Order::with('transaction', 'orderItems')->where(function ($query) use ($requests) {
+            $userId = Auth::id();
+            $defaultAccess = DefaultAccess::where('user_id', $userId)->first();
+            if ($defaultAccess->isEmpty()) {
+                return 0;
+            }
+
+            $branchId = $defaultAccess->pluck('default_id')->orderBy('updated_at', 'desc');
+
+            return Order::with('transaction', 'orderItems')
+                ->where('branch_id', $branchId)
+                ->where(function ($query) use ($requests) {
                 if (isset($requests['from_date']) && isset($requests['to_date'])) {
                     $first_date = Date('Y-m-d', strtotime($requests['from_date']));
                     $last_date  = Date('Y-m-d', strtotime($requests['to_date']));
