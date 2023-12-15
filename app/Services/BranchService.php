@@ -57,7 +57,7 @@ class BranchService
                 }
             })->orderBy($orderColumn, $orderType)->$method(
                 $methodValue
-            );
+            )->where('status', 5);
 
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
@@ -134,7 +134,7 @@ class BranchService
     public function latestBranches()
     {
         try {
-            return Branch::orderBy('created_at', 'desc')->limit(8)->get();
+            return Branch::orderBy('created_at', 'desc')->where('status', 5)->limit(8)->get();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
@@ -147,6 +147,7 @@ class BranchService
             $branches = Branch::with(['items' => function ($query) {
                 $query->withCount('orders');
             }])
+            ->where('status', 5)
             ->get()
             ->sortByDesc(function ($branch) {
                 return $branch->items->sum('orders_count');

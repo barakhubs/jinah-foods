@@ -38,13 +38,15 @@ class ItemService
     public function list(PaginateRequest $request)
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             $orderColumn = $request->get('order_column') ?? 'id';
-            $orderType   = $request->get('order_type') ?? 'desc';
+            $orderType = $request->get('order_type') ?? 'desc';
 
-            return Item::with('media', 'category', 'branch')->where(function ($query) use ($requests) {
+            return Item::with('media', 'category', 'branch')->whereHas('branch', function ($query) {
+                $query->where('status', 5);
+            })->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->itemFilter)) {
                         if ($key == "except") {
@@ -64,8 +66,8 @@ class ItemService
                     }
                 }
             })->orderBy($orderColumn, $orderType)->$method(
-                $methodValue
-            );
+                    $methodValue
+                );
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
@@ -107,14 +109,14 @@ class ItemService
                     $item->addMedia($request->image)->toMediaCollection('item');
                 }
                 if ($request->variations) {
-                    $variationIdsArray    = [];
+                    $variationIdsArray = [];
                     $variationDeleteArray = [];
-                    $oldVariations        = $item->variations->pluck('id')->toArray();
+                    $oldVariations = $item->variations->pluck('id')->toArray();
                     foreach (json_decode($request->variations, true) as $variation) {
                         if (isset($variation['id'])) {
                             $variationIdsArray[] = $variation['id'];
                             ItemVariation::where('id', $variation['id'])->update([
-                                'name'             => $variation['name'],
+                                'name' => $variation['name'],
                                 'price' => $variation['price'],
                             ]);
                         } else {
@@ -195,43 +197,67 @@ class ItemService
     public function featuredItems()
     {
         try {
-            return Item::where(['is_featured' => Ask::YES, 'status' => Status::ACTIVE])->inRandomOrder()->limit(8)->get();
+            return Item::where(['is_featured' => Ask::YES, 'status' => Status::ACTIVE])
+                ->whereHas('branch', function ($query) {
+                    // Specify the condition for the related Branch status
+                    $query->where('status', 5);
+                })
+                ->inRandomOrder()
+                ->limit(8)
+                ->get();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
     }
+
 
     public function latestItems()
     {
         try {
-            return Item::orderBy('created_at', 'desc')->limit(8)->get();
+            return Item::whereHas('branch', function ($query) {
+                // Specify the condition for the related Branch status
+                $query->where('status', 5);
+            })
+                ->orderBy('created_at', 'desc')
+                ->limit(8)
+                ->get();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
     }
+
 
     public function mostPopularItems()
     {
         try {
-            return Item::withCount('orders')->where(['status' => Status::ACTIVE])->orderBy('orders_count', 'desc')->limit(8)->get();
+            return Item::withCount('orders')
+                ->whereHas('branch', function ($query) {
+                    // Specify the condition for the related Branch status
+                    $query->where('status', 5);
+                })
+                ->where(['status' => Status::ACTIVE])
+                ->orderBy('orders_count', 'desc')
+                ->limit(8)
+                ->get();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);
         }
     }
 
+
     public function itemReport(PaginateRequest $request)
     {
         try {
-            $requests    = $request->all();
-            $method      = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
+            $requests = $request->all();
+            $method = $request->get('paginate', 0) == 1 ? 'paginate' : 'get';
             $methodValue = $request->get('paginate', 0) == 1 ? $request->get('per_page', 10) : '*';
             return Item::withCount('orders')->where(function ($query) use ($requests) {
-                if (isset($requests['from_date'])  && isset($requests['to_date'])) {
+                if (isset($requests['from_date']) && isset($requests['to_date'])) {
                     $first_date = date('Y-m-d', strtotime($requests['from_date']));
-                    $last_date  = date('Y-m-d', strtotime($requests['to_date']));
+                    $last_date = date('Y-m-d', strtotime($requests['to_date']));
                     $query->whereDate('created_at', '>=', $first_date)->whereDate(
                         'created_at',
                         '<=',
@@ -253,8 +279,8 @@ class ItemService
                     }
                 }
             })->orderBy('orders_count', 'desc')->$method(
-                $methodValue
-            );
+                    $methodValue
+                );
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
             throw new Exception($exception->getMessage(), 422);

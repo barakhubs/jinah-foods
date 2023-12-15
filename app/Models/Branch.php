@@ -13,7 +13,7 @@ class Branch extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
     protected $table = "branches";
-    protected $fillable = ['name', 'email', 'phone', 'latitude', 'longitude', 'city', 'state', 'zip_code', 'address', 'status', 'time_to_prepare'];
+    protected $fillable = ['name', 'email', 'phone', 'latitude', 'longitude', 'city', 'state', 'zip_code', 'address', 'status', 'time_to_prepare','delivery_charge'];
     protected $casts = [
         'id'        => 'integer',
         'name'      => 'string',
@@ -27,6 +27,7 @@ class Branch extends Model implements HasMedia
         'address'   => 'string',
         'status'    => 'integer',
         'time_to_prepare' => 'string',
+        'delivery_charge' => 'string',
     ];
 
     public function getThumbAttribute(): string

@@ -22,6 +22,9 @@
                         TIME TO PREPARE
                     </th>
                     <th class="db-table-head-th">
+                        DELIVERY CHARGE
+                    </th>
+                    <th class="db-table-head-th">
                         {{ $t("label.action") }}
                     </th>
                 </tr>
@@ -41,6 +44,9 @@
                     </td>
                     <td class="db-table-body-td">
                         {{ branch.time_to_prepare }}
+                    </td>
+                    <td class="db-table-body-td">
+                        {{ branch.delivery_charge }}
                     </td>
                     <td class="db-table-body-td">
                         <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
@@ -114,6 +120,7 @@ export default {
                     zip_code: "",
                     address: "",
                     time_to_prepare: "",
+                    delivery_charge: "",
                     status: statusEnum.ACTIVE,
                 },
                 search: {
@@ -183,6 +190,7 @@ export default {
                 address: branch.address,
                 status: branch.status,
                 time_to_prepare: branch.time_to_prepare,
+                delivery_charge: branch.delivery_charge,
             };
             this.loading.isActive = false;
         },

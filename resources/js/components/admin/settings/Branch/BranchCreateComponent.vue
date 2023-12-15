@@ -94,10 +94,17 @@
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
-                            <label for="zip_code" class="db-field-title required">FOOD PREPARATION TIME ( IN MINUTE ) *</label>
+                            <label for="zip_code" class="db-field-title required">FOOD PREPARATION TIME (Min)</label>
                             <input v-model="props.form.time_to_prepare" v-bind:class="errors.time_to_prepare ? 'invalid' : ''" type="number"
-                                id="zip_code" class="db-field-control" />
+                                id="time_to_prepare" class="db-field-control" />
                             <small class="db-field-alert" v-if="errors.time_to_prepare">{{ errors.time_to_prepare[0] }}</small>
+                        </div>
+
+                        <div class="form-col-12 sm:form-col-6">
+                            <label for="zip_code" class="db-field-title">DELIVERY CHARGE</label>
+                            <input v-model="props.form.delivery_charge" v-bind:class="errors.delivery_charge ? 'invalid' : ''" type="text"
+                                id="delivery_charge" class="db-field-control" />
+                            <small class="db-field-alert" v-if="errors.delivery_charge">{{ errors.delivery_charge[0] }}</small>
                         </div>
 
                         <div class="form-col-12 sm:form-col-6">
@@ -238,6 +245,7 @@ export default {
                 zip_code: "",
                 address: "",
                 time_to_prepare: "",
+                delivery_charge: "",
                 status: statusEnum.ACTIVE,
             };
             if (this.image) {
@@ -265,6 +273,7 @@ export default {
                 fd.append('address', this.props.form.address);
                 fd.append('status', this.props.form.status);
                 fd.append('time_to_prepare', this.props.form.time_to_prepare);
+                fd.append('delivery_charge', this.props.form.delivery_charge);
 
                 if (this.image) {
                     fd.append('image', this.image);
@@ -293,6 +302,7 @@ export default {
                         zip_code: "",
                         address: "",
                         time_to_prepare: "",
+                        delivery_charge: "",
                         status: statusEnum.ACTIVE,
                     };
                     this.image = "";
