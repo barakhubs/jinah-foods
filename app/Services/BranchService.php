@@ -57,7 +57,7 @@ class BranchService
                 }
             })->orderBy($orderColumn, $orderType)->$method(
                 $methodValue
-            )->where('status', 5);
+            );
 
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
