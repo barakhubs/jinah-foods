@@ -40,6 +40,7 @@ class ItemResource extends JsonResource
             "preview"          => $this->preview,
             "category_name"    => optional($this->category)->name,
             "branch_name"      => optional($this->branch)->name,
+            "branch_delivery_charge"      => optional($this->branch)->delivery_charge,
             "category"         => new ItemCategoryResource($this->category),
             "branch"           => new BranchResource($this->branch),
             "variations"       => $this->variations->groupBy('item_attribute_id'),
