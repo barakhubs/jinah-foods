@@ -74,7 +74,7 @@ class BranchService
             $orderColumn = $request->get('order_column') ?? 'id';
             $orderType   = $request->get('order_type') ?? 'desc';
 
-            return Branch::with('media')->where(function ($query) use ($requests) {
+            return Branch::with('media')->where('status', 5)->where(function ($query) use ($requests) {
                 foreach ($requests as $key => $request) {
                     if (in_array($key, $this->branchFilter)) {
                         $query->where($key, 'like', '%' . $request . '%');
@@ -92,8 +92,6 @@ class BranchService
             })->orderBy($orderColumn, $orderType)->$method(
                 $methodValue
             );
-            // Add the condition for 'status' equal to 5
-            $query->where('status', 5);
 
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
