@@ -38,7 +38,8 @@ class EmployeeRequest extends FormRequest
                 'min:6',
                 'confirmed'
             ],
-            'password_confirmation' => [$this->route('employee.id') ? 'nullable' : 'required', 'string', 'min:6'],
+            // 'password_confirmation' => [$this->route('employee.id') ? 'nullable' : 'required', 'string', 'min:6'],
+
             'username'              => [
                 'nullable',
                 'max:190',

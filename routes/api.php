@@ -203,7 +203,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
             Route::match(['put', 'patch'], '/{itemAttribute}', [ItemAttributeController::class, 'update']);
             Route::delete('/{itemAttribute}', [ItemAttributeController::class, 'destroy']);
         });
- 
+
         Route::prefix('slider')->name('slider.')->group(function () {
             Route::get('/', [SliderController::class, 'index']);
             Route::get('/show/{slider}', [SliderController::class, 'show']);
