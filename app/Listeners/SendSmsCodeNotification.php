@@ -34,7 +34,7 @@ class SendSmsCodeNotification
             $verifyCode = new VerifyCode($event->info['token']);
 
             $message = 'Your code is: ' . $event->info['token'];
-            $sms = new FurahaSms('51856485', 'KH7lfPYjb20McfanaC5qeAZ7kHTkVzr6');
+            $sms = new FurahaSms('85607206', 'LKrN8NomYKeA1kX4QVKbZk3UbCDUdEJl');
             $sms->sendSMS($event->info['phone'], $message);
 
         } catch (Exception $e) {
