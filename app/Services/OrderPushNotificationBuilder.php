@@ -41,7 +41,7 @@ class OrderPushNotificationBuilder
                     // $this->message($fcmTokenArray, $this->status, $this->orderId);
                     $message = 'Your order status is ' . $this->status;
                     $pushNotification = new PushNotification();
-                    $pushNotification->sendMessage('Order Status Notification', $message, $user->device_token);
+                    $pushNotification->sendMessage('Jinah Foods Notification', $message, $user->device_token);
                 }
             }
         }
