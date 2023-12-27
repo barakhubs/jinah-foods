@@ -39,7 +39,7 @@ class OrderPushNotificationBuilder
                     //     // $fcmTokenArray[] = $user->device_token;
                     // }
                     // $this->message($fcmTokenArray, $this->status, $this->orderId);
-                    $message = 'Your order status is ' . $this->order->order_status;
+                    $message = 'Your order status is ' . $this->status;
                     $pushNotification = new PushNotification();
                     $pushNotification->sendMessage('Order Status Notification', $message, $user->device_token);
                 }
