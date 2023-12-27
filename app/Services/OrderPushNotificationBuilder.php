@@ -39,7 +39,22 @@ class OrderPushNotificationBuilder
                     //     // $fcmTokenArray[] = $user->device_token;
                     // }
                     // $this->message($fcmTokenArray, $this->status, $this->orderId);
-                    $message = 'Your order status is ' . $this->status;
+                    if ($this->status == OrderStatus::PENDING)
+                        $message = 'Your order is pending! Please wait for confirmation';
+                    elseif ($this->status == OrderStatus::ACCEPT)
+                        $message = 'Your order is accepted! Please wait for processing';
+                    elseif ($this->status == OrderStatus::PROCESSING)
+                        $message = 'Your order is processing! Please wait for out for delivery';
+                    elseif ($this->status == OrderStatus::OUT_FOR_DELIVERY)
+                        $message = 'Your order is out for delivery!';
+                    elseif ($this->status == OrderStatus::DELIVERED)
+                        $message = 'Your order is delivered! Thank you for your order';
+                    elseif ($this->status == OrderStatus::CANCELED)
+                        $message = 'Your order is canceled! Please contact with us for more details';
+                    elseif ($this->status == OrderStatus::REJECTED)
+                        $message = 'Your order is rejected! Please contact with us for more details';
+                    elseif ($this->status == OrderStatus::RETURNED)
+                        $message = 'Your order is returned! Please contact with us for more details';
                     $pushNotification = new PushNotification();
                     $pushNotification->sendMessage('Jinah Foods Notification', $message, $user->device_token);
                 }
