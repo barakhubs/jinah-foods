@@ -8,6 +8,7 @@ use App\Enums\SwitchBox;
 use App\Models\FrontendOrder;
 use App\Models\NotificationAlert;
 use App\Models\User;
+use App\Push\PushNotificaiton;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -30,14 +31,17 @@ class OrderPushNotificationBuilder
             $user = User::find($this->order->user_id);
             if (!blank($user)) {
                 if (!blank($user->web_token) || !blank($user->device_token)) {
-                    $fcmTokenArray = [];
-                    if (!blank($user->web_token)) {
-                        $fcmTokenArray[] = $user->web_token;
-                    }
-                    if (!blank($user->device_token)) {
-                        $fcmTokenArray[] = $user->device_token;
-                    }
-                    $this->message($fcmTokenArray, $this->status, $this->orderId);
+                    // $fcmTokenArray = [];
+                    // if (!blank($user->web_token)) {
+                    //     $fcmTokenArray[] = $user->web_token;
+                    // }
+                    // if (!blank($user->device_token)) {
+                    //     // $fcmTokenArray[] = $user->device_token;
+                    // }
+                    // $this->message($fcmTokenArray, $this->status, $this->orderId);
+                    $message = 'Your order status is ' . $this->order->order_status;
+                    $pushNotification = new PushNotificaiton();
+                    $pushNotification->sendMessage('Order Status Notification', $message, $user->device_token);
                 }
             }
         }
