@@ -88,9 +88,13 @@ class PushNotificationService
                 }
             }
 
-            $fcmTokenArray = array_merge($fcmWebDeviceToken, $fcmMobileDeviceToken);
-            $firebase      = new FirebaseService();
-            $firebase->sendNotification($pushNotification, $fcmTokenArray, "promotion");
+            // $fcmTokenArray = array_merge($fcmWebDeviceToken, $fcmMobileDeviceToken);
+            // $firebase      = new FirebaseService();
+            // $firebase->sendNotification($pushNotification, $fcmTokenArray, "promotion");
+
+            $SendPushNotification = new \App\Push\PushNotification();
+            $message = $pushNotification->description;
+            $SendPushNotification->sendMessage('Jinah Foods Notification', $message, $fcmMobileDeviceToken);
             return $pushNotification;
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
@@ -121,7 +125,7 @@ class PushNotificationService
                 $pushNotification->delete();
             });
         } catch (Exception $exception) {
-            Log::info($exception->getMessage()); 
+            Log::info($exception->getMessage());
             DB::rollBack();
             throw new Exception($exception->getMessage(), 422);
         }
