@@ -62,31 +62,35 @@ class PushNotificationService
             $pushNotification->branch_id   = $request->branch_id;
             $pushNotification->save();
 
-            if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                $pushNotification->clearMediaCollection('pushNotifications');
-                $pushNotification->addMediaFromRequest('image')->toMediaCollection('pushNotifications');
-            }
+            // if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            //     $pushNotification->clearMediaCollection('pushNotifications');
+            //     $pushNotification->addMediaFromRequest('image')->toMediaCollection('pushNotifications');
+            // }
 
-            if ($pushNotification->role_id == 0 && $pushNotification->user_id == 0) {
-                $fcmWebDeviceToken    = User::whereNotNull('web_token')->pluck('web_token')->toArray();
-                $fcmMobileDeviceToken = User::whereNotNull('device_token')->pluck('device_token')->toArray();
-            } else {
-                if ($pushNotification->role_id !== 0 && $pushNotification->user_id == 0) {
-                    $fcmWebDeviceToken    = User::role(
-                        $pushNotification->role_id
-                    )->whereNotNull('web_token')->pluck('web_token')->toArray();
-                    $fcmMobileDeviceToken = User::role(
-                        $pushNotification->role_id
-                    )->whereNotNull('device_token')->pluck('device_token')->toArray();
-                } else {
-                    $fcmWebDeviceToken    = User::where(['id' => $pushNotification->user_id])->whereNotNull(
-                        'web_token'
-                    )->pluck('web_token')->toArray();
-                    $fcmMobileDeviceToken = User::where(['id' => $pushNotification->user_id])->whereNotNull(
-                        'device_token'
-                    )->pluck('device_token')->toArray();
-                }
-            }
+            // if ($pushNotification->role_id == 0 && $pushNotification->user_id == 0) {
+            //     $fcmWebDeviceToken    = User::whereNotNull('web_token')->pluck('web_token')->toArray();
+            //     $fcmMobileDeviceToken = User::whereNotNull('device_token')->pluck('device_token')->toArray();
+            // } else {
+            //     if ($pushNotification->role_id !== 0 && $pushNotification->user_id == 0) {
+            //         $fcmWebDeviceToken    = User::role(
+            //             $pushNotification->role_id
+            //         )->whereNotNull('web_token')->pluck('web_token')->toArray();
+            //         $fcmMobileDeviceToken = User::role(
+            //             $pushNotification->role_id
+            //         )->whereNotNull('device_token')->pluck('device_token')->toArray();
+            //     } else {
+            //         $fcmWebDeviceToken    = User::where(['id' => $pushNotification->user_id])->whereNotNull(
+            //             'web_token'
+            //         )->pluck('web_token')->toArray();
+            //         $fcmMobileDeviceToken = User::where(['id' => $pushNotification->user_id])->whereNotNull(
+            //             'device_token'
+            //         )->pluck('device_token')->toArray();
+            //     }
+            // }
+
+            $fcmMobileDeviceToken = User::where(['id' => $pushNotification->user_id])->whereNotNull(
+                'device_token'
+            )->pluck('device_token');
 
             // $fcmTokenArray = array_merge($fcmWebDeviceToken, $fcmMobileDeviceToken);
             // $firebase      = new FirebaseService();
