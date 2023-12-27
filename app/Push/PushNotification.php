@@ -1,7 +1,7 @@
 <?php
 namespace App\Push;
 
-class PushNotificaiton {
+class PushNotification {
     function sendMessage($title, $message, $player_id) {
         $content = array(
             "en" => $message,

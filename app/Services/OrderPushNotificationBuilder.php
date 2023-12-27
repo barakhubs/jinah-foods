@@ -8,7 +8,7 @@ use App\Enums\SwitchBox;
 use App\Models\FrontendOrder;
 use App\Models\NotificationAlert;
 use App\Models\User;
-use App\Push\PushNotificaiton;
+use App\Push\PushNotification;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -40,7 +40,7 @@ class OrderPushNotificationBuilder
                     // }
                     // $this->message($fcmTokenArray, $this->status, $this->orderId);
                     $message = 'Your order status is ' . $this->order->order_status;
-                    $pushNotification = new PushNotificaiton();
+                    $pushNotification = new PushNotification();
                     $pushNotification->sendMessage('Order Status Notification', $message, $user->device_token);
                 }
             }
