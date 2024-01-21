@@ -14,7 +14,7 @@ class SignupRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize() : bool
+    public function authorize(): bool
     {
         return true;
     }
@@ -24,21 +24,28 @@ class SignupRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
-            'first_name'   => ['required', 'string', 'max:255'],
-            'last_name'    => ['required', 'string', 'max:255'],
-            'email'        => ['nullable', 'string', 'email', 'max:255', Rule::unique("users", "email")->whereNull('deleted_at')->where('is_guest', Ask::NO)],
-            'phone'        => ['required', 'numeric', Rule::unique("users", "phone")->whereNull('deleted_at')->where('is_guest', Ask::NO)],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'string', 'email', 'max:255', Rule::unique("users", "email")->whereNull('deleted_at')->where('is_guest', Ask::NO)],
+            'phone' => ['required', 'numeric', Rule::unique("users", "phone")->whereNull('deleted_at')->where('is_guest', Ask::NO)],
             'country_code' => ['required', 'numeric'],
             'password' => [
                 'required',
                 'string',
                 'min:8',
                 'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^a-zA-Z\d]).+$/',
-                'confirmed',
+                // 'confirmed',
             ],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
         ];
     }
 }
