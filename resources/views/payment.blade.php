@@ -47,11 +47,11 @@
         <form id="paymentForm" method="POST" action="{{ route('payment.store', ['order' => $order]) }}">
             @csrf
             <fieldset class="payment-fieldset">
-                <label class="payment-label" for="mobile_money">
+                {{-- <label class="payment-label" for="mobile_money">
                     <input class="paymentMethod" id="mobile_money" type="radio" name="paymentMethod" value="mobile_money" checked>
                     <img src="{{ asset('images/mobile-money.jpg') }}" alt="Mobile Money">
                     <span>Mobile Money</span>
-                </label>
+                </label> --}}
 
                 <label class="payment-label" for="cash_on_delivery">
                     <input class="paymentMethod" id="cash_on_delivery" type="radio" name="paymentMethod" value="cash_on_delivery">

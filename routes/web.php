@@ -46,3 +46,6 @@ Route::prefix('payment')->name('payment.')->middleware(['installed'])->group(fun
     Route::match(['get', 'post'], '/{order}/cancel', [PaymentController::class, 'cancel'])->name('cancel');
     Route::get('/successful/{order}', [PaymentController::class, 'successful'])->name('successful');
 });
+
+Route::get('/about', [RootController::class, 'index'])->name('about');
+Route::get('/contact', [RootController::class, 'index'])->name('contact');

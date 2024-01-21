@@ -1,5 +1,5 @@
 <template>
-    <div class="row mb-7">
+    <!-- <div class="row mb-7">
         <div class="col-12 sm:col-6 mb-2" v-if="branches.length > 0" v-for="branch in branches">
             <div class="flex items-center gap-2 mb-3">
                 <span class="w-6 h-6 rounded-full flex items-center justify-center bg-[#BDEFFF]">
@@ -18,7 +18,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
     <div>
         <h2 class="text-[22px] leading-[34px] font-medium capitalize mb-3">support</h2>
         <ul class="flex flex-col gap-2">
