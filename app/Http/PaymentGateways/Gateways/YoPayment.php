@@ -15,11 +15,11 @@ class YoPayment
     public function __construct()
     {
         // For production, set this to production
-        // $username = '100445521257';
-        // $password  = '8xTx-qyht-pL0e-DzN0-9bNs-sL3w-QrxS-zOaD';
-        $username = '90003148545';
-        $password = '5095818426';
-        $mode = "sandbox";
+        $username = '100445521257';
+        $password  = '8xTx-qyht-pL0e-DzN0-9bNs-sL3w-QrxS-zOaD';
+        // $username = '90003148545';
+        // $password = '5095818426';
+        $mode = "production";
 
         $this->yoAPI = new YoAPI($username, $password, $mode);
 
