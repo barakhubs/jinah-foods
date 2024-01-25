@@ -44,7 +44,7 @@ return [
     'message' => [
         'validation_error'            => 'Validation Error.',
         'credentials_error'           => 'Credentials errors.',
-        'credentials_invalid'         => 'Invalid credentials or you are blocked',
+        'credentials_invalid'         => "Oops! It seems you've entered wrong details. Please try again.",
         'role_error'                  => 'Role errors.',
         'role_exist'                  => 'Role does not exist.',
         'login_success'               => 'Login Successfully.',
