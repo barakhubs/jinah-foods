@@ -53,7 +53,7 @@
                 </span>
                 <input type="text" name="phone_number"
                     class="py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm rounded-r-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                    placeholder="77000000" value="{{ old('phone_number') }}" />
+                    readonly value="{{ $phone_number }}" />
             </div>
 
             <button type="submit"

@@ -91,6 +91,9 @@ class PaymentController extends Controller
         if ($order?->user?->balance >= $order->total) {
             $credit = true;
         }
+
+        $phone_number = $order->user->phone;
+
         return view('mobile-money', [
             'company'         => $company,
             'logo'            => $logo,
@@ -99,7 +102,8 @@ class PaymentController extends Controller
             'paymentGateways' => $paymentGateways,
             'order'           => $order,
             'creditAmount'    => AppLibrary::currencyAmountFormat($order?->user?->balance),
-            'credit'          => $credit
+            'credit'          => $credit,
+            'phone_number'           => $phone_number,
         ]);
     }
 
