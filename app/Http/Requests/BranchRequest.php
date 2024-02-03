@@ -42,7 +42,7 @@ class BranchRequest extends FormRequest
             'address'   => ['required', 'string', 'max:500'],
             'status'    => ['required', 'numeric', 'max:24'],
             'time_to_prepare' => ['required', 'numeric'], // New column
-            'delivery_charge' => ['nullable', 'numeric', 'between:500,5000'],
+            'delivery_charge' => ['nullable', 'numeric', 'between:0,10000'],
         ];
     }
 }

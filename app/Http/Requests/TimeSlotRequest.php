@@ -28,6 +28,7 @@ class TimeSlotRequest extends FormRequest
             'opening_time' => ['required', 'string', 'date_format:H:i', 'max:24'],
             'closing_time' => ['required', 'string', 'date_format:H:i', 'after:opening_time', 'max:24'],
             'day'          => ['required', 'numeric', 'digits_between:1,7'],
+            'branch_id'    => ['required', 'exists:branches,id'],
         ];
     }
 }

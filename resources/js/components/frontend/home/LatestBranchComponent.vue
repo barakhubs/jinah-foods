@@ -2,7 +2,7 @@
     <LoadingComponent :props="loading" />
     <section class="mb-12">
         <div class="container" v-if="latestItems.length > 0">
-            <h2 class="text-2xl font-semibold capitalize mb-6">New Restaurants</h2>
+            <h2 class="text-2xl font-semibold capitalize mb-6">New on Jinah Foods</h2>
             <RestaurantComponent :items="latestItems" :type="itemProps.type" :design="itemProps.design" />
         </div>
     </section>
