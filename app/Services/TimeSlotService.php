@@ -15,7 +15,7 @@ class TimeSlotService
     /**
      * @throws Exception
      */
-    public $timeSlotFilter = ['opening_time', 'closing_time', 'day'];
+    public $timeSlotFilter = ['opening_time', 'closing_time', 'day', 'branch_id'];
 
 
     public function list(PaginateRequest $request)
@@ -49,7 +49,7 @@ class TimeSlotService
     {
         try {
 
-            $check = TimeSlot::where('day', $request->day)->first();
+            $check = TimeSlot::where(['day' => $request->day, 'branch_id' => $request->branch_id])->first();
             if (!$check) {
                 return TimeSlot::create($request->validated());
             } else if ($check->opening_time >= $request->opening_time && $check->opening_time > $request->closing_time) {

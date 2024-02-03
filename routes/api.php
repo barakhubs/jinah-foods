@@ -71,6 +71,7 @@ use App\Http\Controllers\Admin\TimezoneController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Auth\GuestSignupController;
 use App\Http\Controllers\Auth\RefreshTokenController;
+use App\Http\Controllers\FirebasePushController;
 use App\Http\Controllers\Frontend\TokenStoreController;
 use App\Http\Controllers\Frontend\ItemController as FrontendItemController;
 use App\Http\Controllers\Frontend\OfferController as FrontendOfferController;
@@ -150,6 +151,8 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::get('/', [DefaultAccessController::class, 'index']);
         Route::post('/', [DefaultAccessController::class, 'storeOrUpdate']);
     });
+
+    Route::post('setToken', [FirebasePushController::class, 'setToken'])->name('firebase.token'); 
 
     Route::prefix('setting')->name('setting.')->group(function () {
         Route::prefix('company')->name('company.')->group(function () {

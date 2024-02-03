@@ -122,6 +122,7 @@ export default {
         save: function () {
             try {
                 const tempId = this.$store.getters["timeSlot/temp"].temp_id;
+                this.props.form.branch_id = this.$store.getters["defaultAccess/show"]?.branch_id
                 this.loading.isActive = true;
                 this.$store
                     .dispatch("timeSlot/save", this.$props.props)

@@ -3,7 +3,7 @@
 
   <div class="db-card">
     <div class="db-card-header">
-      <h3 class="db-card-title">{{ $t("menu.time_slots") }}</h3>
+      <h3 class="db-card-title">{{ $t("menu.time_slots") }} {{ defaultAccess?.branch_id }}</h3>
     </div>
 
     <div class="db-card-body py-0">
@@ -104,9 +104,16 @@ export default {
     };
   },
   mounted() {
-    this.list();
+    // console.log('this.$store.getters["defaultAccess/show"]', this.$store.getters["defaultAccess/show"]?.branch_id)
+    
   },
   computed: {
+    defaultAccess: function () {
+      if (this.$store.getters["defaultAccess/show"]?.branch_id) {
+        this.list();
+      }
+      return this.$store.getters["defaultAccess/show"];
+    },
     timeSlots: function () {
       return this.$store.getters["timeSlot/lists"];
     },
@@ -127,6 +134,7 @@ export default {
     list: function (page = 1) {
       this.loading.isActive = true;
       this.props.search.page = page;
+      this.props.search.branch_id = this.$store.getters["defaultAccess/show"]?.branch_id;
       this.$store
         .dispatch("timeSlot/lists", this.props.search)
         .then((res) => {

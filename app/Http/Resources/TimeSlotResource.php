@@ -20,7 +20,7 @@ class TimeSlotResource extends JsonResource
             "opening_time" => $this->opening_time === null ? '' : $this->opening_time,
             "closing_time" => $this->closing_time === null ? '' : $this->closing_time,
             "day"          => $this->day === null ? '' : $this->day,
-
+            "branch_id"          => $this->branch_id || '',
         ];
     }
 }

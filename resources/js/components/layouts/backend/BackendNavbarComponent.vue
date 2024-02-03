@@ -54,6 +54,13 @@
                         :to="{ path: '/admin/' + pos.url }">
                         <i class="lab lab-pos-bold lab-font-size-16 font-fill-pos"></i>
                     </router-link>
+
+                    <router-link v-if="pos.permission"
+                        class="w-9 h-9 rounded-lg flex items-center justify-center bg-[#FFEBD8]"
+                        :to="{ path: '/admin/' + pos.url }">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                        <sup class="fw-bold text-danger">(123)</sup>
+                    </router-link>
                 </div>
             </div>
             <button class="fa-solid fa-align-left db-header-nav w-9 h-9 rounded-lg text-primary bg-primary/5"></button>
