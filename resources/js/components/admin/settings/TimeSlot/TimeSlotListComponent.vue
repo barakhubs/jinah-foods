@@ -103,14 +103,8 @@ export default {
       },
     };
   },
-  mounted() {
-    // this.list();
-  },
   computed: {
     defaultAccess: function () {
-      if (this.$store.getters["defaultAccess/show"]?.branch_id) {
-        this.list();
-      }
       return this.$store.getters["defaultAccess/show"];
     },
     timeSlots: function () {
@@ -172,5 +166,10 @@ export default {
         });
     },
   },
+  watch: {
+    '$store.state.defaultAccess.show'(newValue, oldValue) {
+      if (newValue?.branch_id && newValue?.branch_id !== oldValue?.branch_id) this.list();
+    }
+  }
 };
 </script>

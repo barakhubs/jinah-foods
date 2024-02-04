@@ -18,7 +18,7 @@
                     </button>
                     <ul v-if="branches.length > 0"
                         class="p-2 w-fit rounded-lg shadow-xl absolute top-14 left-0 z-10 border border-gray-200 bg-white hidden dropdown-list">
-                        <li v-for="branch in branches"
+                        <li v-for="branch in branches.filter((b) => b?.status === 5)"
                             class="flex items-center gap-2 w-full px-2.5 rounded-md transition hover:bg-gray-100">
                             <input @click="changeBranch(branch.id)" v-model="defaultBranch" type="radio"
                                 :id="'branch_id_' + branch.id" :value="branch.id" name="branch"
