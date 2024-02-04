@@ -3,7 +3,7 @@
 
   <div class="db-card">
     <div class="db-card-header">
-      <h3 class="db-card-title">{{ $t("menu.time_slots") }} {{ defaultAccess?.branch_id }}</h3>
+      <h3 class="db-card-title">{{ $t("menu.time_slots") }}</h3>
     </div>
 
     <div class="db-card-body py-0">
@@ -104,8 +104,7 @@ export default {
     };
   },
   mounted() {
-    // console.log('this.$store.getters["defaultAccess/show"]', this.$store.getters["defaultAccess/show"]?.branch_id)
-    
+    // this.list();
   },
   computed: {
     defaultAccess: function () {
