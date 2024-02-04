@@ -104,9 +104,6 @@ export default {
     };
   },
   computed: {
-    defaultAccess: function () {
-      return this.$store.getters["defaultAccess/show"];
-    },
     timeSlots: function () {
       return this.$store.getters["timeSlot/lists"];
     },
