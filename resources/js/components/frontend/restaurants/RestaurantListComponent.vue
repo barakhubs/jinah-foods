@@ -41,7 +41,8 @@ export default {
             this.loading.isActive = true;
             this.$store.dispatch("frontendBranch/lists", {
                 order_column: "id",
-                order_type: "desc"
+                order_type: "desc",
+                status: 5
             }).then(res => {
                 this.loading.isActive = false;
             }).catch((err) => {

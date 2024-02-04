@@ -15,14 +15,19 @@ class OrderCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $message;
+
+    public $restaurant;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Public Branch $restaurant)
+    public function __construct($restaurant, $message)
     {
-        //
+        $this->message = $message;
+        $this->restaurant = $restaurant;
     }
 
     /**
@@ -32,6 +37,6 @@ class OrderCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('restaurant.' . $this->restaurant->id);
+        return new PrivateChannel('restaurant.' . $this->restaurant);
     }
 }

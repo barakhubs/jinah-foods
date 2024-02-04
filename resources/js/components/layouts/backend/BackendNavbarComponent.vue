@@ -18,7 +18,7 @@
                     </button>
                     <ul v-if="branches.length > 0"
                         class="p-2 w-fit rounded-lg shadow-xl absolute top-14 left-0 z-10 border border-gray-200 bg-white hidden dropdown-list">
-                        <li v-for="branch in branches"
+                        <li v-for="branch in branches.filter((b) => b?.status === 5)"
                             class="flex items-center gap-2 w-full px-2.5 rounded-md transition hover:bg-gray-100">
                             <input @click="changeBranch(branch.id)" v-model="defaultBranch" type="radio"
                                 :id="'branch_id_' + branch.id" :value="branch.id" name="branch"
@@ -55,12 +55,12 @@
                         <i class="lab lab-pos-bold lab-font-size-16 font-fill-pos"></i>
                     </router-link>
 
-                    <router-link v-if="pos.permission"
+                    <!-- <router-link v-if="pos.permission"
                         class="w-9 h-9 rounded-lg flex items-center justify-center bg-[#FFEBD8]"
                         :to="{ path: '/admin/' + pos.url }">
                         <i class="fa fa-bell" aria-hidden="true"></i>
                         <sup class="fw-bold text-danger">(123)</sup>
-                    </router-link>
+                    </router-link> -->
                 </div>
             </div>
             <button class="fa-solid fa-align-left db-header-nav w-9 h-9 rounded-lg text-primary bg-primary/5"></button>
