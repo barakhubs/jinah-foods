@@ -52,12 +52,12 @@
                     <img src="{{ asset('images/mobile-money.jpg') }}" alt="Mobile Money">
                     <span>Mobile Money</span>
                 </label>
-
+{{--
                 <label class="payment-label" for="cash_on_delivery">
                     <input class="paymentMethod" id="cash_on_delivery" type="radio" name="paymentMethod" value="cash_on_delivery">
                     <img src="{{ asset('images/cash_on_delivery.jpg') }}" alt="Cash on Delivery">
                     <span>Cash on Delivery</span>
-                </label>
+                </label> --}}
             </fieldset>
 
             <!-- ... (other payment related fields) ... -->
