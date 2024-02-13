@@ -152,7 +152,7 @@ Route::prefix('admin')->name('admin.')->middleware(['installed', 'apiKey', 'auth
         Route::post('/', [DefaultAccessController::class, 'storeOrUpdate']);
     });
 
-    Route::post('setToken', [FirebasePushController::class, 'setToken'])->name('firebase.token'); 
+    Route::post('setToken', [FirebasePushController::class, 'setToken'])->name('firebase.token');
 
     Route::prefix('setting')->name('setting.')->group(function () {
         Route::prefix('company')->name('company.')->group(function () {

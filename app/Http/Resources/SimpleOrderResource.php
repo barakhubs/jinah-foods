@@ -20,7 +20,7 @@ class SimpleOrderResource extends JsonResource
             'id'                           => $this->id,
             'order_serial_no'              => $this->order_serial_no,
             'order_datetime'               => AppLibrary::datetime($this->order_datetime),
-            "total_amount_price"           => AppLibrary::flatAmountFormat($this->total),
+            "total_amount_price"           => AppLibrary::flatAmountFormat($this->subtotal),
             "discount_amount_price"        => AppLibrary::flatAmountFormat($this->discount),
             "delivery_charge_amount_price" => AppLibrary::flatAmountFormat($this->delivery_charge),
             'payment_method'               => $this->payment_method,
