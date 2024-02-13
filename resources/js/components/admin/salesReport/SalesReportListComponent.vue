@@ -116,7 +116,7 @@
                         <tr class="db-table-head-tr">
                             <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
                             <th class="db-table-head-th">{{ $t('label.date') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.total') }}</th>
+                            <th class="db-table-head-th">Item Price</th>
                             <th class="db-table-head-th">{{ $t('label.discount') }}</th>
                             <th class="db-table-head-th">{{ $t('label.delivery_charge') }}</th>
                             <th class="db-table-head-th">{{ $t('label.payment_type') }}</th>
