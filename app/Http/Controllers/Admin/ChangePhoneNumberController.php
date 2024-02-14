@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\SmsGateways\Requests\FurahaSms;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\Otp;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ChangePhoneNumberController extends Controller
 {
@@ -24,7 +27,7 @@ class ChangePhoneNumberController extends Controller
         ]);
 
         // Send OTP via SMS
-        $message = "Your `code` to change phone `number` is: " .$otpCode;
+        $message = "Your OTP is: " .$otpCode;
         $sms = new FurahaSms('85607206', 'LKrN8NomYKeA1kX4QVKbZk3UbCDUdEJl');
         $send = $sms->sendSMS('+256'.$phone_number, $message);
 
@@ -33,6 +36,32 @@ class ChangePhoneNumberController extends Controller
             return response()->json(['message' => 'OTP sent successfully'], 200);
         } else {
             return response()->json(['message' => 'Failed to send OTP'], 500);
+        }
+    }
+
+    public function verifyOTP($otp) {
+        // Retrieve the OTP record from the database based on the provided OTP
+        $otpRecord = Otp::where('token', $otp)->first();
+
+        if ($otpRecord) {
+
+            $phoneNumber = $otpRecord->phone;
+
+            try {
+                $user = User::find(auth()->user()->id);
+                if (!blank($user)) {
+                    $user->phone        = $phoneNumber;
+                    $user->save();
+                }
+
+                return $user;
+            } catch (Exception $exception) {
+                Log::info($exception->getMessage());
+                throw new Exception($exception->getMessage(), 422);
+            }
+
+        } else {
+            return false; // OTP is invalid
         }
     }
 }
