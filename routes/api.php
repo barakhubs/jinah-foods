@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Admin\ChangePhoneNumberController;
 use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\PosOrderController;
 use App\Http\Controllers\Auth\DeactivateController;
@@ -687,4 +688,13 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
         Route::get('/count', [FrontendDeliveryBoyOrderController::class, 'orderCount']);
         Route::post('/change-status/{order}', [FrontendDeliveryBoyOrderController::class, 'deliveryBoyOrderChangeStatus']);
     });
+
+
+    //send otp to change phone number
+    Route::prefix('change-phone-number')->group(function () {
+        Route::get('/', [ChangePhoneNumberController::class, 'changePhoneNumber']);
+        Route::get('/code/{code}', [ChangePhoneNumberController::class, 'verifyOTP']);
+    });
+
 });
+
