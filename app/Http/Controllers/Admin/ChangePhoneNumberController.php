@@ -48,7 +48,7 @@ class ChangePhoneNumberController extends Controller
             $phoneNumber = $otpRecord->phone;
 
             try {
-                $user = User::find(auth()->user()->id);
+                $user = User::where('phone', $phoneNumber)->first();
                 if (!blank($user)) {
                     $user->phone        = $phoneNumber;
                     $user->save();
