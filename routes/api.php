@@ -692,7 +692,7 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
 
     //send otp to change phone number
     Route::prefix('change-phone-number')->group(function () {
-        Route::get('/', [ChangePhoneNumberController::class, 'changePhoneNumber']);
+        Route::get('/{phone}', [ChangePhoneNumberController::class, 'changePhoneNumber']);
         Route::get('/code/{code}', [ChangePhoneNumberController::class, 'verifyOTP']);
     });
 
