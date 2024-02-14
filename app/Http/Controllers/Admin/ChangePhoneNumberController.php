@@ -24,7 +24,7 @@ class ChangePhoneNumberController extends Controller
         ]);
 
         // Send OTP via SMS
-        $message = "Your code to change phone number is: " .$otpCode;
+        $message = "Your `code` to change phone `number` is: " .$otpCode;
         $sms = new FurahaSms('85607206', 'LKrN8NomYKeA1kX4QVKbZk3UbCDUdEJl');
         $send = $sms->sendSMS('+256'.$phone_number, $message);
 
