@@ -40,28 +40,42 @@ class ChangePhoneNumberController extends Controller
     }
 
     public function verifyOTP($otp) {
-        // Retrieve the OTP record from the database based on the provided OTP
-        $otpRecord = Otp::where('token', $otp)->first();
-
-        if ($otpRecord) {
-
-            $phoneNumber = $otpRecord->phone;
-
-            try {
-                $user = User::where('phone', $phoneNumber)->first();
-                if (!blank($user)) {
-                    $user->phone        = $phoneNumber;
-                    $user->save();
-                }
-
-                return $user;
-            } catch (Exception $exception) {
-                Log::info($exception->getMessage());
-                throw new Exception($exception->getMessage(), 422);
+        try {
+            // Validate the input OTP
+            if (empty($otp)) {
+                throw new InvalidArgumentException("OTP is empty");
             }
 
-        } else {
-            return false; // OTP is invalid
+            // Retrieve the OTP record from the database based on the provided OTP
+            $otpRecord = Otp::where('token', $otp)->first();
+
+            if ($otpRecord) {
+                // OTP is valid
+                $phoneNumber = $otpRecord->phone;
+
+                // Update user's phone number
+                $user = auth()->user();
+                if ($user) {
+                    $user->phone = $phoneNumber;
+                    $user->save();
+
+                    // Phone number updated successfully
+                    return response()->json(['success' => true, 'message' => 'Phone number updated successfully'], 200);
+                } else {
+                    // User authentication failed
+                    return response()->json(['success' => false, 'message' => 'User authentication failed'], 401);
+                }
+            } else {
+                // Invalid OTP
+                return response()->json(['success' => false, 'message' => 'Invalid OTP'], 400);
+            }
+        } catch (Exception $exception) {
+            // Log the exception
+            Log::error($exception->getMessage());
+
+            // Return appropriate error response
+            return response()->json(['success' => false, 'message' => 'An error occurred'], 500);
         }
     }
+
 }
