@@ -24,8 +24,8 @@ class FrontendTimeSlotService
             $j                   = 0;
             $times               = [];
             $today               = Carbon::now()->dayOfWeek;
-            $defaultScheduleTime = 30;
-            $todayTimes          = TimeSlot::select('opening_time', 'closing_time', 'branch_id')->where(['day' => $today])->orderBy(
+            $defaultScheduleTime = 300;
+            $todayTimes          = TimeSlot::select('opening_time', 'closing_time',)->where(['day' => $today])->orderBy(
                 'opening_time',
                 'asc'
             )->get()->toArray();
