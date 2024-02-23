@@ -98,32 +98,39 @@ class FrontendTimeSlotService
 
     function todayTimeSlotCalculation($interval, $startTime, $endTime): array
 {
-    $timeSlots = [];
     $currentTime = Carbon::now();
     $strEndTime = Carbon::createFromFormat('H:i', $endTime);
 
-    // Starting from the current time or the start time, whichever is later
-    $strStartTime = Carbon::createFromFormat('H:i', $startTime)->max($currentTime);
+    // If current time is after the closing time, return an empty array immediately
+    if ($currentTime->greaterThan($strEndTime)) {
+        return [];
+    }
 
-    while ($strStartTime->lessThan($strEndTime)) {
-        $endSlotTime = $strStartTime->copy()->addMinutes($interval);
+    $strStartTime = Carbon::createFromFormat('H:i', $startTime);
+    // Ensure start time is not before the current time
+    $effectiveStartTime = $strStartTime->max($currentTime);
 
-        // If the slot starts before endTime, include it
+    $timeSlots = [];
+
+    while ($effectiveStartTime->lessThan($strEndTime)) {
+        $endSlotTime = $effectiveStartTime->copy()->addMinutes($interval);
+
+        // Ensure the slot does not extend beyond the end time
         if ($endSlotTime->lessThanOrEqualTo($strEndTime)) {
             $timeSlots[] = [
-                'label'     => 'Available Slot', // Customize label as needed
-                'from_time' => $strStartTime->format('H:i'),
+                'label'     => 'Available Slot',
+                'from_time' => $effectiveStartTime->format('H:i'),
                 'to_time'   => $endSlotTime->format('H:i'),
-                'time'      => $strStartTime->format('H:i') . ' - ' . $endSlotTime->format('H:i'),
+                'time'      => $effectiveStartTime->format('H:i') . ' - ' . $endSlotTime->format('H:i'),
             ];
         }
 
-        // Move to the next slot
-        $strStartTime->addMinutes($interval);
+        $effectiveStartTime->addMinutes($interval);
     }
 
     return $timeSlots;
 }
+
 
 
     function tomorrowTimeSlotCalculation($interval, $startTime, $endTime): array
