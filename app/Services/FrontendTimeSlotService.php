@@ -121,7 +121,7 @@ class FrontendTimeSlotService
             // Ensure the slot does not extend beyond the end time
             if ($endSlotTime->lessThanOrEqualTo($strEndTime)) {
                 $timeSlots[] = [
-                    'label' => 'Available Slot',
+                    'label' => AppLibrary::deliveryTime($convertStartTime . ' - ' . $convertEndTime);,
                     'from_time' => $effectiveStartTime->format('H:i'),
                     'to_time' => $endSlotTime->format('H:i'),
                     'time' => $effectiveStartTime->format('H:i') . ' - ' . $endSlotTime->format('H:i'),
