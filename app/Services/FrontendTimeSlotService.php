@@ -98,34 +98,33 @@ class FrontendTimeSlotService
 
     function todayTimeSlotCalculation($interval, $startTime, $endTime): array
 {
-    $i              = 0;
-    $time           = [];
-    $strCurrentTime = strtotime(date('H:i'));
-    $strStartTime   = strtotime($startTime);
-    $strEndTime     = strtotime($endTime);
+    $timeSlots = [];
+    $currentTime = Carbon::now();
+    $strEndTime = Carbon::createFromFormat('H:i', $endTime);
 
-    // Check if now is less than endTime
-    if ($strCurrentTime >= $strEndTime) {
-        // If current time is greater than or equal to endTime, return empty array
-        return [];
-    }
+    // Starting from the current time or the start time, whichever is later
+    $strStartTime = Carbon::createFromFormat('H:i', $startTime)->max($currentTime);
 
-    while ($strStartTime < $strEndTime) {
-        $convertStartTime = date('H:i', $strStartTime);
-        $convertEndTime   = date('H:i', strtotime('+' . $interval . ' minutes', $strStartTime));
+    while ($strStartTime->lessThan($strEndTime)) {
+        $endSlotTime = $strStartTime->copy()->addMinutes($interval);
 
-        // Only include slots where startTime is greater than current time
-        if ($strStartTime > $strCurrentTime) {
-            $time[$i]['label']     = AppLibrary::deliveryTime($convertStartTime . ' - ' . $convertEndTime);
-            $time[$i]['from_time'] = $convertStartTime;
-            $time[$i]['to_time']   = $convertEndTime;
-            $time[$i]['time']      = $convertStartTime . ' - ' . $convertEndTime;
-            $i++;
+        // If the slot starts before endTime, include it
+        if ($endSlotTime->lessThanOrEqualTo($strEndTime)) {
+            $timeSlots[] = [
+                'label'     => 'Available Slot', // Customize label as needed
+                'from_time' => $strStartTime->format('H:i'),
+                'to_time'   => $endSlotTime->format('H:i'),
+                'time'      => $strStartTime->format('H:i') . ' - ' . $endSlotTime->format('H:i'),
+            ];
         }
-        $strStartTime = strtotime('+' . $interval . ' minutes', $strStartTime);
+
+        // Move to the next slot
+        $strStartTime->addMinutes($interval);
     }
-    return $time;
+
+    return $timeSlots;
 }
+
 
     function tomorrowTimeSlotCalculation($interval, $startTime, $endTime): array
     {
