@@ -96,17 +96,20 @@ class FrontendTimeSlotService
         }
     }
 
-    function todayTimeSlotCalculation($interval, $startTime, $endTime): array
+
+function todayTimeSlotCalculation($interval, $startTime, $endTime): array
 {
-    $currentTime = Carbon::now();
-    $strEndTime = Carbon::createFromFormat('H:i', $endTime);
+    // Set the timezone to Africa/Kampala
+    $timezone = 'Africa/Kampala';
+    $currentTime = Carbon::now($timezone);
+    $strEndTime = Carbon::createFromFormat('H:i', $endTime, $timezone);
 
     // If current time is after the closing time, return an empty array immediately
     if ($currentTime->greaterThan($strEndTime)) {
         return [];
     }
 
-    $strStartTime = Carbon::createFromFormat('H:i', $startTime);
+    $strStartTime = Carbon::createFromFormat('H:i', $startTime, $timezone);
     // Ensure start time is not before the current time
     $effectiveStartTime = $strStartTime->max($currentTime);
 
@@ -130,6 +133,7 @@ class FrontendTimeSlotService
 
     return $timeSlots;
 }
+
 
 
 
