@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth; // Make sure to include Auth facade
 
 class FrontendTimeSlotService
 {
-    public Mixed $now = '';
+    public mixed $now = '';
 
     /**
      * @throws Exception
@@ -31,9 +31,9 @@ class FrontendTimeSlotService
                 ->orderBy('opening_time', 'asc')
                 ->get()
                 ->toArray();
-            $orderSetup          = Settings::group('order_setup')->get('order_setup_schedule_order_slot_duration');
+            $orderSetup = Settings::group('order_setup')->get('order_setup_schedule_order_slot_duration');
             if (!empty($orderSetup)) {
-                $defaultScheduleTime = (int)$orderSetup;
+                $defaultScheduleTime = (int) $orderSetup;
             }
             foreach ($todayTimes as $time) {
                 $arrays = $this->todayTimeSlotCalculation(
@@ -44,7 +44,7 @@ class FrontendTimeSlotService
                 );
                 if (count($arrays)) {
                     foreach ($arrays as $array) {
-                        $times[$j] = (object)$array;
+                        $times[$j] = (object) $array;
                         $j++;
                     }
                 }
@@ -59,21 +59,21 @@ class FrontendTimeSlotService
     /**
      * @throws Exception
      */
-    public function tomorrowTimeSlot(): \Vanilla\Support\Collection | \IlluminateAgnostic\Str\Support\Collection | \IlluminateAgnostic\Collection\Support\Collection | \IlluminateAgnostic\StrAgnostic\Str\Support\Collection | \IlluminateAgnostic\ArrAgnostic\Arr\Support\Collection | \Illuminate\Support\Collection | \IlluminateAgnostic\Arr\Support\Collection
+    public function tomorrowTimeSlot(): \Vanilla\Support\Collection|\IlluminateAgnostic\Str\Support\Collection|\IlluminateAgnostic\Collection\Support\Collection|\IlluminateAgnostic\StrAgnostic\Str\Support\Collection|\IlluminateAgnostic\ArrAgnostic\Arr\Support\Collection|\Illuminate\Support\Collection|\IlluminateAgnostic\Arr\Support\Collection
     {
         try {
-            $tomorrow            = Carbon::tomorrow()->dayOfWeek;
+            $tomorrow = Carbon::tomorrow()->dayOfWeek;
             $defaultScheduleTime = 30;
-            $tomorrowTimes       = TimeSlot::select('opening_time', 'closing_time')->where(
+            $tomorrowTimes = TimeSlot::select('opening_time', 'closing_time')->where(
                 ['day' => $tomorrow]
             )->orderBy(
-                'id',
-                'asc'
-            )->get()->toArray();
-            $orderSetup          = Settings::group('order_setup')->get('order_setup_schedule_order_slot_duration');
+                    'id',
+                    'asc'
+                )->get()->toArray();
+            $orderSetup = Settings::group('order_setup')->get('order_setup_schedule_order_slot_duration');
 
             if (!empty($orderSetup)) {
-                $defaultScheduleTime = (int)$orderSetup;
+                $defaultScheduleTime = (int) $orderSetup;
             }
 
             $tomorrowSlots = [];
@@ -85,7 +85,7 @@ class FrontendTimeSlotService
                 );
                 if (count($arrays)) {
                     foreach ($arrays as $array) {
-                        $tomorrowSlots[] = (object)$array;
+                        $tomorrowSlots[] = (object) $array;
                     }
                 }
             }
@@ -97,62 +97,62 @@ class FrontendTimeSlotService
     }
 
 
-function todayTimeSlotCalculation($interval, $startTime, $endTime): array
-{
-    // Set the timezone to Africa/Kampala
-    $timezone = 'Africa/Kampala';
-    $currentTime = Carbon::now($timezone);
-    $strEndTime = Carbon::createFromFormat('H:i', $endTime, $timezone);
+    function todayTimeSlotCalculation($interval, $startTime, $endTime): array
+    {
+        // Set the timezone to Africa/Kampala
+        $timezone = 'Africa/Kampala';
+        $currentTime = Carbon::now($timezone);
+        $strEndTime = Carbon::createFromFormat('H:i', $endTime, $timezone);
 
-    // If current time is after the closing time, return an empty array immediately
-    if ($currentTime->greaterThan($strEndTime)) {
-        return [];
-    }
-
-    $strStartTime = Carbon::createFromFormat('H:i', $startTime, $timezone);
-    // Ensure start time is not before the current time
-    $effectiveStartTime = $strStartTime->max($currentTime);
-
-    $timeSlots = [];
-
-    while ($effectiveStartTime->lessThan($strEndTime)) {
-        $endSlotTime = $effectiveStartTime->copy()->addMinutes($interval);
-
-        // Ensure the slot does not extend beyond the end time
-        if ($endSlotTime->lessThanOrEqualTo($strEndTime)) {
-            $timeSlots[] = [
-                'label'     => 'Available Slot',
-                'from_time' => $effectiveStartTime->format('H:i'),
-                'to_time'   => $endSlotTime->format('H:i'),
-                'time'      => $effectiveStartTime->format('H:i') . ' - ' . $endSlotTime->format('H:i'),
-            ];
+        // If current time is after the closing time, return an empty array immediately
+        if ($currentTime->greaterThan($strEndTime)) {
+            return [];
         }
 
-        $effectiveStartTime->addMinutes($interval);
-    }
+        $strStartTime = Carbon::createFromFormat('H:i', $startTime, $timezone);
+        // Ensure start time is not before the current time
+        $effectiveStartTime = $strStartTime->max($currentTime);
 
-    return $timeSlots;
-}
+        $timeSlots = [];
+
+        while ($effectiveStartTime->lessThan($strEndTime)) {
+            $endSlotTime = $effectiveStartTime->copy()->addMinutes($interval);
+
+            // Ensure the slot does not extend beyond the end time
+            if ($endSlotTime->lessThanOrEqualTo($strEndTime)) {
+                $timeSlots[] = [
+                    'label' => 'Available Slot',
+                    'from_time' => $effectiveStartTime->format('H:i'),
+                    'to_time' => $endSlotTime->format('H:i'),
+                    'time' => $effectiveStartTime->format('H:i') . ' - ' . $endSlotTime->format('H:i'),
+                ];
+            }
+
+            $effectiveStartTime->addMinutes($interval);
+        }
+
+        return $timeSlots;
+    }
 
 
 
 
     function tomorrowTimeSlotCalculation($interval, $startTime, $endTime): array
     {
-        $i            = 0;
-        $time         = [];
+        $i = 0;
+        $time = [];
         $strStartTime = strtotime($startTime);
-        $strEndTime   = strtotime($endTime);
+        $strEndTime = strtotime($endTime);
 
         while ($strStartTime < $strEndTime) {
             $convertStartTime = date('H:i', $strStartTime);
-            $convertEndTime   = date('H:i', strtotime('+' . $interval . ' minutes', $strStartTime));
+            $convertEndTime = date('H:i', strtotime('+' . $interval . ' minutes', $strStartTime));
 
             if ($strStartTime <= strtotime($endTime)) {
-                $time[$i]['label']     = AppLibrary::deliveryTime($convertStartTime . ' - ' . $convertEndTime);
+                $time[$i]['label'] = AppLibrary::deliveryTime($convertStartTime . ' - ' . $convertEndTime);
                 $time[$i]['from_time'] = $convertStartTime;
-                $time[$i]['to_time']   = $convertEndTime;
-                $time[$i]['time']      = $convertStartTime . ' - ' . $convertEndTime;
+                $time[$i]['to_time'] = $convertEndTime;
+                $time[$i]['time'] = $convertStartTime . ' - ' . $convertEndTime;
                 $i++;
             }
             $strStartTime = strtotime('+' . $interval . ' minutes', $strStartTime);
