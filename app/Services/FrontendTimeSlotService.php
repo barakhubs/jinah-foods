@@ -98,35 +98,38 @@ class FrontendTimeSlotService
     }
 
     function todayTimeSlotCalculation($interval, $startTime, $endTime): array
-    {
-        $i = 0;
-        $time = [];
-        $strCurrentTime = strtotime(date('H:i'));
-        $strStartTime = strtotime($startTime);
-        $strEndTime = strtotime($endTime);
+{
+    $i              = 0;
+    $time           = [];
+    $currentTime    = Carbon::now();
+    $strEndTime     = Carbon::createFromFormat('H:i', $endTime);
 
-        // Check if now is less than endTime
-        if ($strCurrentTime >= $strEndTime) {
-            // If current time is greater than or equal to endTime, return empty array
-            return [];
-        }
-
-        while ($strStartTime < $strEndTime) {
-            $convertStartTime = date('H:i', $strStartTime);
-            $convertEndTime = date('H:i', strtotime('+' . $interval . ' minutes', $strStartTime));
-
-            // Only include slots where startTime is greater than current time
-            if ($strStartTime > $strCurrentTime) {
-                $time[$i]['label'] = AppLibrary::deliveryTime($convertStartTime . ' - ' . $convertEndTime);
-                $time[$i]['from_time'] = $convertStartTime;
-                $time[$i]['to_time'] = $convertEndTime;
-                $time[$i]['time'] = $convertStartTime . ' - ' . $convertEndTime;
-                $i++;
-            }
-            $strStartTime = strtotime('+' . $interval . ' minutes', $strStartTime);
-        }
-        return $time;
+    // Check if current time is less than endTime
+    if ($currentTime->greaterThanOrEqualTo($strEndTime)) {
+        // If current time is greater than or equal to endTime, return an empty array
+        return [];
     }
+
+    $strStartTime = Carbon::createFromFormat('H:i', $startTime);
+
+    while ($strStartTime->lessThan($strEndTime)) {
+        $convertStartTime = $strStartTime->format('H:i');
+        $convertEndTime   = $strStartTime->copy()->addMinutes($interval)->format('H:i');
+
+        // Including time slot if it's available in the future
+        $time[$i] = [
+            'label'     => 'Available Slot', // Customize this as needed
+            'from_time' => $convertStartTime,
+            'to_time'   => $convertEndTime,
+            'time'      => $convertStartTime . ' - ' . $convertEndTime,
+        ];
+        $i++;
+
+        $strStartTime->addMinutes($interval);
+    }
+    return $time;
+}
+
 
 
     function tomorrowTimeSlotCalculation($interval, $startTime, $endTime): array
