@@ -112,7 +112,7 @@ class FrontendTimeSlotService
 
     $strStartTime = Carbon::createFromFormat('H:i', $startTime);
 
-    while ($strStartTime->lessThan($strEndTime)) {
+    while ($currentTime->lessThan($strEndTime)) {
         $convertStartTime = $strStartTime->format('H:i');
         $convertEndTime   = $strStartTime->copy()->addMinutes($interval)->format('H:i');
 
