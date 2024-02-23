@@ -2,33 +2,38 @@
 
 namespace App\Services;
 
-
 use App\Libraries\AppLibrary;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\TimeSlot;
 use Smartisan\Settings\Facades\Settings;
+use Illuminate\Support\Facades\Auth; // Make sure to include Auth facade
 
 class FrontendTimeSlotService
 {
-
     public Mixed $now = '';
 
     /**
      * @throws Exception
      */
-    public function todayTimeSlot(): \Vanilla\Support\Collection | \IlluminateAgnostic\Str\Support\Collection | \IlluminateAgnostic\Collection\Support\Collection | \IlluminateAgnostic\StrAgnostic\Str\Support\Collection | \IlluminateAgnostic\ArrAgnostic\Arr\Support\Collection | \Illuminate\Support\Collection | \IlluminateAgnostic\Arr\Support\Collection
+    public function todayTimeSlot()
     {
         try {
-            $j                   = 0;
-            $times               = [];
-            $today               = Carbon::now()->dayOfWeek;
+            // Assuming you have a way to get the logged-in user's default_id
+            $userDefaultId = Auth::user()->default_id; // Get logged-in user's default_id
+
+            $j = 0;
+            $times = [];
+            $today = Carbon::now()->dayOfWeek;
             $defaultScheduleTime = 300;
-            $todayTimes          = TimeSlot::select('opening_time', 'closing_time',)->where(['day' => $today])->orderBy(
-                'opening_time',
-                'asc'
-            )->get()->toArray();
+
+            // Adjust the query to include branch_id matching the user's default_id
+            $todayTimes = TimeSlot::select('opening_time', 'closing_time')
+                ->where(['day' => $today, 'branch_id' => $userDefaultId])
+                ->orderBy('opening_time', 'asc')
+                ->get()
+                ->toArray();
             $orderSetup          = Settings::group('order_setup')->get('order_setup_schedule_order_slot_duration');
             if (!empty($orderSetup)) {
                 $defaultScheduleTime = (int)$orderSetup;
