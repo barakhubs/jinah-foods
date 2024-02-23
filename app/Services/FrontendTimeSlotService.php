@@ -128,7 +128,7 @@ class FrontendTimeSlotService
                 ];
             }
 
-            $effectiveStartTime->addMinutes($interval);
+            $effectiveStartTime->addMinutes(30);
         }
 
         return $timeSlots;
