@@ -33,7 +33,7 @@ class DefaultAccessService
      * @throws Exception
      */
     public function storeOrUpdate($request = []): array
-    { 
+    {
         try {
             if (!blank($request)) {
                 foreach ($request as $key => $item) {
