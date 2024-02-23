@@ -203,7 +203,7 @@ class ItemService
                     $query->where('status', 5);
                 })
                 ->inRandomOrder()
-                ->limit(8)
+                ->limit(10)
                 ->get();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
@@ -220,7 +220,7 @@ class ItemService
                 $query->where('status', 5);
             })
                 ->orderBy('created_at', 'desc')
-                ->limit(8)
+                ->limit(10)
                 ->get();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
@@ -239,7 +239,7 @@ class ItemService
                 })
                 ->where(['status' => Status::ACTIVE])
                 ->orderBy('orders_count', 'desc')
-                ->limit(8)
+                ->limit(10)
                 ->get();
         } catch (Exception $exception) {
             Log::info($exception->getMessage());
