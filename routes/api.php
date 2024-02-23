@@ -696,6 +696,6 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
         Route::get('/code/{code}', [ChangePhoneNumberController::class, 'verifyOTP']);
     });
 
-    Route::post('/', [DefaultAccessController::class, 'storeOrUpdate']);
+    Route::post('/default-access', [DefaultAccessController::class, 'storeOrUpdate']);
 });
 
