@@ -17,11 +17,11 @@ class TimeSlotController extends Controller
         $this->frontendTimeSlotService = $frontendTimeSlotService;
     }
 
-    public function todayTimeSlot(
+    public function todayTimeSlot($userDefaultId
     ) : \Illuminate\Http\Response | \Illuminate\Http\Resources\Json\AnonymousResourceCollection | \Illuminate\Contracts\Foundation\Application | \Illuminate\Contracts\Routing\ResponseFactory
     {
         try {
-            return FrontendTimeSlotResource::collection($this->frontendTimeSlotService->todayTimeSlot());
+            return FrontendTimeSlotResource::collection($this->frontendTimeSlotService->todayTimeSlot($userDefaultId));
         } catch (Exception $exception) {
             return response(['status' => false, 'message' => $exception->getMessage()], 422);
         }

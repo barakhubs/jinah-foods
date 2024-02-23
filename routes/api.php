@@ -654,7 +654,7 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
     });
 
     Route::prefix('time-slot')->name('time-slot.')->group(function () {
-        Route::get('/today', [FrontendTimeSlotController::class, 'todayTimeSlot']);
+        Route::get('/today/{todayTimeSlot}', [FrontendTimeSlotController::class, 'todayTimeSlot']);
         Route::get('/tomorrow', [FrontendTimeSlotController::class, 'tomorrowTimeSlot']);
     });
 
@@ -696,6 +696,5 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
         Route::get('/code/{code}', [ChangePhoneNumberController::class, 'verifyOTP']);
     });
 
-    Route::post('/default-access', [DefaultAccessController::class, 'storeOrUpdate']);
 });
 

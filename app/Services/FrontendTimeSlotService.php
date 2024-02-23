@@ -17,12 +17,10 @@ class FrontendTimeSlotService
     /**
      * @throws Exception
      */
-    public function todayTimeSlot()
+    public function todayTimeSlot($userDefaultId)
     {
         try {
-            // Assuming you have a way to get the logged-in user's default_id
-            $userDefaultId = Auth::user()->default_id; // Get logged-in user's default_id
-
+            
             $j = 0;
             $times = [];
             $today = Carbon::now()->dayOfWeek;
