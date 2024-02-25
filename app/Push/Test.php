@@ -1,16 +1,31 @@
 <?php
-namespace App\Push;
+function sendOneSignalNotification($title, $content, $url) {
+    $fields = [
+        'app_id' => '1d8a4b41-e3f3-45bc-8c75-3194b19778d4',
+        'included_segments' => ['All'],
+        'contents' => ['en' => $content],
+        'headings' => ['en' => $title],
+        'url' => 'https://admin.jinahonestop.com',
+    ];
 
-use App\Push\PushNotification;
+    $fields = json_encode($fields);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://onesignal.com/api/v1/notifications');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json; charset=utf-8',
+        'Authorization: Basic MWM3ZGM3YmEtZDZmNC00MWM5LWI0MDQtZjEyNWI1YjVmNjJj',
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-$pushNotification = new PushNotification();
-$message = 'Hello world!';
-$response = $pushNotification->sendWebNotification('Jinah Foods Notification', $message);
+    $response = curl_exec($ch);
+    curl_close($ch);
 
-// Decode the response and check for errors
-$responseData = json_decode($response, true);
-if (isset($responseData['errors'])) {
-    echo "Error sending notification: " . implode(', ', $responseData['errors']);
-} else {
-    echo "Notification sent successfully!";
+    return $response;
 }
+
+
+echo sendOneSignalNotification("Hello World", "This is a test notification", "https://example.com");
