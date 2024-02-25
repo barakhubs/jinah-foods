@@ -22,6 +22,7 @@
 
     <!-- FAV ICON -->
     <link rel="icon" type="image" href="{{ $favicon }}">
+    <link rel="manifest" href="/manifest.json">
 
 
     @if (!blank($analytics))
@@ -81,6 +82,17 @@
 <script src="{{ asset('themes/default/js/tabs.js') }}"></script>
 <script src="{{ asset('themes/default/js/jqueryDropdown.js') }}"></script>
 <script src="{{ asset('themes/default/js/apexcharts/apexcharts.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.12/push.min.js"></script>
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+  window.OneSignal = window.OneSignal || [];
+  OneSignal.push(function() {
+    OneSignal.init({
+      appId: "41a5fc47-4587-4084-9e84-7478c145e477", // Replace with your OneSignal App ID
+    });
+    OneSignal.showNativePrompt();
+  });
+</script>
 </body>
 
 </html>
