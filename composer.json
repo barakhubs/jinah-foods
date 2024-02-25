@@ -16,6 +16,7 @@
         "karim007/laravel-bkash-tokenize": "^2.0",
         "kingflamez/laravelrave": "dev-master",
         "kreait/laravel-firebase": "^5.4",
+        "ladumor/one-signal": "0.4.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.7",

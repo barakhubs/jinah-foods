@@ -35,7 +35,7 @@ class PushNotification {
         $response = curl_exec($ch);
         curl_close($ch);
 
-        echo "Response: " . $response;
+        return $response;
     }
 
     function sendWebNotification($title, $message, $segment = 'All') {
@@ -61,7 +61,7 @@ class PushNotification {
                 "url" => "https://example.com" // The URL to open when the button is clicked
             ))
         );
-        
+
 
         $fields = json_encode($fields);
 
@@ -78,7 +78,7 @@ class PushNotification {
         $response = curl_exec($ch);
         curl_close($ch);
 
-        echo "Response: " . $response;
+        return $response;
     }
 
 }

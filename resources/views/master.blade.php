@@ -22,7 +22,16 @@
 
     <!-- FAV ICON -->
     <link rel="icon" type="image" href="{{ $favicon }}">
-    <link rel="manifest" href="/manifest.json">
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(function(OneSignal) {
+            OneSignal.init({
+                appId: "1d8a4b41-e3f3-45bc-8c75-3194b19778d4",
+            });
+        });
+    </script>
 
 
     @if (!blank($analytics))
@@ -39,60 +48,49 @@
 </head>
 
 <body>
-@if (!blank($analytics))
-    @foreach ($analytics as $analytic)
-        @if (!blank($analytic->analyticSections))
-            @foreach ($analytic->analyticSections as $section)
-                @if ($section->section == \App\Enums\AnalyticSection::BODY)
-                    {!! $section->data !!}
-                @endif
-            @endforeach
-        @endif
-    @endforeach
-@endif
+    @if (!blank($analytics))
+        @foreach ($analytics as $analytic)
+            @if (!blank($analytic->analyticSections))
+                @foreach ($analytic->analyticSections as $section)
+                    @if ($section->section == \App\Enums\AnalyticSection::BODY)
+                        {!! $section->data !!}
+                    @endif
+                @endforeach
+            @endif
+        @endforeach
+    @endif
 
-<div id="app">
-    <default-component/>
-</div>
+    <div id="app">
+        <default-component />
+    </div>
 
-@if (!blank($analytics))
-    @foreach ($analytics as $analytic)
-        @if (!blank($analytic->analyticSections))
-            @foreach ($analytic->analyticSections as $section)
-                @if ($section->section == \App\Enums\AnalyticSection::FOOTER)
-                    {!! $section->data !!}
-                @endif
-            @endforeach
-        @endif
-    @endforeach
-@endif
+    @if (!blank($analytics))
+        @foreach ($analytics as $analytic)
+            @if (!blank($analytic->analyticSections))
+                @foreach ($analytic->analyticSections as $section)
+                    @if ($section->section == \App\Enums\AnalyticSection::FOOTER)
+                        {!! $section->data !!}
+                    @endif
+                @endforeach
+            @endif
+        @endforeach
+    @endif
 
-<script>
-    const APP_URL = "{{ env('MIX_HOST') }}";
-    const APP_KEY = "{{ env('MIX_API_KEY') }}";
-    const GOOGLE_TOKEN = "{{ env('MIX_GOOGLE_MAP_KEY') }}";
-    const APP_DEMO = "{{ env('MIX_DEMO') }}";
-</script>
+    <script>
+        const APP_URL = "{{ env('MIX_HOST') }}";
+        const APP_KEY = "{{ env('MIX_API_KEY') }}";
+        const GOOGLE_TOKEN = "{{ env('MIX_GOOGLE_MAP_KEY') }}";
+        const APP_DEMO = "{{ env('MIX_DEMO') }}";
+    </script>
 
-<script src="{{ mix('js/app.js') }}"></script>
-<script src="{{ asset('themes/default/js/jquery-v3.2.1.min.js') }}"></script>
-<script src="{{ asset('themes/default/js/drawer.js') }}"></script>
-<script src="{{ asset('themes/default/js/modal.js') }}"></script>
-<script src="{{ asset('themes/default/js/jqueryScript.js') }}"></script>
-<script src="{{ asset('themes/default/js/tabs.js') }}"></script>
-<script src="{{ asset('themes/default/js/jqueryDropdown.js') }}"></script>
-<script src="{{ asset('themes/default/js/apexcharts/apexcharts.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.12/push.min.js"></script>
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-<script>
-  window.OneSignal = window.OneSignal || [];
-  OneSignal.push(function() {
-    OneSignal.init({
-      appId: "41a5fc47-4587-4084-9e84-7478c145e477", // Replace with your OneSignal App ID
-    });
-    OneSignal.showNativePrompt();
-  });
-</script>
+    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ asset('themes/default/js/jquery-v3.2.1.min.js') }}"></script>
+    <script src="{{ asset('themes/default/js/drawer.js') }}"></script>
+    <script src="{{ asset('themes/default/js/modal.js') }}"></script>
+    <script src="{{ asset('themes/default/js/jqueryScript.js') }}"></script>
+    <script src="{{ asset('themes/default/js/tabs.js') }}"></script>
+    <script src="{{ asset('themes/default/js/jqueryDropdown.js') }}"></script>
+    <script src="{{ asset('themes/default/js/apexcharts/apexcharts.min.js') }}"></script>
 </body>
 
 </html>
