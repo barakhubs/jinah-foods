@@ -57,6 +57,7 @@ class OrderPushNotificationBuilder
                         $message = 'Your order is returned! Please contact with us for more details';
                     $pushNotification = new PushNotification();
                     $pushNotification->sendMessage('Jinah Foods Notification', $message, $user->device_token);
+                    $pushNotification->sendWebNotification('Jinah Foods Notification', $message);
                 }
             }
         }
