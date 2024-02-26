@@ -23,8 +23,8 @@ class OrderPushNotificationBuilder
     public function __construct($orderId, $status)
     {
         $this->orderId = $orderId;
-        $this->status  = $status;
-        $this->order   = FrontendOrder::find($orderId);
+        $this->status = $status;
+        $this->order = FrontendOrder::find($orderId);
     }
 
     public function send(): void
@@ -59,7 +59,6 @@ class OrderPushNotificationBuilder
                         $message = 'Your order is returned! Please contact with us for more details';
                     $pushNotification = new PushNotification();
                     $pushNotification->sendMessage('Jinah Foods Notification', $message, $user->device_token);
-                    $pushNotification->sendWebNotification('Jinah Foods Notification', $message);
                 }
             }
 
@@ -71,16 +70,16 @@ class OrderPushNotificationBuilder
 
             foreach ($admins as $admin) {
                 if ($this->status == OrderStatus::PENDING)
-                        $message = 'An order has been placed! Please check your dashboard!';
-                    elseif ($this->status == PaymentStatus::PAID)
-                        $message = 'A payment has been made for an order';
-                    elseif ($this->status == OrderStatus::CANCELED)
-                        $message = 'Your order is canceled! Please contact with us for more details';
-                    elseif ($this->status == OrderStatus::RETURNED)
-                        $message = 'Your order is returned! Please contact with us for more details';
-                    
-                    $pushNotification = new PushNotification();
-                    $pushNotification->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
+                    $message = 'An order has been placed! Please check your dashboard!';
+                elseif ($this->status == PaymentStatus::PAID)
+                    $message = 'A payment has been made for an order';
+                elseif ($this->status == OrderStatus::CANCELED)
+                    $message = 'Your order is canceled! Please contact with us for more details';
+                elseif ($this->status == OrderStatus::RETURNED)
+                    $message = 'Your order is returned! Please contact with us for more details';
+
+                $pushNotification = new PushNotification();
+                $pushNotification->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
             }
 
         }
@@ -110,12 +109,12 @@ class OrderPushNotificationBuilder
     private function notification($fcmTokenArray, $orderId, $message): void
     {
         try {
-            $pushNotification = (object)[
-                'title'       => 'Order Notification',
+            $pushNotification = (object) [
+                'title' => 'Order Notification',
                 'description' => $message,
-                'order_id'    => $orderId
+                'order_id' => $orderId
             ];
-            $firebase         = new FirebaseService();
+            $firebase = new FirebaseService();
             $firebase->sendNotification($pushNotification, $fcmTokenArray, "Order Notification");
         } catch (Exception $e) {
             Log::info($e->getMessage());
