@@ -31,10 +31,9 @@
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
 
-            // Listen for the notificationPermissionChange event
-            OneSignal.on('notificationPermissionChange', function(permissionChange) {
-                // Check if the user has granted permission
-                if (permissionChange.to === 'granted') {
+            // Set a subscription observer
+            OneSignal.setSubscriptionObserver(function(isSubscribed) {
+                if (isSubscribed) {
                     // User has subscribed, send a POST request to 'frontend/web/token/'
                     fetch('frontend/web/token/', {
                             method: 'POST',
@@ -53,6 +52,7 @@
             });
         });
     </script>
+
 
 
 
