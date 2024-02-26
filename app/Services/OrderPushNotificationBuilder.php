@@ -93,7 +93,7 @@ class OrderPushNotificationBuilder
             if (!blank($user)) {
                 if (!blank($user->web_token) || !blank($user->device_token)) {
                     $message = $this->getMessageForCustomer($this->status);
-                    $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
+                    // $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
                 }
             }
 
@@ -104,13 +104,12 @@ class OrderPushNotificationBuilder
                 EnumRole::BRANCH_MANAGER
             ];
 
-            $admins = User::role(EnumRole::ADMIN)->get();
+            Log::info('', $roleNames);
+            $admins = User::role($roleNames)->get();
 
             $message = $this->getMessageForAdmin($this->status);
             foreach ($admins as $admin) {
                 $this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
-                    Log::info($admin->web_token);
-                    Log::info($this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token));
             }
         }
     }
