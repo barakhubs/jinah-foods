@@ -23,89 +23,19 @@
     <!-- FAV ICON -->
     <link rel="icon" type="image" href="{{ $favicon }}">
 
-    {{-- <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(function(OneSignal) {
-            OneSignal.init({
-                appId: "41a5fc47-4587-4084-9e84-7478c145e477",
-            });
-            // Listen for subscription event
-            OneSignal.on('subscriptionChange', function(isSubscribed) {
-                if (isSubscribed) {
-                    // Get the subscription ID
-                    OneSignal.getUserId().then(function(userId) {
-                        // Make a POST request with the subscription ID
-                        fetch('/api/frontend/device-token/web', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    subscription_id: userId
-                                })
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Network response was not ok');
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                console.log(data);
-                            })
-                            .catch(error => {
-                                console.error('There was a problem with the fetch operation:',
-                                    error);
-                            });
-                    });
-                }
-            });
+          OneSignal.init({
+            appId: "41a5fc47-4587-4084-9e84-7478c145e477",
+          });
         });
-    </script> --}}
-
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
-    <script>
-        window.OneSignal = window.OneSignal || [];
-        OneSignal.push(function() {
-            OneSignal.init({
-                appId: "41a5fc47-4587-4084-9e84-7478c145e477",
-            });
-            // Listen for subscription event
-            OneSignal.on('subscriptionChange', function(isSubscribed) {
-                if (isSubscribed) {
-                    // Get the subscription ID
-                    OneSignal.getUserId().then(function(userId) {
-                        // Make a POST request with the subscription ID
-                        fetch('/api/frontend/device-token/web', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    subscription_id: userId
-                                })
-                            })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Network response was not ok');
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                console.log(data);
-                            })
-                            .catch(error => {
-                                console.error('There was a problem with the fetch operation:', error);
-                            });
-                    });
-                }
-            });
-        });
-    </script>
+      </script>
 
 
-    @if (!blank($analytics))
+
+@if (!blank($analytics))
         @foreach ($analytics as $analytic)
             @if (!blank($analytic->analyticSections))
                 @foreach ($analytic->analyticSections as $section)
