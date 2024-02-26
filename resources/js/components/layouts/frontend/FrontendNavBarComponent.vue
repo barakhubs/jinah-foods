@@ -1,5 +1,5 @@
 <template>
-    <LoadingComponent :props="loading"/>
+    <LoadingComponent :props="loading" />
     <header class="shadow-xs bg-white ff-header">
         <div class="container flex flex-col lg:flex-row items-center justify-between">
             <div class="w-full flex items-center justify-between gap-5 xl:gap-8 lg:justify-start lg:w-fit">
@@ -36,28 +36,28 @@
                     class="capitalize text-sm font-medium text-heading">
                     {{ $t('menu.home') }}
                 </router-link>
-                <router-link :to="{ name: 'frontend.restaurant'}"
-                             :class="checkIsPathAndRoutePathSame('/restaurants') ? 'text-primary' : ''"
-                             class="capitalize text-sm font-medium text-heading">
+                <router-link :to="{ name: 'frontend.restaurant' }"
+                    :class="checkIsPathAndRoutePathSame('/restaurants') ? 'text-primary' : ''"
+                    class="capitalize text-sm font-medium text-heading">
                     Restaurants
                 </router-link>
                 <router-link :to="{ name: 'frontend.offers' }"
-                             :class="checkIsPathAndRoutePathSame('/offers') ? 'text-primary' : ''"
-                             class="capitalize text-sm font-medium text-heading">
+                    :class="checkIsPathAndRoutePathSame('/offers') ? 'text-primary' : ''"
+                    class="capitalize text-sm font-medium text-heading">
                     {{ $t('label.offers') }}
                 </router-link>
             </nav>
 
             <div class="flex flex-col items-center justify-end gap-3 w-full mt-4 lg:flex-row lg:w-fit lg:mt-0">
                 <form @submit.prevent="search"
-                      class="header-search-group group flex items-center justify-center border border-solid gap-2 px-2 w-full lg:w-52 h-8 rounded-3xl transition border-[#EFF0F6] bg-[#EFF0F6] focus-within:bg-white focus-within:border-primary">
+                    class="header-search-group group flex items-center justify-center border border-solid gap-2 px-2 w-full lg:w-52 h-8 rounded-3xl transition border-[#EFF0F6] bg-[#EFF0F6] focus-within:bg-white focus-within:border-primary">
                     <button type="submit" class="header-search-submit">
                         <i class="lab lab-search-normal"></i>
                     </button>
                     <input type="search" v-model="searchItem" :placeholder="$t('button.search')"
-                           class="header-search-field w-full h-full text-xs appearance-none placeholder:font-normal placeholder:text-paragraph text-heading">
+                        class="header-search-field w-full h-full text-xs appearance-none placeholder:font-normal placeholder:text-paragraph text-heading">
                     <button type="button" @click.prevent="searchReset"
-                            class="header-search-button transition invisible group-focus-within:visible">
+                        class="header-search-button transition invisible group-focus-within:visible">
                         <i class="lab lab-close-circle-line lab-font-size-16 lab-font-weight-600 text-red-500"></i>
                     </button>
                 </form>
@@ -65,12 +65,12 @@
                     class="webcart hidden lg:flex items-center justify-center gap-1.5 w-fit rounded-3xl capitalize text-sm font-medium h-8 px-3 transition text-white bg-heading">
                     <i class="lab lab-bag-2 lab-font-size-17"></i>
                     <span class="whitespace-nowrap">{{
-                                formatCurrency(subtotal)
-                        }}</span>
+                        formatCurrency(subtotal)
+                    }}</span>
                 </button>
                 <router-link v-if="!logged"
-                             class="hidden lg:flex items-center justify-center gap-1 w-fit rounded-3xl capitalize text-sm font-medium h-8 px-3 transition text-white bg-primary"
-                             :to="{ name: 'auth.login' }">
+                    class="hidden lg:flex items-center justify-center gap-1 w-fit rounded-3xl capitalize text-sm font-medium h-8 px-3 transition text-white bg-primary"
+                    :to="{ name: 'auth.login' }">
                     <i class="lab lab-profile-circle"></i>
                     <span class="whitespace-nowrap">{{ $t('label.login') }}</span>
                 </router-link>
@@ -88,25 +88,24 @@
                             <figure
                                 class="relative z-10 w-[98px] h-[98px] border-2 border-dashed rounded-full inline-flex items-center justify-center border-white bg-gradient-to-t from-[#FF7A00] to-[#FF016C]
                                                                                                                                                                                             before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-24 before:h-24 before:rounded-full before:-z-10 before:bg-white">
-                                <img class="w-[90px] h-[90px] rounded-full shadow-avatar" :src="profile.image"
-                                     alt="avatar">
+                                <img class="w-[90px] h-[90px] rounded-full shadow-avatar" :src="profile.image" alt="avatar">
                             </figure>
                             <label for="imageProperty"
-                                   class="block w-11 h-11 mx-auto -mt-7 mb-1 relative z-10 rounded-full border-2 cursor-pointer bg-heading border-white">
+                                class="block w-11 h-11 mx-auto -mt-7 mb-1 relative z-10 rounded-full border-2 cursor-pointer bg-heading border-white">
                                 <input @change="saveImage" id="imageProperty" ref="imageProperty"
-                                       accept="image/png, image/jpeg, image/jpg" type="file"
-                                       class="w-full h-full rounded-full opacity-0 cursor-pointer">
+                                    accept="image/png, image/jpeg, image/jpg" type="file"
+                                    class="w-full h-full rounded-full opacity-0 cursor-pointer">
                                 <i
                                     class="lab lab-edit-2 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 -z-10 lab-font-size-24 lab-font-color-1"></i>
                             </label>
                             <h3 class="font-medium text-sm leading-6 capitalize">{{
-                                    textShortener(profile.name, 20)
-                                }}</h3>
+                                textShortener(profile.name, 20)
+                            }}</h3>
                             <p class="text-xs mb-0.5">{{ profile.email }}</p>
                             <p class="text-xs">{{ profile.phone }}</p>
                             <h3 class="font-medium text-sm leading-6 capitalize mb-0.5">{{
-                                    profile.currency_balance
-                                }}</h3>
+                                profile.currency_balance
+                            }}</h3>
                         </div>
                         <nav>
                             <router-link
@@ -118,36 +117,36 @@
                             </router-link>
 
                             <router-link :to="{ name: 'frontend.myOrder' }"
-                                         class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
+                                class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
                                 <i class="lab lab-reserve-line lab-font-size-17"></i>
                                 <span class="text-sm leading-6 capitalize">{{ $t('button.my_orders') }}</span>
                             </router-link>
 
                             <router-link :to="{ name: 'frontend.editProfile' }"
-                                         class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
+                                class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
                                 <i class="lab lab-edit lab-font-size-17"></i>
                                 <span class="text-sm leading-6 capitalize">{{ $t('button.edit_profile') }}</span>
                             </router-link>
 
                             <router-link :to="{ name: 'frontend.chat' }"
-                                         class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
+                                class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
                                 <i class="lab lab-messages-line lab-font-size-17"></i>
                                 <span class="text-sm leading-6 capitalize">{{ $t('button.chat') }}</span>
                             </router-link>
 
                             <router-link :to="{ name: 'frontend.address' }"
-                                         class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
+                                class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
                                 <i class="lab lab-map lab-font-size-17"></i>
                                 <span class="text-sm leading-6 capitalize">{{ $t('button.address') }}</span>
                             </router-link>
 
                             <router-link :to="{ name: 'frontend.changePassword' }"
-                                         class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
+                                class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
                                 <i class="lab lab-key lab-font-size-17"></i>
                                 <span class="text-sm leading-6 capitalize">{{ $t('button.change_password') }}</span>
                             </router-link>
                             <button @click="logout()"
-                                    class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
+                                class="paper-link transition w-full flex items-center gap-3.5 py-2.5 border-b last:border-none border-[#EFF0F6]">
                                 <i class="lab lab-logout lab-font-size-17"></i>
                                 <span class="text-sm leading-6 capitalize">{{ $t('button.logout') }}</span>
                             </button>
@@ -167,8 +166,9 @@
                 {{ orderNotificationMessage }}
                 <span class="block">{{ $t('message.please_check_your_order_list') }}</span>
             </h3>
-            <router-link :to="{ path: '/admin/' + orderNotification.url }" class="db-btn h-[38px] shadow-[0px_6px_10px_rgba(255,_0,_107,_0.24)] bg-primary text-white">
-                {{ $t('button.let_me_check')}}
+            <router-link :to="{ path: '/admin/' + orderNotification.url }"
+                class="db-btn h-[38px] shadow-[0px_6px_10px_rgba(255,_0,_107,_0.24)] bg-primary text-white">
+                {{ $t('button.let_me_check') }}
             </router-link>
         </div>
     </div>
@@ -180,15 +180,15 @@ import appService from "../../../services/appService";
 import alertService from "../../../services/alertService";
 import LoadingComponent from "../../frontend/components/LoadingComponent";
 import axios from 'axios'
-import {initializeApp} from "firebase/app";
-import {getMessaging, getToken, onMessage} from "firebase/messaging";
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import activityEnum from "../../../enums/modules/activityEnum";
 import roleEnum from "../../../enums/modules/roleEnum";
 import _ from "lodash";
 
 export default {
     name: "FrontendNavbarComponent",
-    components: {LoadingComponent},
+    components: { LoadingComponent },
     data() {
         return {
             loading: {
@@ -310,48 +310,63 @@ export default {
                     order_setup_takeaway: res.data.data.order_setup_takeaway
                 });
 
-                if (this.$store.getters.authStatus && res.data.data.notification_fcm_api_key && res.data.data.notification_fcm_auth_domain && res.data.data.notification_fcm_project_id && res.data.data.notification_fcm_storage_bucket && res.data.data.notification_fcm_messaging_sender_id && res.data.data.notification_fcm_app_id && res.data.data.notification_fcm_measurement_id) {
-                    initializeApp({
-                        apiKey: res.data.data.notification_fcm_api_key,
-                        authDomain: res.data.data.notification_fcm_auth_domain,
-                        projectId: res.data.data.notification_fcm_project_id,
-                        storageBucket: res.data.data.notification_fcm_storage_bucket,
-                        messagingSenderId: res.data.data.notification_fcm_messaging_sender_id,
-                        appId: res.data.data.notification_fcm_app_id,
-                        measurementId: res.data.data.notification_fcm_measurement_id
+                // if (this.$store.getters.authStatus && res.data.data.notification_fcm_api_key && res.data.data.notification_fcm_auth_domain && res.data.data.notification_fcm_project_id && res.data.data.notification_fcm_storage_bucket && res.data.data.notification_fcm_messaging_sender_id && res.data.data.notification_fcm_app_id && res.data.data.notification_fcm_measurement_id) {
+                //     initializeApp({
+                //         apiKey: res.data.data.notification_fcm_api_key,
+                //         authDomain: res.data.data.notification_fcm_auth_domain,
+                //         projectId: res.data.data.notification_fcm_project_id,
+                //         storageBucket: res.data.data.notification_fcm_storage_bucket,
+                //         messagingSenderId: res.data.data.notification_fcm_messaging_sender_id,
+                //         appId: res.data.data.notification_fcm_app_id,
+                //         measurementId: res.data.data.notification_fcm_measurement_id
+                //     });
+                //     const messaging = getMessaging();
+
+                //     // Notification.requestPermission().then((permission) => {
+                //     //     if (permission === 'granted') {
+                //     //         getToken(messaging, {vapidKey: res.data.data.notification_fcm_public_vapid_key}).then((currentToken) => {
+                //     //             if (currentToken) {
+                //     //                 axios.post('/frontend/device-token/web', {token: currentToken}).then().catch((error) => {
+                //     //                     if (error.response.data.message === 'Unauthenticated.') {
+                //     //                         this.$store.dispatch('loginDataReset');
+                //     //                     }
+                //     //                 });
+                //     //             }
+                //     //         }).catch();
+                //     //     }
+                //     // });
+
+                //     onMessage(messaging, (payload) => {
+                //         const notificationTitle = payload.notification.title;
+                //         const notificationOptions = {
+                //             body: payload.notification.body,
+                //             icon: '/images/default/firebase-logo.png'
+                //         };
+                //         new Notification(notificationTitle, notificationOptions);
+
+                //         if(payload.data.topicName === 'new-order-found' && this.orderNotification.permission) {
+                //             this.orderNotificationStatus = true;
+                //             this.orderNotificationMessage = payload.notification.body;
+                //             const audio = new Audio(res.data.data.notification_audio);
+                //             audio.play();
+                //         }
+                //     });
+                // }
+                window.OneSignalDeferred = window.OneSignalDeferred || [];
+                OneSignalDeferred.push(function (OneSignal) {
+                    OneSignal.init({
+                        appId: "41a5fc47-4587-4084-9e84-7478c145e477",
                     });
-                    const messaging = getMessaging();
 
-                    // Notification.requestPermission().then((permission) => {
-                    //     if (permission === 'granted') {
-                    //         getToken(messaging, {vapidKey: res.data.data.notification_fcm_public_vapid_key}).then((currentToken) => {
-                    //             if (currentToken) {
-                    //                 axios.post('/frontend/device-token/web', {token: currentToken}).then().catch((error) => {
-                    //                     if (error.response.data.message === 'Unauthenticated.') {
-                    //                         this.$store.dispatch('loginDataReset');
-                    //                     }
-                    //                 });
-                    //             }
-                    //         }).catch();
-                    //     }
-                    // });
+                    if (OneSignal.User.PushSubscription.optedIn) {
 
-                    onMessage(messaging, (payload) => {
-                        const notificationTitle = payload.notification.title;
-                        const notificationOptions = {
-                            body: payload.notification.body,
-                            icon: '/images/default/firebase-logo.png'
-                        };
-                        new Notification(notificationTitle, notificationOptions);
-
-                        if(payload.data.topicName === 'new-order-found' && this.orderNotification.permission) {
-                            this.orderNotificationStatus = true;
-                            this.orderNotificationMessage = payload.notification.body;
-                            const audio = new Audio(res.data.data.notification_audio);
-                            audio.play();
-                        }
-                    });
-                }
+                        axios.post('/frontend/device-token/web', { token: OneSignal.User.PushSubscription.id }).then().catch((error) => {
+                            if (error.response.data.message === 'Unauthenticated.') {
+                                this.$store.dispatch('loginDataReset');
+                            }
+                        });
+                    }
+                });
             }, 3000);
         }).catch((err) => {
             this.loading.isActive = false;
@@ -368,11 +383,11 @@ export default {
         },
         changeBranch: function (id) {
             this.$store.dispatch('frontendBranch/show', id);
-            this.$store.dispatch("globalState/set", {branch_id: id});
+            this.$store.dispatch("globalState/set", { branch_id: id });
         },
         changeLanguage: function (id, code) {
             this.defaultLanguage = id;
-            this.$store.dispatch("globalState/set", {language_id: id, language_code: code}).then(res => {
+            this.$store.dispatch("globalState/set", { language_id: id, language_code: code }).then(res => {
                 this.$store.dispatch('frontendLanguage/show', id).then(res => {
                     this.$i18n.locale = res.data.data.code;
                 }).catch();
@@ -380,7 +395,7 @@ export default {
         },
         logout: function () {
             this.$store.dispatch("logout").then(res => {
-                this.$router.push({name: "frontend.home"});
+                this.$router.push({ name: "frontend.home" });
             }).catch();
         },
         currencyFormat(amount, decimal, currency, position) {
@@ -391,7 +406,7 @@ export default {
         },
         search: function () {
             if (typeof this.searchItem !== "undefined" && this.searchItem !== "") {
-                this.$router.push({name: "frontend.search", query: {s: this.searchItem}});
+                this.$router.push({ name: "frontend.search", query: { s: this.searchItem } });
                 this.searchItem = "";
             }
         },
@@ -404,7 +419,7 @@ export default {
                     this.loading.isActive = true;
                     const formData = new FormData();
                     formData.append("image", this.$refs.imageProperty.files[0]);
-                    this.$store.dispatch("frontendEditProfile/changeImage", {form: formData}).then((res) => {
+                    this.$store.dispatch("frontendEditProfile/changeImage", { form: formData }).then((res) => {
                         this.$store.dispatch('updateAuthInfo', res.data.data).then(res => {
                             this.loading.isActive = false;
                             alertService.success(this.$t("message.photo_update"));

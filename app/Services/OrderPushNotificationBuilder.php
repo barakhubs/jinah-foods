@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 use App\Enums\SwitchBox;
 use App\Models\FrontendOrder;
 use App\Models\NotificationAlert;
@@ -11,6 +12,7 @@ use App\Models\User;
 use App\Push\PushNotification;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use App\Enums\Role as EnumRole;
 
 class OrderPushNotificationBuilder
 {
@@ -60,6 +62,27 @@ class OrderPushNotificationBuilder
                     $pushNotification->sendWebNotification('Jinah Foods Notification', $message);
                 }
             }
+
+            $admins = User::whereIn('role', [
+                EnumRole::ADMIN,
+                EnumRole::POS_OPERATOR,
+                EnumRole::BRANCH_MANAGER
+            ])->get();
+
+            foreach ($admins as $admin) {
+                if ($this->status == OrderStatus::PENDING)
+                        $message = 'An order has been placed! Please check your dashboard!';
+                    elseif ($this->status == PaymentStatus::PAID)
+                        $message = 'A payment has been made for an order';
+                    elseif ($this->status == OrderStatus::CANCELED)
+                        $message = 'Your order is canceled! Please contact with us for more details';
+                    elseif ($this->status == OrderStatus::RETURNED)
+                        $message = 'Your order is returned! Please contact with us for more details';
+                    
+                    $pushNotification = new PushNotification();
+                    $pushNotification->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
+            }
+
         }
     }
 
