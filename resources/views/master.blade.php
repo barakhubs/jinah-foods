@@ -65,43 +65,44 @@
     </script> --}}
 
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
-<script>
-    OneSignal.push(function() {
-        // Initialize OneSignal
-        OneSignal.init({
-            appId: "YOUR_APP_ID",
-            // Other initialization options...
-        });
-
-        // Subscribe event listener
-        OneSignal.on('subscriptionChange', function(isSubscribed) {
-            if (isSubscribed) {
-                // Get subscription ID
-                OneSignal.getUserId().then(function(userId) {
-                    // Make POST request with subscription ID
-                    fetch('/api/subscribe', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            subscriptionId: userId
-                        })
-                    }).then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    }).then(data => {
-                        console.log(data);
-                    }).catch(error => {
-                        console.error('There was a problem with the fetch operation:', error);
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "YOUR_ONESIGNAL_APP_ID",
+            });
+            // Listen for subscription event
+            OneSignal.on('subscriptionChange', function(isSubscribed) {
+                if (isSubscribed) {
+                    // Get the subscription ID
+                    OneSignal.getUserId().then(function(userId) {
+                        // Make a POST request with the subscription ID
+                        fetch('/api/frontend/device-token/web', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    subscription_id: userId
+                                })
+                            })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log(data);
+                            })
+                            .catch(error => {
+                                console.error('There was a problem with the fetch operation:', error);
+                            });
                     });
-                });
-            }
+                }
+            });
         });
-    });
-</script>
+    </script>
 
 
     @if (!blank($analytics))
