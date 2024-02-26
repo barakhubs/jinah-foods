@@ -31,9 +31,7 @@
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
 
-            OneSignal.getUserId().then(function(userId) {
-                console.log("OneSignal User ID:", userId);
-            });
+            await OneSignal.getUserId();
 
         });
     </script>
