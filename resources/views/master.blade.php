@@ -27,37 +27,23 @@
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(function(OneSignal) {
-            OneSignal.init({
-                appId: "41a5fc47-4587-4084-9e84-7478c145e477",
-            });
+          OneSignal.init({
+            appId: "41a5fc47-4587-4084-9e84-7478c145e477",
+          });
 
-            // Add a listener for subscription changes
-            OneSignal.addListener('subscriptionChange', function(isSubscribed) {
-                if (isSubscribed) {
-                    // User has subscribed, send a POST request to 'frontend/web/token/'
-                    fetch('frontend/web/token/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                // Assuming you want to send the OneSignal player ID
-                                playerId: OneSignal.getUserId(),
-                            }),
-                        })
-                        .then(response => response.json())
-                        .then(data => console.log('Success:', data))
-                        .catch((error) => console.error('Error:', error));
-                }
-            });
+          OneSignal.Notifications.addEventListener("permissionChange", permissionChangeListener)
         });
+
+        function permissionChangeListener(permission) {
+        if (permission) {
+            console.log(`permission accepted!`);
+        }
+}
     </script>
 
 
 
-
-
-    @if (!blank($analytics))
+@if (!blank($analytics))
         @foreach ($analytics as $analytic)
             @if (!blank($analytic->analyticSections))
                 @foreach ($analytic->analyticSections as $section)
