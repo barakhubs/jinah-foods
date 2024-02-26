@@ -33,7 +33,7 @@
 
             if (OneSignal.User.PushSubscription.optedIn) {
           // User has subscribed, send a POST request to 'frontend/web/token/'
-          fetch('frontend/device-token/web/', {
+          fetch('https://admin.jinahonestop.com/api/frontend/device-token/web', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
