@@ -27,20 +27,23 @@
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(function(OneSignal) {
-          OneSignal.init({
-            appId: "41a5fc47-4587-4084-9e84-7478c145e477",
-          });
+            OneSignal.init({
+                appId: "41a5fc47-4587-4084-9e84-7478c145e477",
+            });
 
-          OneSignal.User.PushSubscription.getId().then(function(subscriptionId) {
-            console.log("Subscription ID is:", subscriptionId);
-         });
-         
+            OneSignal.User.pushSubscription.addEventListener('change', (subscription) => {
+                console.log('OneSignal: subscription changed:', subscription);
+            });
+
+            // To remove the listener
+            OneSignal.User.pushSubscription.removeEventListener('change', myListener);
+
         });
     </script>
 
 
 
-@if (!blank($analytics))
+    @if (!blank($analytics))
         @foreach ($analytics as $analytic)
             @if (!blank($analytic->analyticSections))
                 @foreach ($analytic->analyticSections as $section)
