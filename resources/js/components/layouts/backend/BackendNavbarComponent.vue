@@ -227,50 +227,50 @@ export default {
             }
         });
 
-        // window.setTimeout(() => {
-        //     if (this.$store.getters.authStatus && this.setting.notification_fcm_api_key && this.setting.notification_fcm_auth_domain && this.setting.notification_fcm_project_id && this.setting.notification_fcm_storage_bucket && this.setting.notification_fcm_messaging_sender_id && this.setting.notification_fcm_app_id && this.setting.notification_fcm_measurement_id) {
-        //         initializeApp({
-        //             apiKey: this.setting.notification_fcm_api_key,
-        //             authDomain: this.setting.notification_fcm_auth_domain,
-        //             projectId: this.setting.notification_fcm_project_id,
-        //             storageBucket: this.setting.notification_fcm_storage_bucket,
-        //             messagingSenderId: this.setting.notification_fcm_messaging_sender_id,
-        //             appId: this.setting.notification_fcm_app_id,
-        //             measurementId: this.setting.notification_fcm_measurement_id
-        //         });
-        //         const messaging = getMessaging();
+        window.setTimeout(() => {
+            if (this.$store.getters.authStatus && this.setting.notification_fcm_api_key && this.setting.notification_fcm_auth_domain && this.setting.notification_fcm_project_id && this.setting.notification_fcm_storage_bucket && this.setting.notification_fcm_messaging_sender_id && this.setting.notification_fcm_app_id && this.setting.notification_fcm_measurement_id) {
+                initializeApp({
+                    apiKey: this.setting.notification_fcm_api_key,
+                    authDomain: this.setting.notification_fcm_auth_domain,
+                    projectId: this.setting.notification_fcm_project_id,
+                    storageBucket: this.setting.notification_fcm_storage_bucket,
+                    messagingSenderId: this.setting.notification_fcm_messaging_sender_id,
+                    appId: this.setting.notification_fcm_app_id,
+                    measurementId: this.setting.notification_fcm_measurement_id
+                });
+                const messaging = getMessaging();
 
-        //         Notification.requestPermission().then((permission) => {
-        //             if (permission === 'granted') {
-        //                 getToken(messaging, {vapidKey: this.setting.notification_fcm_public_vapid_key}).then((currentToken) => {
-        //                     if (currentToken) {
-                                // axios.post('/frontend/device-token/web', {token: currentToken}).then().catch((error) => {
-                                //     if (error.response.data.message === 'Unauthenticated.') {
-                                //         this.$store.dispatch('loginDataReset');
-                                //     }
-                                // });
-        //                     }
-        //                 }).catch();
-        //             }
-        //         });
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        getToken(messaging, {vapidKey: this.setting.notification_fcm_public_vapid_key}).then((currentToken) => {
+                            if (currentToken) {
+                                axios.post('/frontend/device-token/web', {token: currentToken}).then().catch((error) => {
+                                    if (error.response.data.message === 'Unauthenticated.') {
+                                        this.$store.dispatch('loginDataReset');
+                                    }
+                                });
+                            }
+                        }).catch();
+                    }
+                });
 
-        //         onMessage(messaging, (payload) => {
-        //             const notificationTitle = payload.notification.title;
-        //             const notificationOptions = {
-        //                 body: payload.notification.body,
-        //                 icon: '/images/default/firebase-logo.png'
-        //             };
-        //             new Notification(notificationTitle, notificationOptions);
+                onMessage(messaging, (payload) => {
+                    const notificationTitle = payload.notification.title;
+                    const notificationOptions = {
+                        body: payload.notification.body,
+                        icon: '/images/default/firebase-logo.png'
+                    };
+                    new Notification(notificationTitle, notificationOptions);
 
-        //             if(payload.data.topicName === 'new-order-found' && this.orderNotification.permission) {
-        //                 this.orderNotificationStatus = true;
-        //                 this.orderNotificationMessage = payload.notification.body;
-        //                 const audio = new Audio(this.setting.notification_audio);
-        //                 audio.play();
-        //             }
-        //         });
-        //     }
-        // }, 5000);
+                    if(payload.data.topicName === 'new-order-found' && this.orderNotification.permission) {
+                        this.orderNotificationStatus = true;
+                        this.orderNotificationMessage = payload.notification.body;
+                        const audio = new Audio(this.setting.notification_audio);
+                        audio.play();
+                    }
+                });
+            }
+        }, 5000);
     },
     methods: {
         textShortener: function (text, number = 30) {
