@@ -104,7 +104,7 @@ class OrderPushNotificationBuilder
                 EnumRole::BRANCH_MANAGER
             ];
 
-            $admins = User::role($roleNames)->get();
+            $admins = User::role(EnumRole::ADMIN)->get();
 
             $message = $this->getMessageForAdmin($this->status);
             foreach ($admins as $admin) {
