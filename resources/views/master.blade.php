@@ -34,7 +34,7 @@
             OneSignal.User.PushSubscription.addEventListener("change", pushSubscriptionChangeListener);
 
             function pushSubscriptionChangeListener(event) {
-            if (event.current.optenIn) {
+            if (event.current.optedIn) {
                 console.log(`The push subscription has received a token!`);
             }
             }
