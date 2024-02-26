@@ -23,7 +23,7 @@
     <!-- FAV ICON -->
     <link rel="icon" type="image" href="{{ $favicon }}">
 
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    {{-- <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(function(OneSignal) {
@@ -62,7 +62,47 @@
                 }
             });
         });
-    </script>
+    </script> --}}
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+<script>
+    OneSignal.push(function() {
+        // Initialize OneSignal
+        OneSignal.init({
+            appId: "YOUR_APP_ID",
+            // Other initialization options...
+        });
+
+        // Subscribe event listener
+        OneSignal.on('subscriptionChange', function(isSubscribed) {
+            if (isSubscribed) {
+                // Get subscription ID
+                OneSignal.getUserId().then(function(userId) {
+                    // Make POST request with subscription ID
+                    fetch('/api/subscribe', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            subscriptionId: userId
+                        })
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    }).then(data => {
+                        console.log(data);
+                    }).catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+                });
+            }
+        });
+    });
+</script>
+
 
     @if (!blank($analytics))
         @foreach ($analytics as $analytic)
