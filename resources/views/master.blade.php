@@ -69,7 +69,7 @@
         window.OneSignal = window.OneSignal || [];
         OneSignal.push(function() {
             OneSignal.init({
-                appId: "YOUR_ONESIGNAL_APP_ID",
+                appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
             // Listen for subscription event
             OneSignal.on('subscriptionChange', function(isSubscribed) {
