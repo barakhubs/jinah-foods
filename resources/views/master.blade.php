@@ -31,12 +31,16 @@
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
 
-            OneSignal.User.pushSubscription.addEventListener('change', (subscription) => {
-                console.log('OneSignal: subscription changed:', subscription);
-            });
+            function pushSubscriptionChangeListener(event) {
+                if (event.current.token) {
+                    console.log(`The push subscription has received a token!`);
+                }
+                }
 
-            // To remove the listener
-            OneSignal.User.pushSubscription.removeEventListener('change', myListener);
+                OneSignalDeferred.push(function() {
+                OneSignal.User.PushSubscription.addEventListener("change", pushSubscriptionChangeListener);
+                });
+
 
         });
     </script>
