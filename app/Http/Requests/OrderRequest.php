@@ -43,10 +43,10 @@ class OrderRequest extends FormRequest
                 'required',
                 'numeric'
             ] : ['nullable'],
-            'delivery_time'    => request('order_type') === OrderType::DELIVERY ? [
-                'required',
-                'string'
-            ] : ['nullable'],
+            // 'delivery_time'    => request('order_type') === OrderType::DELIVERY ? [
+            //     'required',
+            //     'string'
+            // ] : ['nullable'],
             'coupon_id'        => ['nullable', 'numeric'],
             'source'           => ['required', 'numeric'],
             'items'            => ['required', 'json', new ValidJsonOrder]
