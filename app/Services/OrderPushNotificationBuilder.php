@@ -111,7 +111,7 @@ class OrderPushNotificationBuilder
                 $response = $this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
             }
 
-            Log::info($response);
+            Log::info($admin->web_token);
         }
     }
 
