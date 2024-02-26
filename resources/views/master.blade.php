@@ -24,18 +24,17 @@
     <link rel="icon" type="image" href="{{ $favicon }}">
 
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    {{-- <script>
+    <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(function(OneSignal) {
             OneSignal.init({
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
         });
-    </script> --}}
+    </script>
 
     <script>
-        window.OneSignalDeferred = window.OneSignalDeferred || [];
-        OneSignalDeferred.push(function(OneSignal) {
+        OneSignal.push(function(OneSignal) {
             OneSignal.init({
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
