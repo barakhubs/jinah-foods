@@ -110,6 +110,8 @@ class OrderPushNotificationBuilder
             foreach ($admins as $admin) {
                 $this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
             }
+            
+            Log::info('', $admins);
         }
     }
 
