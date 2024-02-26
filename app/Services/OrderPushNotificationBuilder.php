@@ -98,11 +98,13 @@ class OrderPushNotificationBuilder
             }
 
             // Send notification to admins, branch managers, and POS managers
-            $admins = User::whereIn('role', [
+            $roleNames = [
                 EnumRole::ADMIN,
                 EnumRole::POS_OPERATOR,
                 EnumRole::BRANCH_MANAGER
-            ])->get();
+            ];
+
+            $admins = User::role($roleNames)->get();
 
             $message = $this->getMessageForAdmin($this->status);
             foreach ($admins as $admin) {
