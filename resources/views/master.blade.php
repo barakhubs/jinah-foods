@@ -31,17 +31,11 @@
             appId: "41a5fc47-4587-4084-9e84-7478c145e477",
           });
 
-        //   OneSignal.Notifications.addEventListener("permissionChange", permissionChangeListener)
-            if (OneSignal.User.PushSubscription.optedIn) {
-                console.log(`opted in!`);
-            }
+          OneSignal.User.PushSubscription.getId().then(function(subscriptionId) {
+            console.log("Subscription ID is:", subscriptionId);
+         });
+         
         });
-
-        // function permissionChangeListener(permission) {
-        //         if (permission) {
-        //             console.log(`permission accepted!`);
-        //         }
-        // }
     </script>
 
 
