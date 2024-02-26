@@ -1,5 +1,5 @@
 <?php
-function sendOneSignalNotification($title, $message, $url) {
+function sendOneSignalNotification($title, $message, $url, $player_ids) {
     $content = array(
         "en" => $message,
     );
@@ -10,7 +10,7 @@ function sendOneSignalNotification($title, $message, $url) {
 
     $fields = array(
         'app_id' => '41a5fc47-4587-4084-9e84-7478c145e477', // Ensure this is your correct OneSignal App ID
-        'included_segments' => ['Total Subscriptions'],
+        'include_player_ids' => $player_ids, // Specify player IDs here
         'contents' => $content,
         'headings' => $headings,
         'url' => $url,
@@ -18,7 +18,7 @@ function sendOneSignalNotification($title, $message, $url) {
 
     $fields = json_encode($fields);
     print("\nJSON sent:\n");
-    	print($fields);
+    print($fields);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
@@ -40,11 +40,12 @@ function sendOneSignalNotification($title, $message, $url) {
     return "HTTP code: $httpcode, Response: $response";
 }
 
+$player_ids = array("7dabfe4c-b9cb-473b-aa0e-29039596bc03"); // Player IDs of the specific user
+return sendOneSignalNotification("Hello World", "This is a test notification", "https://admin.jinahonestop.com", $player_ids);
+// $return["allresponses"] = $response;
+// $return = json_encode($return);
 
-$response = sendOneSignalNotification("Hello World", "This is a test notification", "https://admin.jinahonestop.com");
-	$return["allresponses"] = $response;
-	$return = json_encode( $return);
-
-	print("\n\nJSON received:\n");
-	print($return);
-	print("\n");
+// print("\n\nJSON received:\n");
+// print($return);
+// print("\n");
+?>
