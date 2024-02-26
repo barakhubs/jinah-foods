@@ -31,32 +31,22 @@
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
 
-            OneSignal.User.PushSubscription.addEventListener("change", pushSubscriptionChangeListener);
-
-            function pushSubscriptionChangeListener(event) {
-            if (event.current.optedIn) {
-                console.log(`The push subscription has received a token!`);
+            if (OneSignal.User.PushSubscription.optedIn) {
+                // User has subscribed, send a POST request to 'frontend/web/token/'
+                fetch('https://admin.jinahonestop.com/api/frontend/device-token/web', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            // Assuming you want to send the OneSignal player ID
+                            token: OneSignal.User.PushSubscription.id,
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log('Success:', data))
+                    .catch((error) => console.error('Error:', error));
             }
-            }
-
-            // if (OneSignal.User.PushSubscription.optedIn) {
-            //     // User has subscribed, send a POST request to 'frontend/web/token/'
-            //     fetch('https://admin.jinahonestop.com/api/frontend/device-token/web', {
-            //             method: 'POST',
-            //             headers: {
-            //                 'Content-Type': 'application/json',
-            //             },
-            //             body: JSON.stringify({
-            //                 // Assuming you want to send the OneSignal player ID
-            //                 token: OneSignal.User.PushSubscription.id,
-            //             }),
-            //         })
-            //         .then(response => response.json())
-            //         .then(data => console.log('Success:', data))
-            //         .catch((error) => console.error('Error:', error));
-            // }
-
-
         });
     </script>
 

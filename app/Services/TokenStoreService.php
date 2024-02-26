@@ -15,18 +15,24 @@ class TokenStoreService
      */
     public function webToken(TokenStoreRequest $request)
     {
-        try {
+        // Check if the user is authenticated
+        if (auth()->check()) {
+            try {
+                $user = User::find(auth()->user()->id);
+                $user->web_token = $request->token;
+                $user->save();
 
-            $user = User::find(auth()->user()->id);
-            $user->web_token = $request->token;
-            $user->save();
-
-            return true;
-        } catch (Exception $exception) {
-            Log::info($exception->getMessage());
-            throw new Exception($exception->getMessage(), 422);
+                return true;
+            } catch (Exception $exception) {
+                Log::error($exception->getMessage());
+                throw new Exception($exception->getMessage(), 422);
+            }
+        } else {
+            // User is not authenticated, handle accordingly (e.g., return an error response)
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
+
     /**
      * @throws Exception
      */

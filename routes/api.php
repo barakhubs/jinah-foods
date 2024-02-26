@@ -677,10 +677,16 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
         Route::post('/', [FrontendCookiesController::class, 'set']);
     });
 
-    Route::prefix('device-token')->name('device-token.')->middleware(['auth:sanctum'])->group(function () {
+    // Route::prefix('device-token')->name('device-token.')->middleware(['auth:sanctum'])->group(function () {
+    //     Route::post('/web', [TokenStoreController::class, 'webToken']);
+    //     Route::post('/mobile', [TokenStoreController::class, 'deviceToken']);
+    // });
+
+    Route::prefix('device-token')->name('device-token.')->group(function () {
         Route::post('/web', [TokenStoreController::class, 'webToken']);
-        Route::post('/mobile', [TokenStoreController::class, 'deviceToken']);
+        Route::post('/mobile', [TokenStoreController::class, 'deviceToken'])->middleware('auth:sanctum');
     });
+
 
     Route::prefix('delivery-boy-order')->name('delivery-boy-order.')->middleware(['auth:sanctum'])->group(function () {
         Route::get('/', [FrontendDeliveryBoyOrderController::class, 'index']);
