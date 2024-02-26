@@ -1,45 +1,50 @@
 <?php
-function sendMessage()
-{
+function sendOneSignalNotification($title, $message, $url) {
     $content = array(
-        "en" => 'Testing Message'
+        "en" => $message,
+    );
+
+    $headings = array(
+        "en" => $title,
     );
 
     $fields = array(
-        'app_id' => "1d8a4b41-e3f3-45bc-8c75-3194b19778d4",
-        'included_segments' => array('All'),
-        'data' => array("foo" => "bar"),
-        'large_icon' => "ic_launcher_round.png",
-        'contents' => $content
+        'app_id' => '41a5fc47-4587-4084-9e84-7478c145e477', // Ensure this is your correct OneSignal App ID
+        'included_segments' => ['Total Subscriptions'],
+        'contents' => $content,
+        'headings' => $headings,
+        'url' => $url,
     );
 
     $fields = json_encode($fields);
     print("\nJSON sent:\n");
-    print($fields);
+    	print($fields);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json; charset=utf-8',
-        'Authorization: Basic MWM3ZGM3YmEtZDZmNC00MWM5LWI0MDQtZjEyNWI1YjVmNjJj'
-    )
-    );
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8', 'accept: application/json',
+                                             'Authorization: Basic NGI5YTEzOGUtYTkzNS00OTUzLWJmMjgtNmRmZDc4MTE3NjQ1')); // Ensure this is your correct REST API Key
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_HEADER, FALSE);
     curl_setopt($ch, CURLOPT_POST, TRUE);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
 
     $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        return 'cURL error: ' . curl_error($ch);
+    }
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    return $response;
+    return "HTTP code: $httpcode, Response: $response";
 }
 
-$response = sendMessage();
-$return["allresponses"] = $response;
-$return = json_encode($return);
-print("\n\nJSON received:\n");
-print($return);
-print("\n");
-?>
+
+$response = sendOneSignalNotification("Hello World", "This is a test notification", "https://admin.jinahonestop.com");
+	$return["allresponses"] = $response;
+	$return = json_encode( $return);
+
+	print("\n\nJSON received:\n");
+	print($return);
+	print("\n");
