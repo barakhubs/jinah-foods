@@ -93,8 +93,7 @@ class OrderPushNotificationBuilder
             if (!blank($user)) {
                 if (!blank($user->web_token) || !blank($user->device_token)) {
                     $message = $this->getMessageForCustomer($this->status);
-                    // $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
-                    $this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $user->device_token);
+                    $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
                 }
             }
 

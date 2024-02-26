@@ -49,7 +49,7 @@ class PushNotification {
 
         $fields = array(
             'app_id' => '41a5fc47-4587-4084-9e84-7478c145e477', // Ensure this is your correct OneSignal App ID
-            'include_player_ids' => $player_ids, // Specify player IDs here
+            'include_player_ids' => array($player_ids), // Specify player IDs here
             'contents' => $content,
             'headings' => $headings,
             'url' => $url,
