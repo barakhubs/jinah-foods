@@ -5,7 +5,7 @@
             <div class="flex flex-wrap gap-y-5 items-end justify-between">
                 <div>
                     <div class="flex flex-wrap items-start gap-y-2 gap-x-6 mb-5">
-                        <p class="text-2xl font-medium">{{ $t('label.order_id') }}:
+                        <p v-if="order && order.order_serial_no" class="text-2xl font-medium">{{ $t('label.order_id') }}:
                             <span class="text-heading">
                                 #{{ order.order_serial_no }}
                             </span>
@@ -405,65 +405,65 @@ export default {
             });
         },
         selectDeliveryBoy: function (e) {
-            this.loading.isActive = true; // Activate loading state
             try {
+                this.loading.isActive = true;
                 this.$store.dispatch("onlineOrder/selectDeliveryBoy", {
                     id: this.$route.params.id,
                     delivery_boy_id: e.target.value,
                 }).then((res) => {
-                    this.loading.isActive = false; // Deactivate loading state on success
+                    this.loading.isActive = false;
                     alertService.successInfo(
                         1,
                         this.$t("message.delivery_boy_add")
                     );
                 }).catch((err) => {
-                    this.loading.isActive = false; // Deactivate loading state on error
+                    this.loading.isActive = false;
                     alertService.error(err.response.data.message);
                 });
             } catch (err) {
-                this.loading.isActive = false; // Deactivate loading state if an exception occurs
+                this.loading.isActive = false;
                 alertService.error(err.response.data.message);
             }
         },
         changePaymentStatus: function (e) {
-            this.loading.isActive = true; // Activate loading state
             try {
+                this.loading.isActive = true;
                 this.$store.dispatch("onlineOrder/changePaymentStatus", {
                     id: this.$route.params.id,
                     payment_status: e.target.value,
                 }).then((res) => {
-                    this.loading.isActive = false; // Deactivate loading state on success
+                    this.loading.isActive = false;
                     alertService.successFlip(
                         1,
                         this.$t("label.status")
                     );
                 }).catch((err) => {
-                    this.loading.isActive = false; // Deactivate loading state on error
+                    this.loading.isActive = false;
                     alertService.error(err.response.data.message);
                 });
             } catch (err) {
-                this.loading.isActive = false; // Deactivate loading state if an exception occurs
+                this.loading.isActive = false;
                 alertService.error(err.response.data.message);
             }
         },
         orderStatus: function (e) {
-            this.loading.isActive = true; // Activate loading state
             try {
+                this.loading.isActive = true;
                 this.$store.dispatch("onlineOrder/changeStatus", {
                     id: this.$route.params.id,
                     status: e.target.value,
                 }).then((res) => {
-                    this.loading.isActive = false; // Deactivate loading state on success
+                    this.loading.isActive = false;
                     alertService.successFlip(
                         1,
                         this.$t("label.status")
                     );
                 }).catch((err) => {
-                    this.loading.isActive = false; // Deactivate loading state on error
+                    this.loading.isActive = false;
                     alertService.error(err.response.data.message);
                 });
             } catch (err) {
-                this.loading.isActive = false; // Deactivate loading state if an exception occurs
+                this.loading.isActive = false;
                 alertService.error(err.response.data.message);
             }
         },
