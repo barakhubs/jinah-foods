@@ -31,16 +31,9 @@
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
 
-            function pushSubscriptionChangeListener(event) {
-                if (event.current.token) {
-                    console.log(`The push subscription has received a token!`);
-                }
-                }
-
-                OneSignalDeferred.push(function() {
-                OneSignal.User.PushSubscription.addEventListener("change", pushSubscriptionChangeListener);
-                });
-
+            OneSignal.getUserId().then(function(userId) {
+                console.log("OneSignal User ID:", userId);
+            });
 
         });
     </script>
