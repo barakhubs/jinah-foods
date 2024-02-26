@@ -40,7 +40,7 @@
             },
             body: JSON.stringify({
               // Assuming you want to send the OneSignal player ID
-              playerId: OneSignal.User.PushSubscription.id,
+              token: OneSignal.User.PushSubscription.id,
             }),
           })
           .then(response => response.json())
