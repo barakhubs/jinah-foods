@@ -27,62 +27,140 @@ class OrderPushNotificationBuilder
         $this->order = FrontendOrder::find($orderId);
     }
 
+    // public function send(): void
+    // {
+    //     if (!blank($this->order)) {
+    //         $user = User::find($this->order->user_id);
+    //         if (!blank($user)) {
+    //             if (!blank($user->web_token) || !blank($user->device_token)) {
+    //                 // $fcmTokenArray = [];
+    //                 // if (!blank($user->web_token)) {
+    //                 //     $fcmTokenArray[] = $user->web_token;
+    //                 // }
+    //                 // if (!blank($user->device_token)) {
+    //                 //     // $fcmTokenArray[] = $user->device_token;
+    //                 // }
+    //                 // $this->message($fcmTokenArray, $this->status, $this->orderId);
+    //                 if ($this->status == OrderStatus::PENDING)
+    //                     $message = 'Your order is pending! Please wait for confirmation';
+    //                 elseif ($this->status == OrderStatus::ACCEPT)
+    //                     $message = 'Your order is accepted! Please wait for processing';
+    //                 elseif ($this->status == OrderStatus::PROCESSING)
+    //                     $message = 'Your order is processing! Please wait for out for delivery';
+    //                 elseif ($this->status == OrderStatus::OUT_FOR_DELIVERY)
+    //                     $message = 'Your order is out for delivery!';
+    //                 elseif ($this->status == OrderStatus::DELIVERED)
+    //                     $message = 'Your order is delivered! Thank you for your order';
+    //                 elseif ($this->status == OrderStatus::CANCELED)
+    //                     $message = 'Your order is canceled! Please contact with us for more details';
+    //                 elseif ($this->status == OrderStatus::REJECTED)
+    //                     $message = 'Your order is rejected! Please contact with us for more details';
+    //                 elseif ($this->status == OrderStatus::RETURNED)
+    //                     $message = 'Your order is returned! Please contact with us for more details';
+    //                 $pushNotification = new PushNotification();
+    //                 $pushNotification->sendMessage('Jinah Foods Notification', $message, $user->device_token);
+    //             }
+    //         }
+
+    //         $admins = User::whereIn('role', [
+    //             EnumRole::ADMIN,
+    //             EnumRole::POS_OPERATOR,
+    //             EnumRole::BRANCH_MANAGER
+    //         ])->get();
+
+    //         foreach ($admins as $admin) {
+    //             if ($this->status == OrderStatus::PENDING)
+    //                 $message = 'An order has been placed! Please check your dashboard!';
+    //             elseif ($this->status == PaymentStatus::PAID)
+    //                 $message = 'A payment has been made for an order';
+    //             elseif ($this->status == OrderStatus::CANCELED)
+    //                 $message = 'Your order is canceled! Please contact with us for more details';
+    //             elseif ($this->status == OrderStatus::RETURNED)
+    //                 $message = 'Your order is returned! Please contact with us for more details';
+
+    //             $pushNotification = new PushNotification();
+    //             $pushNotification->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
+    //         }
+
+    //     }
+    // }
+
     public function send(): void
     {
         if (!blank($this->order)) {
+            // Send notification to the customer
             $user = User::find($this->order->user_id);
             if (!blank($user)) {
                 if (!blank($user->web_token) || !blank($user->device_token)) {
-                    // $fcmTokenArray = [];
-                    // if (!blank($user->web_token)) {
-                    //     $fcmTokenArray[] = $user->web_token;
-                    // }
-                    // if (!blank($user->device_token)) {
-                    //     // $fcmTokenArray[] = $user->device_token;
-                    // }
-                    // $this->message($fcmTokenArray, $this->status, $this->orderId);
-                    if ($this->status == OrderStatus::PENDING)
-                        $message = 'Your order is pending! Please wait for confirmation';
-                    elseif ($this->status == OrderStatus::ACCEPT)
-                        $message = 'Your order is accepted! Please wait for processing';
-                    elseif ($this->status == OrderStatus::PROCESSING)
-                        $message = 'Your order is processing! Please wait for out for delivery';
-                    elseif ($this->status == OrderStatus::OUT_FOR_DELIVERY)
-                        $message = 'Your order is out for delivery!';
-                    elseif ($this->status == OrderStatus::DELIVERED)
-                        $message = 'Your order is delivered! Thank you for your order';
-                    elseif ($this->status == OrderStatus::CANCELED)
-                        $message = 'Your order is canceled! Please contact with us for more details';
-                    elseif ($this->status == OrderStatus::REJECTED)
-                        $message = 'Your order is rejected! Please contact with us for more details';
-                    elseif ($this->status == OrderStatus::RETURNED)
-                        $message = 'Your order is returned! Please contact with us for more details';
-                    $pushNotification = new PushNotification();
-                    $pushNotification->sendMessage('Jinah Foods Notification', $message, $user->device_token);
+                    $message = $this->getMessageForCustomer($this->status);
+                    $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
                 }
             }
 
+            // Send notification to admins, branch managers, and POS managers
             $admins = User::whereIn('role', [
                 EnumRole::ADMIN,
                 EnumRole::POS_OPERATOR,
                 EnumRole::BRANCH_MANAGER
             ])->get();
 
+            $message = $this->getMessageForAdmin($this->status);
             foreach ($admins as $admin) {
-                if ($this->status == OrderStatus::PENDING)
-                    $message = 'An order has been placed! Please check your dashboard!';
-                elseif ($this->status == PaymentStatus::PAID)
-                    $message = 'A payment has been made for an order';
-                elseif ($this->status == OrderStatus::CANCELED)
-                    $message = 'Your order is canceled! Please contact with us for more details';
-                elseif ($this->status == OrderStatus::RETURNED)
-                    $message = 'Your order is returned! Please contact with us for more details';
-
-                $pushNotification = new PushNotification();
-                $pushNotification->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
+                $this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
             }
-
         }
+    }
+
+    private function getMessageForCustomer($status)
+    {
+        switch ($status) {
+            case OrderStatus::PENDING:
+                return 'Your order is pending! Please wait for confirmation';
+            case OrderStatus::ACCEPT:
+                return 'Your order is accepted! Please wait for processing';
+            case OrderStatus::PROCESSING:
+                return 'Your order is processing! Please wait for out for delivery';
+            case OrderStatus::OUT_FOR_DELIVERY:
+                return 'Your order is out for delivery!';
+            case OrderStatus::DELIVERED:
+                return 'Your order is delivered! Thank you for your order';
+            case OrderStatus::CANCELED:
+                return 'Your order is canceled! Please contact us for more details';
+            case OrderStatus::REJECTED:
+                return 'Your order is rejected! Please contact us for more details';
+            case OrderStatus::RETURNED:
+                return 'Your order is returned! Please contact us for more details';
+            default:
+                return '';
+        }
+    }
+
+    private function getMessageForAdmin($status)
+    {
+        switch ($status) {
+            case OrderStatus::PENDING:
+                return 'An order has been placed! Please check your dashboard!';
+            case PaymentStatus::PAID:
+                return 'A payment has been made for an order';
+            case OrderStatus::CANCELED:
+                return 'An order has been canceled! Please check your dashboard for more details';
+            case OrderStatus::RETURNED:
+                return 'An order has been returned! Please check your dashboard for more details';
+            default:
+                return '';
+        }
+    }
+
+    private function sendNotification($title, $message, $token)
+    {
+        $pushNotification = new PushNotification();
+        $pushNotification->sendMessage($title, $message, $token);
+    }
+
+    private function sendWebNotification($title, $message, $url, $token)
+    {
+        $pushNotification = new PushNotification();
+        $pushNotification->sendWebNotification($title, $message, $url, $token);
     }
 
     private function message($fcmTokenArray, $status, $orderId): void
