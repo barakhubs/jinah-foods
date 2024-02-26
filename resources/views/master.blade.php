@@ -25,14 +25,25 @@
 
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
-        window.OneSignalDeferred = window.OneSignalDeferred || [];
-        OneSignalDeferred.push(function(OneSignal) {
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function(OneSignal) {
             OneSignal.init({
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
+
+            OneSignal.on('subscriptionChange', function (isSubscribed) {
+                console.log('subscriptionChange');
+                if (isSubscribed) {
+                    OneSignal.sendTags({
+                    user_id: noticeChannelPush
+                    }).then(function () {
+                    console.log('tag:' + noticeChannelPush);
+                    });
+                }
+                });
         });
     </script>
-
+{{--
     <script>
         OneSignal.push(function(OneSignal) {
             OneSignal.init({
@@ -50,7 +61,7 @@
                 }
                 });
         });
-    </script>
+    </script> --}}
 
 
     @if (!blank($analytics))
