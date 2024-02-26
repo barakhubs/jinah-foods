@@ -405,65 +405,65 @@ export default {
             });
         },
         selectDeliveryBoy: function (e) {
+            this.loading.isActive = true; // Activate loading state
             try {
-                this.loading.isActive = true;
                 this.$store.dispatch("onlineOrder/selectDeliveryBoy", {
                     id: this.$route.params.id,
                     delivery_boy_id: e.target.value,
                 }).then((res) => {
-                    this.loading.isActive = false;
+                    this.loading.isActive = false; // Deactivate loading state on success
                     alertService.successInfo(
                         1,
                         this.$t("message.delivery_boy_add")
                     );
                 }).catch((err) => {
-                    this.loading.isActive = false;
+                    this.loading.isActive = false; // Deactivate loading state on error
                     alertService.error(err.response.data.message);
                 });
             } catch (err) {
-                this.loading.isActive = false;
+                this.loading.isActive = false; // Deactivate loading state if an exception occurs
                 alertService.error(err.response.data.message);
             }
         },
         changePaymentStatus: function (e) {
+            this.loading.isActive = true; // Activate loading state
             try {
-                this.loading.isActive = true;
                 this.$store.dispatch("onlineOrder/changePaymentStatus", {
                     id: this.$route.params.id,
                     payment_status: e.target.value,
                 }).then((res) => {
-                    this.loading.isActive = false;
+                    this.loading.isActive = false; // Deactivate loading state on success
                     alertService.successFlip(
                         1,
                         this.$t("label.status")
                     );
                 }).catch((err) => {
-                    this.loading.isActive = false;
+                    this.loading.isActive = false; // Deactivate loading state on error
                     alertService.error(err.response.data.message);
                 });
             } catch (err) {
-                this.loading.isActive = false;
+                this.loading.isActive = false; // Deactivate loading state if an exception occurs
                 alertService.error(err.response.data.message);
             }
         },
         orderStatus: function (e) {
+            this.loading.isActive = true; // Activate loading state
             try {
-                this.loading.isActive = true;
                 this.$store.dispatch("onlineOrder/changeStatus", {
                     id: this.$route.params.id,
                     status: e.target.value,
                 }).then((res) => {
-                    this.loading.isActive = false;
+                    this.loading.isActive = false; // Deactivate loading state on success
                     alertService.successFlip(
                         1,
                         this.$t("label.status")
                     );
                 }).catch((err) => {
-                    this.loading.isActive = false;
+                    this.loading.isActive = false; // Deactivate loading state on error
                     alertService.error(err.response.data.message);
                 });
             } catch (err) {
-                this.loading.isActive = false;
+                this.loading.isActive = false; // Deactivate loading state if an exception occurs
                 alertService.error(err.response.data.message);
             }
         },
