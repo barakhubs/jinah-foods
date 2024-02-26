@@ -108,10 +108,10 @@ class OrderPushNotificationBuilder
 
             $message = $this->getMessageForAdmin($this->status);
             foreach ($admins as $admin) {
-                $response = $this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
+                $this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
+                    Log::info($admin->web_token);
+                    Log::info($this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token));
             }
-
-            Log::info($admin->web_token);
         }
     }
 
