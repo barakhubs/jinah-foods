@@ -31,8 +31,8 @@
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
 
-            // Set a subscription observer
-            OneSignal.setSubscriptionObserver(function(isSubscribed) {
+            // Add a listener for subscription changes
+            OneSignal.addListener('subscriptionChange', function(isSubscribed) {
                 if (isSubscribed) {
                     // User has subscribed, send a POST request to 'frontend/web/token/'
                     fetch('frontend/web/token/', {
@@ -52,6 +52,7 @@
             });
         });
     </script>
+
 
 
 
