@@ -41,7 +41,7 @@ function sendOneSignalNotification($title, $message, $url, $player_ids) {
 }
 
 $player_ids = array("7dabfe4c-b9cb-473b-aa0e-29039596bc03"); // Player IDs of the specific user
-return sendOneSignalNotification("Hello World", "This is a test notification", "https://admin.jinahonestop.com", $player_ids);
+return sendOneSignalNotification("Hello World", "This is a test notification", "https://admin.jinahonestop.com/hello", $player_ids);
 // $return["allresponses"] = $response;
 // $return = json_encode($return);
 
