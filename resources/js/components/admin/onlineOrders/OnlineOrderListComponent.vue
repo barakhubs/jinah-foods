@@ -131,14 +131,16 @@
                                 <div class="flex justify-start items-center sm:items-start sm:justify-start gap-1.5">
                                     <SmIconViewComponent :link="'admin.order.show'" :id="order.id"
                                         v-if="permissionChecker('online-orders')" />
-                                    <button title="accept" v-if="order.status == 1" type="button"
-                                        @click="changeStatus(order.id, enums.orderStatusEnum.ACCEPT)"
-                                        class="db-table-action edit">
-                                        <i class="lab lab-save"></i>
-                                        <span class="db-tooltip">Accept</span>
-                                    </button>
-                                    <OnlineOrderReasonComponent v-if="order.status == 1" :id="order.id"
-                                        @orderUpdated="reloadOrderList" />
+                                        <button title="accept" v-if="order.status == 1" type="button" @click="changeStatus(order.id, enums.orderStatusEnum.ACCEPT)"
+                                            class="db-table-action edit">
+                                            <i class="lab lab-save"></i>
+                                            <span class="db-tooltip">Accept</span>
+                                        </button>
+                                        <OnlineOrderReasonComponent
+                                            v-if="order.status == 1"
+                                            :id="order.id"
+                                            @orderUpdated="reloadOrderList"
+                                        />
                                 </div>
                             </td>
                         </tr>
@@ -175,7 +177,7 @@ import ExcelComponent from "../components/buttons/export/ExcelComponent";
 import OnlineOrderReasonComponent from "./OnlineOrderReasonComponent";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { ref, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths } from 'date-fns';
 import statusEnum from "../../../enums/modules/statusEnum";
 import isAdvanceOrderEnum from "../../../enums/modules/isAdvanceOrderEnum";
@@ -266,8 +268,7 @@ export default {
                     from_date: "",
                     to_date: "",
                 }
-            },
-            pollInterval: null // Variable to hold the interval ID
+            }
         }
     },
     computed: {
@@ -376,31 +377,12 @@ export default {
             });
         },
         // Handle the event to reload the list
-        fetchOrders: function () {
+        fetchOrders: function() {
             this.list();
         },
         reloadOrderList() {
             this.fetchOrders();
         },
-        // Method to start polling
-        startPolling: function () {
-            this.pollInterval = setInterval(() => {
-                // Fetch data from the server
-                this.loading.isActive = false;
-                this.$store.dispatch('onlineOrder/lists', this.props.search)
-                    .then(res => {
-                        this.loading.isActive = false;
-                    })
-                    .catch(err => {
-                        this.loading.isActive = false;
-                    });
-            }, 5000); // Fetch data every 5 seconds
-        },
-
-        // Method to stop polling
-        stopPolling: function () {
-            clearInterval(this.pollInterval); // Clear the interval
-        }
     },
 
     mounted() {
@@ -410,16 +392,9 @@ export default {
             order_type: 'asc',
             status: statusEnum.ACTIVE
         });
-        this.startPolling(); // Start polling when the component is mounted
     },
-
-    // Stop polling when the component is unmounted to avoid memory leaks
-    unmounted() {
-        this.stopPolling();
-    }
 }
 </script>
-
 
 <style scoped>
 @media print {

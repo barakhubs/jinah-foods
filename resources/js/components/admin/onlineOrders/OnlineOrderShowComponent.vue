@@ -5,7 +5,7 @@
             <div class="flex flex-wrap gap-y-5 items-end justify-between">
                 <div>
                     <div class="flex flex-wrap items-start gap-y-2 gap-x-6 mb-5">
-                        <p v-if="order && order.order_serial_no" class="text-2xl font-medium">{{ $t('label.order_id') }}:
+                        <p class="text-2xl font-medium">{{ $t('label.order_id') }}:
                             <span class="text-heading">
                                 #{{ order.order_serial_no }}
                             </span>
