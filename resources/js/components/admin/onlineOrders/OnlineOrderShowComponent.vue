@@ -392,6 +392,8 @@ export default {
                             1,
                             this.$t("label.status")
                         );
+
+                    this.$router.push({ name: "admin.order.list" });
                     }).catch((err) => {
                         this.loading.isActive = false;
                         alertService.error(err.response.data.message);
@@ -416,6 +418,8 @@ export default {
                         1,
                         this.$t("message.delivery_boy_add")
                     );
+
+                    this.$router.push({ name: "admin.order.list" });
                 }).catch((err) => {
                     this.loading.isActive = false;
                     alertService.error(err.response.data.message);
@@ -437,6 +441,8 @@ export default {
                         1,
                         this.$t("label.status")
                     );
+
+                    this.$router.push({ name: "admin.order.list" });
                 }).catch((err) => {
                     this.loading.isActive = false;
                     alertService.error(err.response.data.message);
@@ -458,6 +464,8 @@ export default {
                         1,
                         this.$t("label.status")
                     );
+
+                    this.$router.push({ name: "admin.order.list" });
                 }).catch((err) => {
                     this.loading.isActive = false;
                     alertService.error(err.response.data.message);

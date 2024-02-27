@@ -268,7 +268,8 @@ export default {
                     from_date: "",
                     to_date: "",
                 }
-            }
+            },
+            intervalId: null,
         }
     },
     computed: {
@@ -325,6 +326,15 @@ export default {
         },
         list: function (page = 1) {
             this.loading.isActive = true;
+            this.props.search.page = page;
+            this.$store.dispatch('onlineOrder/lists', this.props.search).then(res => {
+                this.loading.isActive = false;
+            }).catch((err) => {
+                this.loading.isActive = false;
+            });
+        },
+
+        listWithPoll: function (page = 1) {
             this.props.search.page = page;
             this.$store.dispatch('onlineOrder/lists', this.props.search).then(res => {
                 this.loading.isActive = false;
@@ -392,6 +402,18 @@ export default {
             order_type: 'asc',
             status: statusEnum.ACTIVE
         });
+
+        // Define the interval
+        this.intervalId = setInterval(() => {
+            this.listWithPoll();
+        },  10*60*1000); // Fetches order lists every  5 seconds
+    },
+
+    beforeUnmount() {
+        // Clear the interval when the component is destroyed
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     },
 }
 </script>
