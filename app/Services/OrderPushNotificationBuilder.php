@@ -10,7 +10,6 @@ use App\Models\FrontendOrder;
 use App\Models\NotificationAlert;
 use App\Models\User;
 use App\Push\PushNotification;
-use Berkayk\OneSignal\OneSignalFacade;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Enums\Role as EnumRole;
@@ -162,14 +161,8 @@ class OrderPushNotificationBuilder
 
     private function sendWebNotification($title, $message, $url, $token)
     {
-        // $pushNotification = new PushNotification();
-        // $pushNotification->sendWebNotification($title, $message, $url, $token);
-
-        OneSignalFacade::sendNotificationToUser(
-            $message,
-            '511cba9d-9b95-4e35-9a89-bb966d6665dd',
-            $url
-        );
+        $pushNotification = new PushNotification();
+        $pushNotification->sendWebNotification($title, $message, $url, $token);
     }
 
     private function message($fcmTokenArray, $status, $orderId): void
