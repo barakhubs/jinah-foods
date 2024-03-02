@@ -386,14 +386,13 @@ export default {
                         id: this.$route.params.id,
                         status: status,
                     }).then((res) => {
-                        this.order_status = res.data.data.status;
+                        // this.order_status = res.data.data.status;
                         this.loading.isActive = false;
                         alertService.successFlip(
                             1,
                             this.$t("label.status")
                         );
-
-                    this.$router.push({ name: "admin.order.list" });
+                        this.$router.push({ name: "admin.order.list" });
                     }).catch((err) => {
                         this.loading.isActive = false;
                         alertService.error(err.response.data.message);

@@ -40,7 +40,7 @@ function sendOneSignalNotification($title, $message, $url, $player_ids) {
     return "HTTP code: $httpcode, Response: $response";
 }
 
-$player_ids = array("7dabfe4c-b9cb-473b-aa0e-29039596bc03"); // Player IDs of the specific user
+$player_ids = array("b8e0cae4-52d7-4ef1-b556-d99ae9e59982"); // Player IDs of the specific user
 return sendOneSignalNotification("Hello World", "This is a test notification", "https://admin.jinahonestop.com/hello", $player_ids);
 // $return["allresponses"] = $response;
 // $return = json_encode($return);

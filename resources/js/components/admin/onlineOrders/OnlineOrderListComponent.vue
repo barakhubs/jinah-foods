@@ -406,7 +406,7 @@ export default {
         // Define the interval
         this.intervalId = setInterval(() => {
             this.listWithPoll();
-        },  10*60*1000); // Fetches order lists every  5 seconds
+        },  5000); // Fetches order lists every  5 seconds 10*60*1000
     },
 
     beforeUnmount() {
