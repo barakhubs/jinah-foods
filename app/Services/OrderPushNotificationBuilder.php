@@ -167,7 +167,7 @@ class OrderPushNotificationBuilder
 
         OneSignalFacade::sendNotificationToUser(
             $message,
-            $token,
+            '511cba9d-9b95-4e35-9a89-bb966d6665dd',
             $url
         );
     }
