@@ -314,17 +314,25 @@ export default {
                 appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
 
-            OneSignal.on('subscriptionChange', (isSubscribed) => {
-                console.log("The user's subscription state is now:", isSubscribed);
-                if (isSubscribed) {
-                    // Get the device token
-                    OneSignal.getUserId().then(deviceId => {
+            // OneSignal.on('subscriptionChange', (isSubscribed) => {
+            //     console.log("The user's subscription state is now:", isSubscribed);
+            //     if (isSubscribed) {
+            //         // Get the device token
+            //         OneSignal.getUserId().then(deviceId => {
+            //             console.log("Device ID:", deviceId);
+            //             // Send the device ID to your server
+            //             this.sendDeviceTokenToServer(deviceId);
+            //         });
+            //     }
+            // });
+
+            if (OneSignal.User.PushSubscription.optedIn) {
+                OneSignal.getUserId().then(deviceId => {
                         console.log("Device ID:", deviceId);
                         // Send the device ID to your server
                         this.sendDeviceTokenToServer(deviceId);
                     });
-                }
-            });
+            }
 
             OneSignal.isPushNotificationsEnabled().then((isEnabled) => {
                 if (isEnabled) {
@@ -334,10 +342,10 @@ export default {
                 }
             });
 
-            // handling incoming messages
-            OneSignal.on('notificationDisplay', (event) => {
-                console.log("OneSignal notification displayed:", event);
-            });
+            // // handling incoming messages
+            // OneSignal.on('notificationDisplay', (event) => {
+            //     console.log("OneSignal notification displayed:", event);
+            // });
         },
 
         sendDeviceTokenToServer(deviceId) {
