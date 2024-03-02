@@ -220,7 +220,7 @@ export default {
                 });
 
                 if (OneSignal.User.PushSubscription.optedIn) {
-
+                    console.log(OneSignal.User.PushSubscription.id);
                     axios.post('/frontend/device-token/web', { token: OneSignal.User.PushSubscription.id }).then().catch((error) => {
                         if (error.response.data.message === 'Unauthenticated.') {
                             this.$store.dispatch('loginDataReset');
