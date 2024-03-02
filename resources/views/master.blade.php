@@ -24,7 +24,7 @@
     <link rel="icon" type="image" href="{{ $favicon }}">
 
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
+    {{-- <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(function(OneSignal) {
             OneSignal.init({
@@ -32,7 +32,7 @@
             });
 
         });
-    </script>
+    </script> --}}
 
 
 

@@ -64,3 +64,4 @@ app.use(VueSimpleAlert)
 app.use(Toast, options)
 app.use(i18n)
 app.mount('#app');
+
