@@ -212,23 +212,23 @@ export default {
         this.posPermissionCheck();
 
         // add to
-        window.setTimeout(() => {
-            window.OneSignalDeferred = window.OneSignalDeferred || [];
-            OneSignalDeferred.push(function (OneSignal) {
-                OneSignal.init({
-                    appId: "41a5fc47-4587-4084-9e84-7478c145e477",
-                });
+        // window.setTimeout(() => {
+        //     window.OneSignalDeferred = window.OneSignalDeferred || [];
+        //     OneSignalDeferred.push(function (OneSignal) {
+        //         OneSignal.init({
+        //             appId: "41a5fc47-4587-4084-9e84-7478c145e477",
+        //         });
 
-                if (OneSignal.User.PushSubscription.optedIn) {
-                    console.log(OneSignal.User.PushSubscription.id);
-                    axios.post('/frontend/device-token/web', { token: OneSignal.User.PushSubscription.id }).then().catch((error) => {
-                        if (error.response.data.message === 'Unauthenticated.') {
-                            this.$store.dispatch('loginDataReset');
-                        }
-                    });
-                }
-            });
-        }, 5000);
+                // if (OneSignal.User.PushSubscription.optedIn) {
+                //     console.log(OneSignal.User.PushSubscription.id);
+                //     axios.post('/frontend/device-token/web', { token: OneSignal.User.PushSubscription.id }).then().catch((error) => {
+                //         if (error.response.data.message === 'Unauthenticated.') {
+                //             this.$store.dispatch('loginDataReset');
+                //         }
+                //     });
+                // }
+        //     });
+        // }, 5000);
     },
     methods: {
         textShortener: function (text, number = 30) {

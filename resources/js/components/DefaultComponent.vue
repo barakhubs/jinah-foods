@@ -31,6 +31,7 @@ import FrontendMobileNavBarComponent from "./layouts/frontend/FrontendMobileNavB
 import FrontendMobileAccountComponent from "./layouts/frontend/FrontendMobileAccountComponent";
 import FrontendCartComponent from "./layouts/frontend/FrontendCartComponent";
 import FrontendCookiesComponent from "./layouts/frontend/FrontendCookiesComponent";
+import axios from 'axios'; // Ensure axios is imported if not already available globally
 
 export default {
     name: "DefaultComponent",
@@ -39,7 +40,10 @@ export default {
         FrontendMobileAccountComponent,
         FrontendMobileNavBarComponent,
         FrontendCookiesComponent,
-        FrontendFooterComponent, FrontendNavbarComponent, BackendNavbarComponent, BackendMenuComponent
+        FrontendFooterComponent,
+        FrontendNavbarComponent,
+        BackendNavbarComponent,
+        BackendMenuComponent
     },
     data() {
         return {
@@ -59,6 +63,27 @@ export default {
             });
         }).catch();
     },
+    mounted() {
+        window.setTimeout(() => {
+            window.OneSignalDeferred = window.OneSignalDeferred || [];
+            OneSignalDeferred.push(async (OneSignal) => {
+                OneSignal.init({
+                    appId: "41a5fc47-4587-4084-9e84-7478c145e477",
+                });
+
+                // Your existing OneSignal logic here
+                if (OneSignal.User.PushSubscription.optedIn) {
+                    subscriberId = await OneSignal.getUserId();
+                    console.log(subscriberId);
+                    axios.post('/frontend/device-token/web', { token: subscriberId }).then().catch((error) => {
+                        if (error.response.data.message === 'Unauthenticated.') {
+                            this.$store.dispatch('loginDataReset');
+                        }
+                    });
+                }
+            });
+        }, 5000);
+    },
     watch: {
         $route(e) {
             if (e.meta.isFrontend === true) {
@@ -70,3 +95,4 @@ export default {
     },
 }
 </script>
+
