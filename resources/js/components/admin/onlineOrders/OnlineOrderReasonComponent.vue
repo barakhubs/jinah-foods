@@ -118,9 +118,10 @@ export default {
                         1,
                         this.$t("label.status")
                     );
-                    if (this.$route.name === 'admin.order.list') {
-                        this.$emit('orderUpdated');
-                    }
+                    // if (this.$route.name === 'admin.order.list') {
+                    //     this.$emit('orderUpdated');
+                    // }
+                    this.$router.push({ name: "admin.order.list" });
                 }).catch((err) => {
                     this.loading.isActive = false;
                     this.error = err.response.data.message;
