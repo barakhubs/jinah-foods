@@ -162,16 +162,13 @@ class OrderPushNotificationBuilder
 
     private function sendWebNotification($title, $message, $url, $token)
     {
-        $pushNotification = new PushNotification();
-        $pushNotification->sendWebNotification($title, $message, $url, $token);
+        // $pushNotification = new PushNotification();
+        // $pushNotification->sendWebNotification($title, $message, $url, $token);
 
         OneSignalFacade::sendNotificationToUser(
             $message,
             $token,
-            $url,
-            $data = null,
-            $buttons = null,
-            $schedule = null
+            $url
         );
     }
 
