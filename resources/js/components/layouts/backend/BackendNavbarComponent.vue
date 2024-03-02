@@ -210,8 +210,25 @@ export default {
 
         this.orderPermissionCheck();
         this.posPermissionCheck();
-        // Initialize OneSignal
-        this.initializeOneSignal();
+
+        // add to
+        window.setTimeout(() => {
+            window.OneSignalDeferred = window.OneSignalDeferred || [];
+            OneSignalDeferred.push(function (OneSignal) {
+                OneSignal.init({
+                    appId: "41a5fc47-4587-4084-9e84-7478c145e477",
+                });
+
+                if (OneSignal.User.PushSubscription.optedIn) {
+
+                    axios.post('/frontend/device-token/web', { token: OneSignal.User.PushSubscription.id }).then().catch((error) => {
+                        if (error.response.data.message === 'Unauthenticated.') {
+                            this.$store.dispatch('loginDataReset');
+                        }
+                    });
+                }
+            });
+        }, 5000);
     },
     methods: {
         textShortener: function (text, number = 30) {
@@ -294,78 +311,6 @@ export default {
             document.body.style.overflowY = "auto";
             this.loading.isActive = false;
             this.orderNotificationStatus = false;
-        },
-
-        initializeOneSignal() {
-            // Ensure OneSignal is loaded
-            if (window.OneSignal) {
-                this.setupOneSignal();
-            } else {
-                // If OneSignal is not available immediately, wait for it
-                window.OneSignal = window.OneSignal || [];
-                window.OneSignal.push(() => {
-                    this.setupOneSignal();
-                });
-            }
-        },
-
-        setupOneSignal() {
-            OneSignal.init({
-                appId: "41a5fc47-4587-4084-9e84-7478c145e477",
-            });
-
-            // OneSignal.on('subscriptionChange', (isSubscribed) => {
-            //     console.log("The user's subscription state is now:", isSubscribed);
-            //     if (isSubscribed) {
-            //         // Get the device token
-            //         OneSignal.getUserId().then(deviceId => {
-            //             console.log("Device ID:", deviceId);
-            //             // Send the device ID to your server
-            //             this.sendDeviceTokenToServer(deviceId);
-            //         });
-            //     }
-            // });
-
-            if (OneSignal.User.PushSubscription.optedIn) {
-                OneSignal.getUserId().then(deviceId => {
-                        console.log("Device ID:", deviceId);
-                        // Send the device ID to your server
-                        this.sendDeviceTokenToServer(deviceId);
-                    });
-            }
-
-            OneSignal.isPushNotificationsEnabled().then((isEnabled) => {
-                if (isEnabled) {
-                    console.log("Push notifications are enabled!");
-                } else {
-                    console.log("Push notifications are not enabled yet.");
-                }
-            });
-
-            // // handling incoming messages
-            // OneSignal.on('notificationDisplay', (event) => {
-            //     console.log("OneSignal notification displayed:", event);
-            // });
-        },
-
-        sendDeviceTokenToServer(deviceId) {
-            // Check if the user is authenticated before sending the token
-            if (!this.isAuthenticated) {
-                console.log("User is not authenticated, skipping token update.");
-                return;
-            }
-
-            axios.post('/frontend/device-token/web', {
-                token: deviceId
-            })
-                .then(response => {
-                    console.log("Device token successfully sent to server:", response.data);
-                    // Handle successful response
-                })
-                .catch(error => {
-                    console.error("Error sending device token to server:", error);
-                    // Handle errors, possibly retry or inform the user
-                });
         },
     }
 }
