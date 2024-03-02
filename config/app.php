@@ -195,6 +195,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         SantiGraviano\LaravelMercadoPago\Providers\MercadoPagoServiceProvider::class,
+        Berkayk\OneSignal\OneSignalServiceProvider::class
     ],
 
     /*
@@ -211,6 +212,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'MP' => SantiGraviano\LaravelMercadoPago\Facades\MP::class,
+        'OneSignal' => Berkayk\OneSignal\OneSignalFacade::class,
+
     ])->toArray(),
 
 ];
