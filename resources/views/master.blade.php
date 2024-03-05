@@ -24,25 +24,15 @@
     <link rel="icon" type="image" href="{{ $favicon }}">
 
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
+    {{-- <script>
         window.OneSignalDeferred = window.OneSignalDeferred || [];
-            OneSignalDeferred.push(async (OneSignal) => {
-                OneSignal.init({
-                    appId: "41a5fc47-4587-4084-9e84-7478c145e477",
-                });
-
-                // Your existing OneSignal logic here
-                if (OneSignal.User.PushSubscription.optedIn) {
-                    subscriberId = await OneSignal.getUserId();
-                    console.log(subscriberId);
-                    axios.post('/frontend/device-token/web', { token: subscriberId }).then().catch((error) => {
-                        if (error.response.data.message === 'Unauthenticated.') {
-                            this.$store.dispatch('loginDataReset');
-                        }
-                    });
-                }
+        OneSignalDeferred.push(function(OneSignal) {
+            OneSignal.init({
+                appId: "41a5fc47-4587-4084-9e84-7478c145e477",
             });
-    </script>
+
+        });
+    </script> --}}
 
 
 

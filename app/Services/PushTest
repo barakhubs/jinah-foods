@@ -6,7 +6,6 @@ namespace App\Services;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Enums\SwitchBox;
-use App\Models\Branch;
 use App\Models\FrontendOrder;
 use App\Models\NotificationAlert;
 use App\Models\User;
@@ -94,30 +93,24 @@ class OrderPushNotificationBuilder
             if (!blank($user)) {
                 if (!blank($user->web_token) || !blank($user->device_token)) {
                     $message = $this->getMessageForCustomer($this->status);
-                    $sendPush = $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
-
-                    if ($sendPush) {
-                        // Send notification to POS managers
-                        $roleNames = [
-                            EnumRole::POS_OPERATOR,
-                        ];
-
-                        $branch = Branch::find($this->order->branch_id);
-                        $posManager = User::role($roleNames)->where('branch_id', $branch->id)->first();
-
-                        $message = $this->getMessageForAdmin($this->status);
-
-                        $smsManagerService = new SmsManagerService();
-                        $sendMessage = $smsManagerService->send($posManager->country_code, $posManager->phone, $message);
-
-                        if ($sendMessage) {
-                            Log::info('Message send');
-                        }
-                    }
+                    $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
                 }
             }
 
+            // Send notification to admins, branch managers, and POS managers
+            $roleNames = [
+                EnumRole::ADMIN,
+                EnumRole::POS_OPERATOR,
+                EnumRole::BRANCH_MANAGER
+            ];
 
+            $admins = User::role($roleNames)->get();
+
+            $message = $this->getMessageForAdmin($this->status);
+
+            foreach ($admins as $admin) {
+                $this->sendWebNotification('Jinah Foods', $message, 'https://admin.jinahonestop.com/', $admin->web_token);
+            }
         }
     }
 

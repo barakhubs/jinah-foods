@@ -352,21 +352,21 @@ export default {
                 //         }
                 //     });
                 // }
-                window.OneSignalDeferred = window.OneSignalDeferred || [];
-                OneSignalDeferred.push(function (OneSignal) {
-                    OneSignal.init({
-                        appId: "41a5fc47-4587-4084-9e84-7478c145e477",
-                    });
+                // window.OneSignalDeferred = window.OneSignalDeferred || [];
+                // OneSignalDeferred.push(function (OneSignal) {
+                //     OneSignal.init({
+                //         appId: "41a5fc47-4587-4084-9e84-7478c145e477",
+                //     });
 
-                    if (OneSignal.User.PushSubscription.optedIn) {
+                //     if (OneSignal.User.PushSubscription.optedIn) {
 
-                        axios.post('/frontend/device-token/web', { token: OneSignal.User.PushSubscription.id }).then().catch((error) => {
-                            if (error.response.data.message === 'Unauthenticated.') {
-                                this.$store.dispatch('loginDataReset');
-                            }
-                        });
-                    }
-                });
+                //         axios.post('/frontend/device-token/web', { token: OneSignal.User.PushSubscription.id }).then().catch((error) => {
+                //             if (error.response.data.message === 'Unauthenticated.') {
+                //                 this.$store.dispatch('loginDataReset');
+                //             }
+                //         });
+                //     }
+                // });
             }, 3000);
         }).catch((err) => {
             this.loading.isActive = false;
