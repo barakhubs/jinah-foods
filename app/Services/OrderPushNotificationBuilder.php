@@ -112,6 +112,10 @@ class OrderPushNotificationBuilder
                     foreach ($posManagers as $manager) {
                         $smsManagerService = new SmsManagerService();
                         $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
+
+                        if ($sendMessage) {
+                            Log::info('message sent successfully!');
+                        }
                     }
                 }
             }
@@ -124,7 +128,7 @@ class OrderPushNotificationBuilder
     {
         switch ($status) {
             case OrderStatus::PENDING:
-                return 'Your order is pending! Please wait for confirmatio';
+                return 'Your order is pending! Please wait for confirmation';
             case OrderStatus::ACCEPT:
                 return 'Your order is accepted! Please wait for processing';
             case OrderStatus::PROCESSING:
