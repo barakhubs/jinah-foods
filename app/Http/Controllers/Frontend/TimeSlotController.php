@@ -49,7 +49,7 @@ class TimeSlotController extends Controller
         // Find the time slot for the given branchId and today
         $timeSlot = TimeSlot::where('branch_id', $branchId)
             ->where('day', $today)
-            ->first();
+            ->first(['opening_time', 'closing_time']);
 
         // Check if a time slot was found
         if ($timeSlot) {
@@ -64,5 +64,5 @@ class TimeSlotController extends Controller
             ], 404);
         }
     }
-   
+
 }
