@@ -95,7 +95,7 @@ class OrderPushNotificationBuilder
                 if (!blank($user->web_token) || !blank($user->device_token)) {
                     $message = $this->getMessageForCustomer($this->status);
                     $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
-                    
+
                     // Send notification to POS managers
                     $roleNames = [
                         EnumRole::POS_OPERATOR,
@@ -121,7 +121,7 @@ class OrderPushNotificationBuilder
     {
         switch ($status) {
             case OrderStatus::PENDING:
-                return 'Your order is pending! Please wait for confirmation';
+                return 'Your order is pending! Please wait for confirmatio';
             case OrderStatus::ACCEPT:
                 return 'Your order is accepted! Please wait for processing';
             case OrderStatus::PROCESSING:
