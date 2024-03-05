@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\Role;
+use App\Models\Branch;
 use App\Models\DefaultAccess;
 use Exception;
 use App\Models\Tax;
@@ -575,14 +577,58 @@ class OrderService
             if ($auth) {
                 if ($order->user_id == Auth::user()->id) {
                     $order->payment_status = $request->payment_status;
-                    $order->save();
+                    $save = $order->save();
+
+                    if ($save) {
+                        $roleNames = [
+                            Role::POS_OPERATOR,
+                        ];
+
+                        $branch = Branch::find($order->branch_id);
+                        $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
+
+                        Log::info($posManagers);
+
+                        $message = 'A payment has been made for an order. Please check your dashboard to process it.';
+
+                        foreach ($posManagers as $manager) {
+                            $smsManagerService = new SmsManagerService();
+                            $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
+
+                            if ($sendMessage) {
+                                Log::info('Message "' . $message . '" sent to ' . $manager->name);
+                            }
+                        }
+                    }
                     return $order;
                 } else {
                     return [];
                 }
             } else {
                 $order->payment_status = $request->payment_status;
-                $order->save();
+                $save = $order->save();
+
+                if ($save) {
+                    $roleNames = [
+                        Role::POS_OPERATOR,
+                    ];
+
+                    $branch = Branch::find($order->branch_id);
+                    $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
+
+                    Log::info($posManagers);
+
+                    $message = 'A payment has been made for an order. Please check your dashboard to process it.';
+
+                    foreach ($posManagers as $manager) {
+                        $smsManagerService = new SmsManagerService();
+                        $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
+
+                        if ($sendMessage) {
+                            Log::info('Message "' . $message . '" sent to ' . $manager->name);
+                        }
+                    }
+                }
                 return $order;
             }
         } catch (Exception $exception) {
