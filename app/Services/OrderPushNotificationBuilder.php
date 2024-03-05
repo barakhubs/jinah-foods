@@ -94,29 +94,30 @@ class OrderPushNotificationBuilder
             if (!blank($user)) {
                 if (!blank($user->web_token) || !blank($user->device_token)) {
                     $message = $this->getMessageForCustomer($this->status);
-                    $sendPush = $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
+                    $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
 
-                    if ($sendPush) {
-                        // Send notification to POS managers
-                        $roleNames = [
-                            EnumRole::POS_OPERATOR,
-                        ];
+                    Log::info('Message send');
+                    // if ($sendPush) {
+                    //     // Send notification to POS managers
+                    //     $roleNames = [
+                    //         EnumRole::POS_OPERATOR,
+                    //     ];
 
-                        $branch = Branch::find($this->order->branch_id);
-                        $posManager = User::role($roleNames)->where('branch_id', $branch->id)->first();
+                    //     $branch = Branch::find($this->order->branch_id);
+                    //     $posManager = User::role($roleNames)->where('branch_id', $branch->id)->first();
 
-                        $message = $this->getMessageForAdmin($this->status);
+                    //     $message = $this->getMessageForAdmin($this->status);
 
-                        $smsManagerService = new SmsManagerService();
-                        $sendMessage = $smsManagerService->send($posManager->country_code, $posManager->phone, $message);
+                    //     $smsManagerService = new SmsManagerService();
+                    //     $sendMessage = $smsManagerService->send($posManager->country_code, $posManager->phone, $message);
 
-                        if ($sendMessage) {
-                            Log::info('Message send');
-                        }
-                    } else
-                    {
-                        Log::info('Message not sent!');
-                    }
+                    //     if ($sendMessage) {
+                    //         Log::info('Message send');
+                    //     }
+                    // } else
+                    // {
+                    //     Log::info('Message not sent!');
+                    // }
                 }
             }
 
