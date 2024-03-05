@@ -95,8 +95,7 @@ class OrderPushNotificationBuilder
                 if (!blank($user->web_token) || !blank($user->device_token)) {
                     $message = $this->getMessageForCustomer($this->status);
                     $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
-
-                    Log::info('Message send');
+                    
                     // Send notification to POS managers
                     $roleNames = [
                         EnumRole::POS_OPERATOR,
@@ -110,10 +109,6 @@ class OrderPushNotificationBuilder
                     foreach ($posManagers as $manager) {
                         $smsManagerService = new SmsManagerService();
                         $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
-
-                        if ($sendMessage) {
-                            Log::info('Message "'.$message.'" sent to ' . $manager->name);
-                        }
                     }
                 }
             }
