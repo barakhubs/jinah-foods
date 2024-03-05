@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\Enums\PaymentStatus;
+use App\Enums\Role;
+use App\Models\Branch;
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class PaymentService
 {
@@ -23,6 +26,26 @@ class PaymentService
         }
         $order->payment_status = PaymentStatus::PAID;
         $order->save();
+
+        // send sms to pos managers
+        $roleNames = [
+            Role::POS_OPERATOR,
+        ];
+
+        $branch = Branch::find($order->branch_id);
+        $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
+
+        $message = 'A payment has been made for an order. Please check your dashboard to process it.';
+
+        foreach ($posManagers as $manager) {
+            $smsManagerService = new SmsManagerService();
+            $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
+
+            if ($sendMessage) {
+                Log::info('Message "'.$message.'" sent to ' . $manager->name);
+            }
+        }
+        
         return $transaction;
     }
 

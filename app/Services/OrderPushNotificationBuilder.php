@@ -152,7 +152,7 @@ class OrderPushNotificationBuilder
             case OrderStatus::PENDING:
                 return 'An order has been placed! Please check your dashboard!';
             case PaymentStatus::PAID:
-                return 'A payment has been made for an order';
+                return 'A payment has been made for an order. Please check your dashboard to process it.';
             case OrderStatus::CANCELED:
                 return 'An order has been canceled! Please check your dashboard for more details';
             case OrderStatus::RETURNED:
