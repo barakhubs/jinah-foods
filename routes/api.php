@@ -656,6 +656,7 @@ Route::prefix('frontend')->name('frontend.')->middleware(['installed', 'apiKey',
     Route::prefix('time-slot')->name('time-slot.')->group(function () {
         Route::get('/today/{todayTimeSlot}', [FrontendTimeSlotController::class, 'todayTimeSlot']);
         Route::get('/tomorrow', [FrontendTimeSlotController::class, 'tomorrowTimeSlot']);
+        Route::get('/today/slot/{branchId}', [FrontendTimeSlotController::class, 'todaySlot']);
     });
 
     Route::prefix('coupon')->name('coupon.')->group(function () {
