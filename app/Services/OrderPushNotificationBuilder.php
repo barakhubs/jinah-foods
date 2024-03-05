@@ -113,6 +113,9 @@ class OrderPushNotificationBuilder
                         if ($sendMessage) {
                             Log::info('Message send');
                         }
+                    } else
+                    {
+                        Log::info('Message not sent!');
                     }
                 }
             }
