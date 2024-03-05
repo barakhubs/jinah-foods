@@ -16,35 +16,37 @@ class PaymentService
         $transaction = Transaction::where(['order_id' => $order->id])->first();
         if (!$transaction) {
             $transaction = Transaction::create([
-                'order_id'       => $order->id,
+                'order_id' => $order->id,
                 'transaction_no' => $transactionNo,
-                'amount'         => $order->total,
+                'amount' => $order->total,
                 'payment_method' => $gatewaySlug,
-                'sign'           => '+',
-                'type'           => 'payment'
+                'sign' => '+',
+                'type' => 'payment'
             ]);
         }
         $order->payment_status = PaymentStatus::PAID;
-        $order->save();
+        $save = $order->save();
 
         // send sms to pos managers
-        $roleNames = [
-            Role::POS_OPERATOR,
-        ];
+        if (!$save) {
+            $roleNames = [
+                Role::POS_OPERATOR,
+            ];
 
-        $branch = Branch::find($order->branch_id);
-        $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
+            $branch = Branch::find($order->branch_id);
+            $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
 
-        Log::info($posManagers);
-        
-        $message = 'A payment has been made for an order. Please check your dashboard to process it.';
+            Log::info($posManagers);
 
-        foreach ($posManagers as $manager) {
-            $smsManagerService = new SmsManagerService();
-            $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
+            $message = 'A payment has been made for an order. Please check your dashboard to process it.';
 
-            if ($sendMessage) {
-                Log::info('Message "'.$message.'" sent to ' . $manager->name);
+            foreach ($posManagers as $manager) {
+                $smsManagerService = new SmsManagerService();
+                $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
+
+                if ($sendMessage) {
+                    Log::info('Message "' . $message . '" sent to ' . $manager->name);
+                }
             }
         }
 
@@ -56,12 +58,12 @@ class PaymentService
         $transaction = Transaction::where(['order_id' => $order->id])->first();
         if ($transaction) {
             $transaction = Transaction::create([
-                'order_id'       => $order->id,
+                'order_id' => $order->id,
                 'transaction_no' => $transactionNo,
-                'amount'         => $order->total,
+                'amount' => $order->total,
                 'payment_method' => $gatewaySlug,
-                'sign'           => '-',
-                'type'           => 'cash_back'
+                'sign' => '-',
+                'type' => 'cash_back'
             ]);
 
             $user = User::find($order->user_id);
