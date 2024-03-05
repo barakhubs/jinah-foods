@@ -579,7 +579,7 @@ class OrderService
                     $order->payment_status = $request->payment_status;
                     $save = $order->save();
 
-                    if ($save) {
+                    if ($save && $order->payment_status == 5) {
                         $roleNames = [
                             Role::POS_OPERATOR,
                         ];
@@ -587,17 +587,11 @@ class OrderService
                         $branch = Branch::find($order->branch_id);
                         $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
 
-                        Log::info($posManagers);
-
                         $message = 'A payment has been made for an order. Please check your dashboard to process it.';
 
                         foreach ($posManagers as $manager) {
                             $smsManagerService = new SmsManagerService();
                             $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
-
-                            if ($sendMessage) {
-                                Log::info('Message "' . $message . '" sent to ' . $manager->name);
-                            }
                         }
                     }
                     return $order;
