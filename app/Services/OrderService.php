@@ -602,7 +602,7 @@ class OrderService
                 $order->payment_status = $request->payment_status;
                 $save = $order->save();
 
-                if ($save) {
+                if ($save && $order->payment_status == 5) {
                     $roleNames = [
                         Role::POS_OPERATOR,
                     ];
