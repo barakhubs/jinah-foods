@@ -119,7 +119,7 @@ class OrderPushNotificationBuilder
                             Log::info('message sent successfully!');
                         }
                     }
-                    
+
                 }
             }
 
@@ -131,21 +131,21 @@ class OrderPushNotificationBuilder
     {
         switch ($status) {
             case OrderStatus::PENDING:
-                return 'Your order is pending! Please wait for confirmation';
+                return 'Your order is successfully placed.';
             case OrderStatus::ACCEPT:
-                return 'Your order is accepted! Please wait for processing';
+                return 'Your order has been confirmed.';
             case OrderStatus::PROCESSING:
-                return 'Your order is processing! Please wait for out for delivery';
+                return 'Your order is being Processed.';
             case OrderStatus::OUT_FOR_DELIVERY:
                 return 'Your order is out for delivery!';
             case OrderStatus::DELIVERED:
-                return 'Your order is delivered! Thank you for your order';
+                return 'Your order is Successfully delivered.';
             case OrderStatus::CANCELED:
-                return 'Your order is canceled! Please contact us for more details';
+                return 'Your order is Canceled.';
             case OrderStatus::REJECTED:
-                return 'Your order is rejected! Please contact us for more details';
+                return 'Sorry! Your order has been rejected.';
             case OrderStatus::RETURNED:
-                return 'Your order is returned! Please contact us for more details';
+                return 'Your order is Returned.';
             default:
                 return '';
         }
