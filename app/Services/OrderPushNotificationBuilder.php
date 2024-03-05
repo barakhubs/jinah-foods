@@ -94,6 +94,7 @@ class OrderPushNotificationBuilder
             if (!blank($user)) {
                 if (!blank($user->web_token) || !blank($user->device_token)) {
                     $message = $this->getMessageForCustomer($this->status);
+                    // send push notification
                     $this->sendNotification('Jinah Foods Notification', $message, $user->device_token);
 
                     // Send notification to POS managers
@@ -105,8 +106,8 @@ class OrderPushNotificationBuilder
                     $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
 
                     $message = $this->getMessageForAdmin($this->status);
-                    if($this->status = 1) {
-                        Log::info($message);
+                    if($this->status == 1) {
+                        Log::info($message . ' and status is '. $this->status);
                     }
                     foreach ($posManagers as $manager) {
                         $smsManagerService = new SmsManagerService();

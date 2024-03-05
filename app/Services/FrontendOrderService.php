@@ -182,22 +182,6 @@ class FrontendOrderService
                 SendOrderPush::dispatch(['order_id' => $this->frontendOrder->id, 'status' => OrderStatus::PENDING]);
                 SendOrderGotPush::dispatch(['order_id' => $this->frontendOrder->id]);
 
-                //send sms to POS Manager
-                $roleNames = [
-                    Role::POS_OPERATOR,
-                ];
-
-                $branch = Branch::find($this->frontendOrder->branch_id);
-                $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
-
-                $message = 'An order has been placed! Please check your dashboard!';
-
-                foreach ($posManagers as $manager) {
-                    $smsManagerService = new SmsManagerService();
-                    $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
-                }
-                
-
             });
             return $this->frontendOrder;
         } catch (Exception $exception) {
