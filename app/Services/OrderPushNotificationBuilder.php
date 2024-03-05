@@ -111,7 +111,7 @@ class OrderPushNotificationBuilder
                     $sendMessage = $smsManagerService->send($posManager->country_code, $posManager->phone, $message);
 
                     if ($sendMessage) {
-                        Log::info('Message sended');
+                        Log::info('Message sent to '+ $posManager->name);
                     }
                 }
             }
