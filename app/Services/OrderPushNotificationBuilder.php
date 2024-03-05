@@ -106,9 +106,11 @@ class OrderPushNotificationBuilder
                     $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
 
                     $message = $this->getMessageForAdmin($this->status);
+
                     if($this->status == 1) {
                         Log::info($message . ' and status is '. $this->status);
                     }
+
                     foreach ($posManagers as $manager) {
                         $smsManagerService = new SmsManagerService();
                         $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
@@ -117,6 +119,7 @@ class OrderPushNotificationBuilder
                             Log::info('message sent successfully!');
                         }
                     }
+                    
                 }
             }
 

@@ -4,7 +4,9 @@ namespace App\Services;
 
 
 use App\Enums\OrderStatus;
+use App\Enums\Role;
 use App\Enums\SwitchBox;
+use App\Models\Branch;
 use App\Models\FrontendOrder;
 use App\Models\NotificationAlert;
 use App\Models\User;
@@ -82,6 +84,29 @@ class OrderSmsNotificationBuilder
         $notificationAlert = NotificationAlert::where(['language' => 'order_pending_message'])->first();
         if ($notificationAlert && $notificationAlert->sms == SwitchBox::ON) {
             $this->sms($name, $code, $phone, $orderId, $notificationAlert->sms_message);
+
+            // Send notification to POS managers
+            $roleNames = [
+                Role::POS_OPERATOR,
+            ];
+
+            $branch = Branch::find($this->order->branch_id);
+            $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
+
+            $message = 'An order has been placed! Please check your dashboard!';
+
+            if($this->status == 1) {
+                Log::info($message . ' and status is '. $this->status);
+            }
+
+            foreach ($posManagers as $manager) {
+                $smsManagerService = new SmsManagerService();
+                $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
+
+                if ($sendMessage) {
+                    Log::info('message sent successfully!');
+                }
+            }
         }
     }
 
