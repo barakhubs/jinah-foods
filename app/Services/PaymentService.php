@@ -35,6 +35,8 @@ class PaymentService
         $branch = Branch::find($order->branch_id);
         $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
 
+        Log::info($posManagers);
+        
         $message = 'A payment has been made for an order. Please check your dashboard to process it.';
 
         foreach ($posManagers as $manager) {
@@ -45,7 +47,7 @@ class PaymentService
                 Log::info('Message "'.$message.'" sent to ' . $manager->name);
             }
         }
-        
+
         return $transaction;
     }
 
