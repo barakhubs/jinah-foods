@@ -3,6 +3,9 @@
 namespace App\Services;
 
 
+use App\Enums\Role;
+use App\Models\Branch;
+use App\Models\User;
 use Exception;
 use App\Models\Tax;
 use App\Models\Item;
@@ -109,7 +112,7 @@ class FrontendOrderService
                 $taxes        = AppLibrary::pluck(Tax::get(), 'obj', 'id');
 
                 $branch = 0;
-                
+
                 if (!blank($requestItems)) {
                     foreach ($requestItems as $item) {
                         $taxId     = isset($items[$item->item_id]) ? $items[$item->item_id] : 0;
@@ -178,6 +181,23 @@ class FrontendOrderService
                 SendOrderSms::dispatch(['order_id' => $this->frontendOrder->id, 'status' => OrderStatus::PENDING]);
                 SendOrderPush::dispatch(['order_id' => $this->frontendOrder->id, 'status' => OrderStatus::PENDING]);
                 SendOrderGotPush::dispatch(['order_id' => $this->frontendOrder->id]);
+
+                //send sms to POS Manager
+                $roleNames = [
+                    Role::POS_OPERATOR,
+                ];
+
+                $branch = Branch::find($this->frontendOrder->branch_id);
+                $posManagers = User::role($roleNames)->where('branch_id', $branch->id)->get();
+
+                $message = 'An order has been placed! Please check your dashboard!';
+
+                foreach ($posManagers as $manager) {
+                    $smsManagerService = new SmsManagerService();
+                    $sendMessage = $smsManagerService->send($manager->country_code, $manager->phone, $message);
+                }
+                
+
             });
             return $this->frontendOrder;
         } catch (Exception $exception) {
