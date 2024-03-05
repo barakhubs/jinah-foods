@@ -43,26 +43,26 @@ class TimeSlotController extends Controller
     // custom code added
     public function todaySlot($branchId)
     {
-        // Get today's day of the week (0 for Sunday, 1 for Monday, ... 6 for Saturday)
-        $today = Carbon::now()->dayOfWeek;
-
-        // Find the time slot for the given branchId and today
+        $now = Carbon::now(); // or use Carbon::now('TimeZone') for specific time zones
+        $dayOfWeek = $now->dayOfWeek;
         $timeSlot = TimeSlot::where('branch_id', $branchId)
-            ->where('day', $today)
-            ->first(['opening_time', 'closing_time']);
+            ->where('day', $dayOfWeek)
+            ->first();
 
-        // Check if a time slot was found
         if ($timeSlot) {
-            return response()->json([
-                'success' => true,
-                'data' => $timeSlot
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'No time slot found for today.'
-            ], 404);
+            $openingTime = Carbon::createFromFormat('H:i', $timeSlot->opening_time);
+            $closingTime = Carbon::createFromFormat('H:i', $timeSlot->closing_time);
+
+            // Adjust if closing time is past midnight
+            if ($closingTime->lessThan($openingTime)) {
+                $closingTime->addDay();
+            }
+
+            $isOpen = $now->between($openingTime, $closingTime, true);
+            return response()->json(['isOpen' => $isOpen]);
         }
+
+        return response()->json(['isOpen' => false], 404);
     }
 
 }
