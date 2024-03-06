@@ -157,11 +157,11 @@ class OrderPushNotificationBuilder
             case OrderStatus::PENDING:
                 return 'An order has been placed! Please check your dashboard!';
             case PaymentStatus::PAID:
-                return 'A payment has been made for an order. Please check your dashboard to process it.';
+                return 'Paid! Order No. '.$this->order->order_serial_no . ' has been paid';
             case OrderStatus::CANCELED:
-                return 'An order has been canceled! Please check your dashboard for more details';
+                return 'Cancelled! Order No. '.$this->order->order_serial_no . ' has been cancelled';
             case OrderStatus::RETURNED:
-                return 'An order has been returned! Please check your dashboard for more details';
+                return 'returned! Order No. '.$this->order->order_serial_no . ' has been returned';
             default:
                 return '';
         }
