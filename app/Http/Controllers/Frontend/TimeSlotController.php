@@ -43,26 +43,27 @@ class TimeSlotController extends Controller
     // custom code added
     public function todaySlot($branchId)
     {
-        $now = Carbon::now(); // or use Carbon::now('TimeZone') for specific time zones
+        $now = Carbon::now('Africa/Kampala');
         $dayOfWeek = $now->dayOfWeek;
         $timeSlot = TimeSlot::where('branch_id', $branchId)
             ->where('day', $dayOfWeek)
             ->first();
 
-        if ($timeSlot) {
-            $openingTime = Carbon::createFromFormat('H:i', $timeSlot->opening_time);
-            $closingTime = Carbon::createFromFormat('H:i', $timeSlot->closing_time);
-
-            // Adjust if closing time is past midnight
-            if ($closingTime->lessThan($openingTime)) {
-                $closingTime->addDay();
-            }
-
-            $isOpen = $now->between($openingTime, $closingTime, true);
-            return response()->json(['isOpen' => $isOpen]);
+        if (!$timeSlot) {
+            return response()->json(['isOpen' => false], 404);
         }
 
-        return response()->json(['isOpen' => false], 404);
+        // Convert string times to Carbon instances
+        $openingTime = Carbon::createFromFormat('H:i', $timeSlot->opening_time, 'Africa/Kampala');
+        $closingTime = Carbon::createFromFormat('H:i', $timeSlot->closing_time, 'Africa/Kampala');
+
+        // Adjust if closing time is past midnight
+        if ($closingTime->lessThan($openingTime)) {
+            $closingTime->addDay();
+        }
+
+        $isOpen = $now->between($openingTime, $closingTime, true);
+        return response()->json(['isOpen' => $isOpen]); // You probably meant to return the 'isOpen' value, not '$now'
     }
 
 }
