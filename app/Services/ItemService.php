@@ -215,7 +215,7 @@ class ItemService
     public function latestItems()
     {
         try {
-            return Item::whereHas('branch', function ($query) {
+            return Item::where('status', Status::ACTIVE)->whereHas('branch', function ($query) {
                 // Specify the condition for the related Branch status
                 $query->where('status', 5);
             })
@@ -232,7 +232,7 @@ class ItemService
     public function mostPopularItems()
     {
         try {
-            return Item::withCount('orders')
+            return Item::where('status', Status::ACTIVE)->withCount('orders')
                 ->whereHas('branch', function ($query) {
                     // Specify the condition for the related Branch status
                     $query->where('status', 5);
