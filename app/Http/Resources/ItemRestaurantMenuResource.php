@@ -27,9 +27,9 @@ class ItemRestaurantMenuResource extends JsonResource
             "zip_code"  => $this->zip_code,
             "address"   => $this->address,
             "status"    => $this->status,
-            'thumb'       => $this->thumb,
-            'cover'       => $this->cover,
-            'items'       => ItemResource::collection($this->items),
+            'thumb'     => $this->thumb,
+            'cover'     => $this->cover,
+            'items'     => ItemResource::collection($this->items),
         ];
     }
 }

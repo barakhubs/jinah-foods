@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -56,6 +57,6 @@ class Branch extends Model implements HasMedia
 
     public function items() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Item::class);
+        return $this->hasMany(Item::class)->where(['status' => Status::ACTIVE]);
     }
 }
