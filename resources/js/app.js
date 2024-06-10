@@ -35,8 +35,8 @@ const options = {
 
 
 /* Start axios code*/
-const API_URL = ENV.API_URL;
-const API_KEY = ENV.API_KEY;
+const API_URL = 'https://dev.jinahonestop.com';
+const API_KEY = '00TdJKnn5Ck8kWHNd/BuZkVvZD8JPsNSSeMVdSveZ+0=';
 
 axios.defaults.baseURL = API_URL + '/api';
 axios.interceptors.request.use(
