@@ -15,7 +15,7 @@ class BranchScope implements Scope
 
     public function apply(Builder $builder, Model $model)
     {
-        if (!App::runningInConsole() && Auth::check()) {
+        if (!App::runningInConsole() && Auth::check() && !Auth::user()->hasRole('Admin')) {
             $field = sprintf('%s.%s', $builder->getQuery()->from, 'branch_id');
             $builder->where($field, '=', $this->branch())->orWhere($field, '=', 0);
         }

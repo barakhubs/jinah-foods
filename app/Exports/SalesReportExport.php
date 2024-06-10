@@ -29,7 +29,7 @@ class SalesReportExport implements FromCollection, WithHeadings
             $salesReportArray[] = [
                 $order->order_serial_no,
                 AppLibrary::datetime($order->order_datetime),
-                AppLibrary::flatAmountFormat($order->total),
+                AppLibrary::flatAmountFormat($order->subtotal),
                 AppLibrary::flatAmountFormat($order->discount),
                 AppLibrary::flatAmountFormat($order->delivery_charge),
                 $order->transaction ? strtoupper($order->transaction->payment_method) : trans(

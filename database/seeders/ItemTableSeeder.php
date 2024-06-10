@@ -581,7 +581,6 @@ class ItemTableSeeder extends Seeder
                     'item_category_id' => $item['category'],
                     'price'            => $item['price'],
                     'status'           => Status::ACTIVE,
-                    'tax_id'           => $item['tax_id'],
                     'item_type'        => $item['type'],
                     'order'            => 1,
                     'is_featured'      => $item['featured'],

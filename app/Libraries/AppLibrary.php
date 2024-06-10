@@ -16,10 +16,10 @@ use Smartisan\Settings\Facades\Settings;
 
 class AppLibrary
 {
-     public static function date($date, $pattern = null): string
+    public static function date($date, $pattern = null): string
     {
         if (!$pattern) {
-            $pattern = 'd-m-Y';
+            $pattern = env('DATE_FORMAT');
         }
         return Carbon::parse($date)->format($pattern);
     }
@@ -27,7 +27,7 @@ class AppLibrary
     public static function time($time, $pattern = null): string
     {
         if (!$pattern) {
-            $pattern = 'h:i A';
+            $pattern = env('TIME_FORMAT');
         }
         return Carbon::parse($time)->format($pattern);
     }
@@ -35,7 +35,7 @@ class AppLibrary
     public static function datetime($dateTime, $pattern = null): string
     {
         if (!$pattern) {
-            $pattern = 'h:i A' . ', ' . 'd-m-Y';
+            $pattern = env('TIME_FORMAT') . ', ' . env('DATE_FORMAT');
         }
         return Carbon::parse($dateTime)->format($pattern);
     }
@@ -43,7 +43,7 @@ class AppLibrary
     public static function increaseDate($dateTime, $days, $pattern = null): string
     {
         if (!$pattern) {
-            $pattern = 'd-m-Y';
+            $pattern = env('DATE_FORMAT');
         }
         return Carbon::parse($dateTime)->addDays($days)->format($pattern);
     }
@@ -51,7 +51,7 @@ class AppLibrary
     public static function deliveryTime($dateTime, $pattern = null): string
     {
         if (!$pattern) {
-            $pattern = 'h:i A';
+            $pattern = env('TIME_FORMAT');
         }
         $explode = explode('-', $dateTime);
         if (count($explode) == 2) {
@@ -252,21 +252,26 @@ class AppLibrary
     public static function currencyAmountFormat($amount): string
     {
         // if (env('CURRENCY_POSITION') == CurrencyPosition::LEFT) {
-        //     return 'UGX ' . number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
+        //     return env('CURRENCY_SYMBOL') .' '. number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
         // }
-       // return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '') . 'UGX ';
-        return 'UGX ' . number_format($amount);
+        // return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '') . env('CURRENCY_SYMBOL');
+        if (env('CURRENCY_POSITION') == CurrencyPosition::LEFT) {
+            return env('CURRENCY_SYMBOL') . ' ' . number_format($amount, 0, '.', ',');
+        }
+        return number_format($amount, 0, '.', ',') . ' ' . env('CURRENCY_SYMBOL');
+
     }
 
     public static function flatAmountFormat($amount): string
     {
-        //return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
-        return 'UGX ' . number_format($amount);
+        // return number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
+        return number_format($amount, 0, '.', ',');
     }
 
     public static function convertAmountFormat($amount): float
     {
-        return (float)number_format($amount, 2, '.', '');
+        // return (float)number_format($amount, env('CURRENCY_DECIMAL_POINT'), '.', '');
+        return (float)number_format($amount, 0, '.', '');
     }
 
     public static function fcmDataBind($request)

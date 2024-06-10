@@ -219,7 +219,7 @@ export default {
                 search: {
                     paginate: 1,
                     page: 1,
-                    per_page: 10,
+                    per_page: 500,
                     order_column: 'id',
                     order_by: "desc",
                     order_serial_no: "",

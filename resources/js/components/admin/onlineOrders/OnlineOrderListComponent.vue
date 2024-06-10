@@ -258,7 +258,7 @@ export default {
                 search: {
                     paginate: 1,
                     page: 1,
-                    per_page: 10,
+                    per_page: 500,
                     order_column: 'id',
                     order_by: "desc",
                     order_serial_no: "",
@@ -406,7 +406,7 @@ export default {
         // Define the interval
         this.intervalId = setInterval(() => {
             this.listWithPoll();
-        },  10*60*1000); // Fetches order lists every  5 seconds 10*60*1000
+        },  1*60*1000); // Fetches order lists every  5 seconds 10*60*1000
     },
 
     beforeUnmount() {
