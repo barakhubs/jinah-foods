@@ -88,7 +88,7 @@
                     <thead class="db-table-head">
                         <tr class="db-table-head-tr">
                             <th class="db-table-head-th">{{ $t('label.order_id') }}</th>
-                            <th class="db-table-head-th">{{ $t('label.order_type') }}</th>
+                            <th class="db-table-head-th">Branch Name</th>
                             <th class="db-table-head-th">{{ $t('label.customer') }}</th>
                             <th class="db-table-head-th">{{ $t('label.amount') }}</th>
                             <th class="db-table-head-th">{{ $t('label.date') }}</th>
@@ -105,9 +105,7 @@
 
                             </td>
                             <td class="db-table-body-td">
-                                <span :class="statusClass(order.order_type)">
-                                    {{ enums.orderTypeEnumArray[order.order_type] }}
-                                </span>
+                                {{ order.branch_name }}
                             </td>
 
                             <td class="db-table-body-td">
