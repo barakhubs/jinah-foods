@@ -69,7 +69,7 @@
                     <div class="relative" v-if="order.order_type === enums.orderTypeEnum.DELIVERY">
                         <select v-model="delivery_boy" @change="selectDeliveryBoy($event)"
                             class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary"
-                            v-if="permissionChecker('administrators_create')">
+                            >
                             <option value="0" disabled selected hidden>{{ $t('label.select_delivery_boy') }}</option>
                             <option v-for="deliveryBoy in deliveryBoys" :value="deliveryBoy.id">
                                 {{ deliveryBoy.name }}
@@ -81,6 +81,7 @@
 
                     <div v-if="order.transaction === null" class="relative">
                         <select v-model="payment_status" @change="changePaymentStatus($event)"
+                            v-if="permissionChecker('administrators_create')"
                             class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
                             <option v-for="paymentStatus in enums.paymentStatusObject" :value="paymentStatus.value">
                                 {{ paymentStatus.name }}
