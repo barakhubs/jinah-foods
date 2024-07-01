@@ -68,8 +68,7 @@
                     v-else-if="order.status !== enums.orderStatusEnum.REJECTED && order.status !== enums.orderStatusEnum.CANCELED">
                     <div class="relative" v-if="order.order_type === enums.orderTypeEnum.DELIVERY">
                         <select v-model="delivery_boy" @change="selectDeliveryBoy($event)"
-                            class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary"
-                            >
+                            class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
                             <option value="0" disabled selected hidden>{{ $t('label.select_delivery_boy') }}</option>
                             <option v-for="deliveryBoy in deliveryBoys" :value="deliveryBoy.id">
                                 {{ deliveryBoy.name }}
@@ -80,15 +79,17 @@
                     </div>
 
                     <div v-if="order.transaction === null" class="relative">
-                        <select v-model="payment_status" @change="changePaymentStatus($event)"
-                            v-if="permissionChecker('administrators_create')"
-                            class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
-                            <option v-for="paymentStatus in enums.paymentStatusObject" :value="paymentStatus.value">
-                                {{ paymentStatus.name }}
-                            </option>
-                        </select>
-                        <i
-                            class="lab lab-arrow-down-2 lab-font-size-16 absolute top-1/2 right-3.5 -translate-y-1/2 text-primary"></i>
+                        <div v-if="permissionChecker('administrators_create')">
+                            <select v-model="payment_status"
+                                @change="changePaymentStatus($event)"
+                                class="text-sm capitalize appearance-none pl-4 pr-10 h-[38px] rounded border border-primary bg-white text-primary">
+                                <option v-for="paymentStatus in enums.paymentStatusObject" :value="paymentStatus.value">
+                                    {{ paymentStatus.name }}
+                                </option>
+                            </select>
+                            <i
+                                class="lab lab-arrow-down-2 lab-font-size-16 absolute top-1/2 right-3.5 -translate-y-1/2 text-primary"></i>
+                        </div>
                     </div>
 
                     <div class="relative">
@@ -124,7 +125,8 @@
                                     <h3
                                         class="absolute top-5 -left-3 text-sm w-[26px] h-[26px] leading-[26px] text-center rounded-full text-white bg-heading">
                                         {{ item.quantity }}</h3>
-                                    <img class="w-16 h-16 rounded-lg flex-shrink-0" :src="item.item_image" alt="thumbnail">
+                                    <img class="w-16 h-16 rounded-lg flex-shrink-0" :src="item.item_image"
+                                        alt="thumbnail">
 
                                     <div class="w-full">
                                         <a href="#"
@@ -156,8 +158,8 @@
                                     </li>
                                     <li class="flex gap-1" v-if="item.instruction !== ''">
                                         <h3 class="capitalize text-xs w-fit whitespace-nowrap">{{
-                                            $t('label.instruction')
-                                        }}:</h3>
+        $t('label.instruction')
+    }}:</h3>
                                         <p class="text-xs">{{ item.instruction }}</p>
                                     </li>
                                 </ul>
@@ -234,7 +236,8 @@
                         <div v-if="order.order_type === enums.orderTypeEnum.DELIVERY" class="flex items-start gap-3">
                             <i class="lab lab-location lab-font-size-20 leading-6 font-fill-black"></i>
                             <span class="text-sm w-full max-w-[200px] leading-6 text-[#374151]">
-                                {{ orderAddress.apartment ? orderAddress.apartment + ', ' : '' }} {{ orderAddress.address }}
+                                {{ orderAddress.apartment ? orderAddress.apartment + ', ' : '' }} {{
+                                orderAddress.address }}
                             </span>
                             <OnlineOrderMapComponent :orderAddress="orderAddress" />
                         </div>
