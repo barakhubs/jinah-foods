@@ -19,6 +19,7 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_category_id')->constrained('item_categories');
+            $table->foreignId('tax_id')->constrained('taxes');
             $table->foreignId('branch_id')->nullable()->constrained('branches');
             $table->string('name');
             $table->string('slug');
