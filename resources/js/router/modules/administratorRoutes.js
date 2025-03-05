@@ -9,7 +9,7 @@ export default [
         path: "/admin/administrators",
         component: AdministratorComponent,
         name: "admin.administrators",
-        redirect: {name: "admin.administrators"},
+        redirect: {name: "admin.administrators.list"},
         meta: {
             isFrontend: false,
             auth: true,
@@ -20,7 +20,7 @@ export default [
             {
                 path: "",
                 component: AdministratorListComponent,
-                name: "admin.administrators",
+                name: "admin.administrators.list",
                 meta: {
                     isFrontend: false,
                     auth: true,

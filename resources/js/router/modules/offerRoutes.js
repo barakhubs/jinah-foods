@@ -4,26 +4,26 @@ import OfferShowComponent from "../../components/admin/offers/OfferShowComponent
 
 export default [
     {
-        path: '/admin/offers',
+        path: "/admin/offers",
         component: OfferComponent,
-        name: 'admin.offers',
-        redirect: {name: 'admin.offers'},
+        name: "admin.offers",
+        redirect: { name: "admin.offers.list" },
         meta: {
             isFrontend: false,
             auth: true,
-            permissionUrl: 'offers',
-            breadcrumb: 'offers'
+            permissionUrl: "offers",
+            breadcrumb: "offers",
         },
         children: [
             {
-                path: '',
+                path: "",
                 component: OfferListComponent,
-                name: 'admin.offers',
+                name: "admin.offers.list",
                 meta: {
                     isFrontend: false,
                     auth: true,
-                    permissionUrl: 'offers',
-                    breadcrumb: ''
+                    permissionUrl: "offers",
+                    breadcrumb: "",
                 },
             },
             {
@@ -37,6 +37,6 @@ export default [
                     breadcrumb: "view",
                 },
             },
-        ]
-    }
-]
+        ],
+    },
+];

@@ -7,7 +7,7 @@ export default [
         path: '/admin/push-notifications',
         component: PushNotificationComponent,
         name: 'admin.push-notification',
-        redirect: {name: 'admin.push-notification'},
+        redirect: {name: 'admin.push-notification.list'},
         meta: {
             isFrontend: false,
             auth: true,
@@ -18,7 +18,7 @@ export default [
             {
                 path: '',
                 component: PushNotificationListComponent,
-                name: 'admin.push-notification',
+                name: 'admin.push-notification.list',
                 meta: {
                     isFrontend: false,
                     auth: true,

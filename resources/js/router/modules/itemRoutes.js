@@ -7,7 +7,7 @@ export default [
         path: '/admin/items',
         component: ItemComponent,
         name: 'admin.items',
-        redirect: {name: 'admin.items'},
+        redirect: {name: 'admin.items.list'},
         meta: {
             isFrontend: false,
             auth: true,
@@ -18,7 +18,7 @@ export default [
             {
                 path: '',
                 component: ItemListComponent,
-                name: 'admin.items',
+                name: 'admin.items.list',
                 meta: {
                     isFrontend: false,
                     auth: true,

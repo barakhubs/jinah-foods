@@ -7,7 +7,7 @@ export default [
         path: "/admin/coupons",
         component: CouponComponent,
         name: "admin.coupons",
-        redirect: { name: "admin.coupons" },
+        redirect: { name: "admin.coupons.list" },
         meta: {
             isFrontend: false,
             auth: true,
@@ -18,7 +18,7 @@ export default [
             {
                 path: "",
                 component: CouponListComponent,
-                name: "admin.coupons",
+                name: "admin.coupons.list",
                 meta: {
                     isFrontend: false,
                     auth: true,
